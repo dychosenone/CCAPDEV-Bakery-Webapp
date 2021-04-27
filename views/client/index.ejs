@@ -1,0 +1,58 @@
+<%- include('./partials/head.ejs'); %>
+<div class="container-js">
+    <%- include('./partials/header.ejs'); %>
+    <section class="hero has-text-centered is-medium height-fixed">
+        <div class="hero-video">
+            <video playsinline autoplay muted loop>
+                <source src="../img/header-video.mp4">
+            </video>
+        </div>
+        <div class="hero-body">
+            <div class="container">
+                <p class="home-header-title">Finest Baked Goods in Metro Manila.</p>
+                <div class="block"></div>
+                <div class="has-text-centered"><a class="button is-large home-category-button" href="products">Shop Now</a></div>
+            </div>
+        </div>
+    </section>
+    <div class="box home-category m-0 p-0">
+        <div class="columns is-gapless is-vcentered is-centered">
+            <div class="column">
+                <img class="image is-fullwidth "src="../img/header.jpeg">
+            </div>
+            <div class="column has-text-centered">
+                <p class="home-category-header-text">Breads</p>
+                <p class="home-category-subtitle">Freshly baked breads straight to your doorstep.</p>
+                <div class="block"></div>
+                <a class="button is-centered home-category-button" href="products">Shop now</a>
+            </div>
+        </div>
+    </div>
+    <div class="box home-category m-0 p-0">
+        <div class="columns is-gapless is-vcentered is-centered">
+            <div class="column has-text-centered">
+                <p class="home-category-header-text">Pastries</p>
+                <p class="home-category-subtitle">Pastries that look and taste good.</p>
+                <div class="block"></div>
+                <a class="button is-centered home-category-button" href="products">Shop now</a>
+            </div>
+            <div class="column">
+                <img class="image is-fullwidth" src="../img/pastries.jpeg">
+            </div>
+        </div>
+    </div>
+    <div class="box home-category m-0 p-0">
+        <div class="columns is-gapless is-vcentered is-centered">
+            <div class="column">
+                <img class="image is-fullwidth" src="../img/cakes.jpg">
+            </div>
+            <div class="column has-text-centered">
+                <p class="home-category-header-text">Cakes</p>
+                <p class="home-category-subtitle">Carefully baked cakes for any occasion.</p>
+                <div class="block"></div>
+                <a class="button is-centered home-category-button" href="products">Shop now</a>
+            </div>
+        </div>
+    </div>
+    <%- include('./partials/footer.ejs'); %>
+</div>

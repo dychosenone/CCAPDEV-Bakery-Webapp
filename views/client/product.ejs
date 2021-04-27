@@ -1,0 +1,88 @@
+<%- include('./partials/head.ejs');%>
+<div class="container-js">
+    <%- include('./partials/header.ejs');%>
+
+	<section class="hero hero-header-background is-small">
+		<div class="hero-body has-text-centered">
+			<p class="hero-styling">Our Products</p>
+		</div>
+	</section>
+
+	<!--Search Bar-->
+	<div class="container pb-0">
+		<form>
+			<div class="field has-addons search-field">
+				<input class="input input-styled" type="text"placeholder="Search">
+				<div class="control"><button class="button submit-button">Search</button></div>
+			</div>
+		</form>
+	</div>
+    <section class="section">
+        <div class="columns">
+            <div class="column">
+                <figure class="image is-3by2 product-page-image">
+                    <image src="../../img/products/breads/sourdough.jpg"></image>
+                </figure>
+            </div>
+            <div class="column">
+                <p class="title product-page-title"><%=result.name %></p>
+                <p class="subtitle product-page-price">₱80</p>
+                <p class="subtitle"><%=result.description %></p>
+                <p></p>
+                <form>
+					<div class="select select-styled is-warning">
+						<select class="select-styled">
+                            <% result.sizes.forEach(function(element) { %>
+                                <option><%=element.size %> @ <%=element.price %>PHP</option>
+                            <%  }); %>
+						</select>
+					</div>
+                    <div class="block"></div>
+					<div class="field has-addons">
+                            <div class="control">
+                                <input class="input input-styled" placeholder="Quantity" value="1">
+                            </div>
+                            <div class="control">
+                                <button class="button submit-button">Add to Cart</button>
+                            </div>
+                    </div>
+                </form>
+                <hr class="is-divider"/>
+                <p class="title">Write a Review</p>
+                <article class="media">
+					<div class="content">
+						<p class="title is-6">Jacob Dy</p>
+						<p>This is one of the best sourdough breads I've ever tried. A must buy!</p>
+					</div>	
+					<div class="media-right dropdown is-hoverable">
+						<span class="material-icons">more_horiz</span>
+						<div class="dropdown-menu">
+							<div class="dropdown-content">
+								<div class="dropdown-item"><p>Edit</p></div>
+								<div class="dropdown-item">Delete</div>
+							</div>
+						</div>
+					</div>
+                </article>
+                <article class="media">
+                    <div class="content">
+                        <p class="title is-6">Jose Dela Cruz</p>
+                        <p>Super yummy! Would order again soon!</p>
+                    </div>
+                </article>
+                <article class="media">
+                    <div class="media-content">
+                        <form>
+                            <textarea class="textarea input-styled" placeholder="Add a Review..."></textarea>
+                            <div class="block"></div>
+                            <div class="control">
+                                <button class="button submit-button">Submit</button>
+                            </div>
+                        </form>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+    <%- include('./partials/footer.ejs');%>
+</div>
