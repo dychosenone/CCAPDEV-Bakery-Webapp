@@ -26,7 +26,7 @@
             </div>
             <div class="column">
                 <p class="title product-page-title"><%=result.name %></p>
-                <p class="subtitle product-page-price">₱80</p>
+                <p class="subtitle product-page-price">₱<%= result.sizes[0].price %></p>
                 <p class="subtitle"><%=result.description %></p>
                 <p></p>
                 <form>
@@ -45,28 +45,24 @@
                     </div>
                 </form>
                 <hr class="is-divider"/>
-                <p class="title">Write a Review</p>
-                <article class="media">
-					<div class="content">
-						<p class="title is-6">Jacob Dy</p>
-						<p>This is one of the best sourdough breads I've ever tried. A must buy!</p>
-					</div>	
-					<div class="media-right dropdown is-hoverable">
-						<span class="material-icons">more_horiz</span>
-						<div class="dropdown-menu">
-							<div class="dropdown-content">
-								<div class="dropdown-item"><p>Edit</p></div>
-								<div class="dropdown-item">Delete</div>
-							</div>
-						</div>
-					</div>
-                </article>
-                <article class="media">
-                    <div class="content">
-                        <p class="title is-6">Jose Dela Cruz</p>
-                        <p>Super yummy! Would order again soon!</p>
-                    </div>
-                </article>
+                <p class="title">Reviews</p>
+                <% result.reviews.forEach(function(element) { %>
+                    <article class="media">
+                        <div class="content">
+                            <p class="title is-6"><%=element.userId%></p>
+                            <p><%=element.review%></p>
+                        </div>	
+                        <div class="media-right dropdown is-hoverable">
+                            <span class="material-icons">more_horiz</span>
+                            <div class="dropdown-menu">
+                                <div class="dropdown-content">
+                                    <div class="dropdown-item"><p>Edit</p></div>
+                                    <div class="dropdown-item">Delete</div>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                <% }); %>
                 <article class="media">
                     <div class="media-content">
                         <form>

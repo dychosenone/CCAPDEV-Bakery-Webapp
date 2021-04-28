@@ -7,6 +7,15 @@ const port = process.env.PORT || 3000;
 //Database
 const database = require('./models/db');
 
+// Session
+const session = require('express-session');
+
+// Mongoose
+const mongoose = require('mongoose');
+
+// Mongo Session
+const MongoStore = require('connect-mongo');
+
 //Routes
 const clientRoute = require('./routes/client');
 const adminRoute = require('./routes/admin');
@@ -22,8 +31,19 @@ app.use(express.static(path.join(__dirname + '/public')));
 app.use('/', clientRoute);
 app.use('/admin', adminRoute);
 
+app.use(express.urlencoded({extended: true}));
+
 // Connect to Database
 database.connect();
+
+// Define Session Details
+app.use(session({
+    'secret' : "4ebd020883285d698c44ec50939c0967",
+    'resave': false,
+    'saveUninitialized': false,
+    store: MongoStore.create({mongoUrl: 'mongodb://localhost:27017/baked_goods'})
+}));
+
 
 app.listen(port, function () {
     console.log(`Listening at localhost:${port}`);
