@@ -1,47 +1,41 @@
 <%- include('./partials/head.ejs'); %>
-<body>
-    <div class="container-js">
+<div class="container-js">
     <%- include('./partials/header.ejs'); %>
-        <section class="hero hero-header-background is-small">
-            <div class="hero-body has-text-centered">
-                <p class="hero-styling">My Account</p>
-            </div>
-        </section>
+    <section class="hero hero-header-background is-small">
+        <div class="hero-body has-text-centered">
+            <p class="hero-styling">My Account</p>
+        </div>
+    </section>
 
-        <div class="container">
-            <section class="section">
-                <div class="columns">
-                    <%- include('./partials/accountMenu.ejs'); %>
-                    <div class="column">
-                        <div class="myaccount-container">
-                            <p class="title"><%= result.fullName %></p>
-                            <hr class="is-divider">
-                            <div class="columns">
-                                <div class="column">
-                                    <p><strong>Email Address: </strong><%= result.email %></p>
-                                    <p><strong>Username: </strong><%= result.username %></p>
-                                    <br />
-                                    <p><strong>Contact Number: </strong><%= result.contact %></p>
-                                    <p><strong>Alternative Contact Number: </strong><%= result.alternativeContact %></p>
-                                </div>
-                                <div class="column">
-                                    <p><strong>Delivery Address: </strong></p>
-                                    <p><%= result.deliveryAddress %>/p>
-                                    <br />
-                                    <br />
-                                    <p><strong>Billing Address: </strong></p>
-                                    <p><%= result.billingAddress %></p>
-                                </div>
+    <div class="container">
+        <section class="section">
+            <div class="columns">
+                <%- include('./partials/accountMenu.ejs'); %>
+                <div class="column">
+                    <div class="myaccount-container">
+                        <p class="title"><%= result.fullName %></p>
+                        <hr class="is-divider">
+                        <div class="columns">
+                            <div class="column">
+                                <p><strong>Email Address: </strong><%= result.email %></p>
+                                <p><strong>Username: </strong><%= result.username %></p>
+                                <br />
+                                <p><strong>Contact Number: </strong><%= result.contact %></p>
+                                <p><strong>Alternative Contact Number: </strong><%= result.alternativeContact %></p>
+                            </div>
+                            <div class="column">
+                                <p><strong>Delivery Address: </strong></p>
+                                <p><%= result.deliveryAddress %>/p>
+                                <br />
+                                <br />
+                                <p><strong>Billing Address: </strong></p>
+                                <p><%= result.billingAddress %></p>
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
 
-            </section>
-        </div>
+        </section>
     </div>
-
-
-</body>
-
-</html>
+</div>

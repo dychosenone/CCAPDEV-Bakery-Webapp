@@ -2,10 +2,10 @@
     <div class="menu">
         <p class="menu-label">My Account</p>
         <ul class="menu-list">
-            <li><a class="is-active" href="account.html">My Account</a></li>
-            <li><a href="editaccount.html">Edit My Account</a></li>
+            <li><a <% if(page == 'account') {  %> class="is-active" <% } %> href="/account">My Account</a></li>
+            <li><a <% if(page == 'editAccount') {  %> class="is-active" <% } %> href="/editAccount">Edit My Account</a></li>
             <li><a href="favorites.html">My Favorites</a></li>
-            <li><a href="login.html">Logout</a></li>
+            <li><a href="/logout">Logout</a></li>
         </ul>
         <p class="menu-label">Shop</p>
         <ul class="menu-list">

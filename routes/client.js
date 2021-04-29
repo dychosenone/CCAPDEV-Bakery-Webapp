@@ -25,6 +25,10 @@ app.get('/products/:productId', productController.getProduct);
 
 app.get('/account', accountController.getAccount);
 
+app.get('/editAccount', accountController.getEditAccount);
+
+app.post('/editAccount', accountController.postEditAccount);
+
 app.use(controller.error);
 
 module.exports = app;

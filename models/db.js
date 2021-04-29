@@ -80,8 +80,8 @@ const database = {
         });
     },
 
-    updateOne : function(model, filter, update) {
-        model.deleteMany(filter, update, function(error, result) {
+    updateOne : function(model, filter, update, callback) {
+        model.updateOne(filter, update, function(error, result) {
             if(error == true) {
                 return callback(false);
             } else {
@@ -91,7 +91,7 @@ const database = {
         });
     },
 
-    updateMany : function(model, filter, update) {
+    updateMany : function(model, filter, update, callback) {
         model.updateMany(filter, update, function(error, result) {
             if(error == true) {
                 return callback(false);
