@@ -13,6 +13,8 @@ const app = express.Router();
 
 app.get('/', controller.getIndex);
 
+app.get('/about', controller.getAbout);
+
 app.get('/logout', controller.getLogout);
 
 app.get('/login', loginController.getLogin);
