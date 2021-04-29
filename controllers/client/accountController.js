@@ -26,6 +26,7 @@ var accountController = {
                         error: null
                     };
                     res.render('client/account', details);
+                    
                 } else {
                     const details = {
                         result,

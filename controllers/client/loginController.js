@@ -13,14 +13,12 @@ var userController = {
 
     postLogin : function(req, res) {
         var username = req.body.username;
-        console.log(username);
         var password = req.body.password;
 
         const projection = '';
         const query = {username: username};
 
         database.findOne(user, query, projection, function(result) {
-            console.log(result);
             if(result == null) {
                 res.render('client/login', {title: "Baked Goods | Login", error: "User not found.", loggedIn: false});
             } else {
