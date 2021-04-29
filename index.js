@@ -16,9 +16,15 @@ const mongoose = require('mongoose');
 // Mongo Session
 const MongoStore = require('connect-mongo');
 
+//Body Parser
+const bodyParser = require('body-parser');
+app.use(bodyParser.urlencoded({extended : false}));
+app.use(bodyParser.json());
+
 //Routes
 const clientRoute = require('./routes/client');
 const adminRoute = require('./routes/admin');
+const { body } = require('express-validator');
 
 // Set View Engine
 app.set('views', path.join(__dirname + '/views'));
@@ -26,6 +32,15 @@ app.set('view engine', 'ejs');
 
 // Set Public Folder
 app.use(express.static(path.join(__dirname + '/public')));
+
+// Define Session Details
+app.use(session({
+    'secret' : "4ebd020883285d698c44ec50939c0967",
+    'resave': false,
+    'saveUninitialized': true,
+    store: MongoStore.create({mongoUrl: 'mongodb://localhost:27017/baked_goods'})
+}));
+
 
 // Route Definitions
 app.use('/', clientRoute);
@@ -35,14 +50,6 @@ app.use(express.urlencoded({extended: true}));
 
 // Connect to Database
 database.connect();
-
-// Define Session Details
-app.use(session({
-    'secret' : "4ebd020883285d698c44ec50939c0967",
-    'resave': false,
-    'saveUninitialized': false,
-    store: MongoStore.create({mongoUrl: 'mongodb://localhost:27017/baked_goods'})
-}));
 
 
 app.listen(port, function () {

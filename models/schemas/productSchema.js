@@ -33,6 +33,10 @@ const ProductSchema = new mongoose.Schema({
             type: Number,
             required: true
         },
+        fullName : {
+            type: String,
+            required: true
+        },
         review : {
             type: String,
             required: true

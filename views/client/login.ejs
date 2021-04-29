@@ -10,13 +10,20 @@
 
 		<div class="columns is-centered">
 			<div class="column is-half">
-				<form>
+				<%if(error != null) {%>
+					<article class="message is-danger">
+						<div class="message-body">
+							<p><%=error%></p>
+						</div>
+					</article>
+				<% } %>
+				<form method="post" id="login-form" action="/login">
 					<label class="label">Username: </label>
-					<input type="text" class="input input-styled" placeholder="Username">
+					<input type="text" id="user" name="username" class="input input-styled" placeholder="Username">
 					<label class="label">Password: </label>
-					<input type="password" class="input input-styled" placeholder="Password">
-					<p class="pt-4 pb-4">Don't have an account? <strong><a href="register.html">Register here</a></strong></p>
-					<div class="container has-text-centered"><a class="button is-medium submit-button" href="index.html">Login</a></div>
+					<input type="password" id="password" name="password" class="input input-styled" placeholder="Password">
+					<p class="pt-4 pb-4">Don't have an account? <strong><a href="/register">Register here</a></strong></p>
+					<div class="container has-text-centered"><input type="submit" class="button is-medium submit-button" value="Login"></div>
 				</form>
 			</div>
 		</div>
