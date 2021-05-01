@@ -1,0 +1,63 @@
+<%- include('./partials/header.ejs');%>
+<div class="container-js">
+    <%- include('./partials/header.ejs');%>
+	<section class="hero hero-header-background is-small">
+		<div class="hero-body has-text-centered">
+			<p class="hero-styling">Register</p>
+		</div>
+	</section>
+	<div class="container">
+		<form>
+			<div class="columns is-centered">
+				<div class="column is-half" id="register-1">
+						<p class="title">Basic Information</p>
+						<div class="field">
+							<label class="label">Username: </label>
+
+							<input type="text" class="input input-styled" placeholder="Username">
+						</div>
+						<div class="field">
+							<label class="label">Email Address: </label>
+							<input type="text" class="input input-styled" placeholder="Email Address">
+						</div>
+
+						<div class="field">
+							<label class="label">Password: </label>
+							<input type="password" class="input input-styled" placeholder="Password">
+						</div>
+						<div class="field">
+							<label class="label">Confirm Password: </label>
+							<input type="password" class="input input-styled" placeholder="Password">
+						</div>
+
+						<div class="container px-0 has-text-right-desktop"><button class="button is-medium submit-button" id="next-register">Next</button></div>
+
+				</div>
+				<div class="column is-half" id="register-2">
+					<p class="title">Delivery Information</p>
+					<div class="field">
+						<label class="label">Full Name: </label>
+						<input type="text" class="input input-styled" placeholder="Full Name">
+					</div>
+					<div class="field">
+						<label class="label">Delivery Address: </label>
+						<input type="text" class="input input-styled" placeholder="Delivery Address" id="delivery-address">
+					</div>
+
+					<div class="field">
+						<label class="label">Billing Address: </label>
+						<input type="text" class="input input-styled" placeholder="Billing Address" id="billing-address">
+					</div>
+					<input type="checkbox" class="checkbox checkbox-styled" id="same-address">
+					Same as Delivery Address
+					<div class="container px-0">
+						<div class="columns">
+							<div class="column has-text-left-desktop" id="register-previous"><button class="button is-medium submit-button" onclick="nextRegister(e)">Previous</button></div>
+							<div class="column has-text-right-desktop"><a class="button is-medium submit-button" href="register-success.html">Register</a></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
