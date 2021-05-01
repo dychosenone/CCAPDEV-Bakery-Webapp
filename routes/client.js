@@ -18,7 +18,9 @@ app.get('/about', controller.getAbout);
 
 app.get('/logout', controller.getLogout);
 
-app.get('/register', validator.registerValidator, registerController.getRegister);
+app.get('/register', registerController.getRegister);
+
+app.post('/register', validator.registerValidator(), registerController.postRegister);
 
 app.get('/login', loginController.getLogin);
 

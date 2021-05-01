@@ -7,7 +7,14 @@
 		</div>
 	</section>
 	<div class="container">
-		<form>
+		<% if(error != null) { %>
+			<% error.forEach(function(element) { %>
+				<div class="notification is-danger">
+                    <p><%=element.msg%></p>
+                </div>  
+			<% }) %>
+		<% } %>	
+		<form method="POST" action="/register">
 			<div class="columns is-centered">
 				<div class="column is-half" id="register-1">
 						<p class="title">Basic Information</p>
@@ -52,7 +59,7 @@
 					<div class="container px-0">
 						<div class="columns">
 							<div class="column has-text-left-desktop" id="register-previous"><button class="button is-medium submit-button" onclick="nextRegister(e)">Previous</button></div>
-							<div class="column has-text-right-desktop"><a class="button is-medium submit-button" href="register-success.html">Register</a></div>
+							<div class="column has-text-right-desktop"><input type="submit" class="button is-medium submit-button" value="Register"></div>
 						</div>
 					</div>
 				</div>
