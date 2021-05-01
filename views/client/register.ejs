@@ -1,4 +1,4 @@
-<%- include('./partials/header.ejs');%>
+<%- include('./partials/head.ejs');%>
 <div class="container-js">
     <%- include('./partials/header.ejs');%>
 	<section class="hero hero-header-background is-small">
@@ -13,21 +13,20 @@
 						<p class="title">Basic Information</p>
 						<div class="field">
 							<label class="label">Username: </label>
-
-							<input type="text" class="input input-styled" placeholder="Username">
+							<input name="username" type="text" class="input input-styled" placeholder="Username">
 						</div>
 						<div class="field">
 							<label class="label">Email Address: </label>
-							<input type="text" class="input input-styled" placeholder="Email Address">
+							<input name="email" type="text" class="input input-styled" placeholder="Email Address">
 						</div>
 
 						<div class="field">
 							<label class="label">Password: </label>
-							<input type="password" class="input input-styled" placeholder="Password">
+							<input name="password" type="password" class="input input-styled" placeholder="Password">
 						</div>
 						<div class="field">
 							<label class="label">Confirm Password: </label>
-							<input type="password" class="input input-styled" placeholder="Password">
+							<input name="confirmPassword" type="password" class="input input-styled" placeholder="Password">
 						</div>
 
 						<div class="container px-0 has-text-right-desktop"><button class="button is-medium submit-button" id="next-register">Next</button></div>
@@ -37,18 +36,18 @@
 					<p class="title">Delivery Information</p>
 					<div class="field">
 						<label class="label">Full Name: </label>
-						<input type="text" class="input input-styled" placeholder="Full Name">
+						<input name="fullName" type="text" class="input input-styled" placeholder="Full Name">
 					</div>
 					<div class="field">
 						<label class="label">Delivery Address: </label>
-						<input type="text" class="input input-styled" placeholder="Delivery Address" id="delivery-address">
+						<input name="deliveryAddress" type="text" class="input input-styled" placeholder="Delivery Address" id="delivery-address">
 					</div>
 
 					<div class="field">
 						<label class="label">Billing Address: </label>
-						<input type="text" class="input input-styled" placeholder="Billing Address" id="billing-address">
+						<input name="billingAddress" type="text" class="input input-styled" placeholder="Billing Address" id="billing-address">
 					</div>
-					<input type="checkbox" class="checkbox checkbox-styled" id="same-address">
+					<input name="sameAddress" type="checkbox" class="checkbox checkbox-styled" id="same-address" value="true">
 					Same as Delivery Address
 					<div class="container px-0">
 						<div class="columns">

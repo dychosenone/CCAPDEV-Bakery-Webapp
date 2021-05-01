@@ -4,6 +4,7 @@ const controller = require('../controllers/client/controller');
 
 const productController = require("../controllers/client/productController");
 const loginController = require('../controllers/client/loginController');
+const registerController = require('../controllers/client/registerController');
 
 const accountController = require('../controllers/client/accountController');
 
@@ -16,6 +17,8 @@ app.get('/', controller.getIndex);
 app.get('/about', controller.getAbout);
 
 app.get('/logout', controller.getLogout);
+
+app.get('/register', validator.registerValidator, registerController.getRegister);
 
 app.get('/login', loginController.getLogin);
 
