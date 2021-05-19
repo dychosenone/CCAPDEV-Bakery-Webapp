@@ -46,6 +46,10 @@ app.use(session({
 app.use('/', clientRoute);
 app.use('/admin', adminRoute);
 
+// Controller 404
+const controller = require('./controllers/client/controller');
+app.use(controller.error);
+
 app.use(express.urlencoded({extended: true}));
 
 // Connect to Database

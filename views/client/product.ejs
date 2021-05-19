@@ -25,6 +25,16 @@
                 </figure>
             </div>
             <div class="column">
+                <% if(error.length > 0) { %>
+                    <% error.forEach(function(element) { %>
+                        <div class="message is-danger">
+                            <div class="message-body">
+                                <p><%=element.msg%></p>
+                            </div>    
+                        </div>
+                    <% }); %>
+
+                <% } %>
                 <p class="title product-page-title"><%=result.name %></p>
                 <p class="subtitle product-page-price">₱<%= result.sizes[0].price %></p>
                 <p class="subtitle"><%=result.description %></p>
@@ -33,19 +43,30 @@
 					<div class="select select-styled is-warning">
 						<select class="select-styled">
                             <% result.sizes.forEach(function(element) { %>
-                                <option><%=element.size %> @ <%=element.price %>PHP</option>
-                            <%  }); %>
+                                <option><span><%=element.size %></span> @ <span><%=element.price %></span>PHP</option>
+                            <%  }) %>
 						</select>
 					</div>
                     <div class="block"></div>
 					<div class="field has-addons">
+                        <% if(loggedIn == true)  {%>
                             <div class="control">
                                 <button class="button submit-button">Add to Cart</button>
                             </div>
+                        <% } else { %>
+                            <p>You must be logged in to make an order.</p>
+                        <% } %>
                     </div>
                 </form>
                 <hr class="is-divider"/>
                 <p class="title">Reviews</p>
+
+                <% if(result.reviews.length == 0) { %>
+                    <p>No Reviews Available for this Product.</p>
+                    <br />
+                <% } %>
+
+
                 <% result.reviews.forEach(function(element) { %>
                     <article class="media">
                         <div class="content">
@@ -58,21 +79,21 @@
                                 <div class="dropdown-menu">
                                     <div class="dropdown-content">
                                         <div class="dropdown-item"><p>Edit</p></div>
-                                        <div class="dropdown-item">Delete</div>
+                                        <div class="dropdown-item"><a href="<%- path.join('/products/' + result.productId + '/deleteReview')%>">Delete</a></div>
                                     </div>
                                 </div>
                             </div>
                         <%}%>	
                     </article>
-                <% }); %>
+                <% }) %>
                 <% if(loggedIn == true) { %>
                     <article class="media">
                         <div class="media-content">
-                            <form>
-                                <textarea class="textarea input-styled" placeholder="Add a Review..."></textarea>
+                            <form action="<%- path.join('/products/' + result.productId + '/addReview')%>" method="POST">
+                                <textarea name="review" class="textarea input-styled" placeholder="Add a Review..."></textarea>
                                 <div class="block"></div>
                                 <div class="control">
-                                    <button class="button submit-button">Submit</button>
+                                    <input type="submit" class="button submit-button" name="Submit">
                                 </div>
                             </form>
                         </div>

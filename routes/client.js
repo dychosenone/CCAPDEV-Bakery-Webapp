@@ -22,6 +22,8 @@ app.get('/register', registerController.getRegister);
 
 app.post('/register', validator.registerValidator(), registerController.postRegister);
 
+app.get('/registerSuccess', registerController.getRegisterSuccess);
+
 app.get('/login', loginController.getLogin);
 
 app.post('/login', loginController.postLogin);
@@ -30,12 +32,15 @@ app.get('/products', productController.getProducts);
 
 app.get('/products/:productId', productController.getProduct);
 
+app.post('/products/:productId/addReview', productController.postReview);
+
+app.get('/products/:productId/deleteReview', productController.deleteReview);
+
 app.get('/account', accountController.getAccount);
 
 app.get('/editAccount', accountController.getEditAccount);
 
 app.post('/editAccount', accountController.postEditAccount);
 
-app.use(controller.error);
 
 module.exports = app;

@@ -1,4 +1,6 @@
 const {check, oneOf} = require('express-validator');
+const database = require('../models/db');
+const user = require('../models/schemas/userSchema')
 
 const validator = {
 
@@ -15,7 +17,7 @@ const validator = {
                 }
                 return true;
             }).withMessage('Password does not match.'),
-            check('username', 'The username field should not be left blank.').notEmpty(),
+            check('username', 'Your username should not be empty.').notEmpty(),
             check('deliveryAddress', 'The delivery address must not be left blank').notEmpty(),
             oneOf([check('sameAddress', 'The billing address must not be left blank.').equals('true'),
             check('billingAddress').notEmpty()], ['The billing address must not be left blank.'])

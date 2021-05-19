@@ -24,8 +24,10 @@ var userController = {
             } else {
                 bycrypt.compare(password, result.password, function(err, equal) {
                     if(equal) {
-                        req.session.userId = result.userId;
+                        req.session.userId = result._id;
                         req.session.name = result.fullName;
+                        req.session.cartCount = 0;
+                        req.session.cart = [];
                         res.redirect('/');
                     }
                     else {

@@ -1,5 +1,20 @@
 const mongoose = require('mongoose');
 
+const reviewSchema = new mongoose.Schema({
+    userId : {
+        type: String,
+        required: true
+    },
+    fullName : {
+        type: String,
+        required: true
+    },
+    review : {
+        type: String,
+        required: true
+    }
+})
+
 const ProductSchema = new mongoose.Schema({
 
     productId : {
@@ -28,20 +43,7 @@ const ProductSchema = new mongoose.Schema({
         }
     }],
 
-    reviews : [{
-        userId : {
-            type: Number,
-            required: true
-        },
-        fullName : {
-            type: String,
-            required: true
-        },
-        review : {
-            type: String,
-            required: true
-        }
-    }],
+    reviews : [reviewSchema],
 
     image: {
         type: String,

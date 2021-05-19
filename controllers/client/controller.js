@@ -30,7 +30,7 @@ var controller = {
 
     getAbout : function (req, res) {
         if(req.session.userId) {
-            res.render('client/index', {title: 'Baked Goods', loggedIn: true, name: req.session.name});
+            res.render('client/about', {title: 'Baked Goods', loggedIn: true, name: req.session.name});
         } else {
             res.render('client/about', {title: 'Baked Goods | About', loggedIn: false});
         }

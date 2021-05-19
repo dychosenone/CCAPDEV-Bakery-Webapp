@@ -11,7 +11,7 @@ var accountController = {
         if(loggedIn == false) {
             res.redirect('/');
         } else {
-            const query = {userId : req.session.userId};
+            const query = {_id : req.session.userId};
             const projection = '';
 
             database.findOne(user, query, projection, function(result) {
@@ -53,7 +53,7 @@ var accountController = {
             res.redirect('/');
         } else {
 
-            const query = {userId : req.session.userId};
+            const query = {_id : req.session.userId};
             const projection = '';
 
             database.findOne(user, query, projection, function(result) {
@@ -92,7 +92,7 @@ var accountController = {
         var loggedIn = false;
         if(req.session.userId) loggedIn = true;
         
-        const filter = {userId: req.session.userId};
+        const filter = {_id: req.session.userId};
         const update = { $set:
             {
                 fullName : editInput.newName,
