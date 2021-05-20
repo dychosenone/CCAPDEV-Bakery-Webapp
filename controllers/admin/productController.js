@@ -74,6 +74,23 @@ var productController = {
                 res.render('admin/error', details);
             }
         });
+    },
+
+    addProduct : function(req,res){
+        var loggedIn = false;
+
+        if(req.session.userId) loggedIn = true;
+        else loggedIn = false;
+
+        const details = {
+            title: "Admin | User Accounts",
+            loggedIn: loggedIn,
+            userId: req.session.userId,
+            name: req.session.name,
+            error: null,
+            path
+        };
+        res.render('admin/admin-add-product', details)
     }
 }
 

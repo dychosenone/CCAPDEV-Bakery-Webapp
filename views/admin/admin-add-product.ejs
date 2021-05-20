@@ -20,12 +20,12 @@
         <form class="admin-edit-product" action="/admin/admin-product">
             <div class="has-text-justified" style="margin-left: 5%; margin-top: 40px;">
                 <label style="margin-left: 4.4%">Product Name</label>
-                <input type="text" class="input input-styled" style="width: 300px" ><br><br>
+                <input type="text" id="Name" class="input input-styled" style="width: 300px" ><br><br>
                 <label>Product Description </label>
-                <input type="text" class="input input-styled"  style="width: 500px" ><br><br>
+                <input type="text" id="Description" class="input input-styled"  style="width: 500px" ><br><br>
             </div>
 
-            <table class="table is-hoverable">
+            <table id="OfferingTable" class="table is-hoverable">
                 <thead>
                 <tr>
                     <th>Size</th>
@@ -36,10 +36,10 @@
                 <tr>
                     <td><input type="text" class="input input-styled" size="11"></td>
                     <td><input type="number" class="input input-styled" ></td>
-                    <td><button  type="button" class="button submit-button is-small">Remove</button></td>
+                    <td><button  type="button" class="button submit-button is-small removeOffering">Remove</button></td>
                 </tr>
 
-                <tr><td><button type="button" class="button submit-button is-small">Add</button></td></tr>
+                <tr id="buttonRow"><td><button type="button" id="AddOffering" class="button submit-button is-small">Add</button></td></tr>
                 </tbody>
             </table>
 

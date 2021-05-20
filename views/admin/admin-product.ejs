@@ -12,7 +12,7 @@
     <div class="container mt-6">
         <form>
             <div class="field has-addons search-field">
-                <input class="input input-styled" type="text" placeholder="Search">
+                <input class="input input-styled" type="text" placeholder="Search" id="searchBar">
                 <div class="control"><button class="button submit-button">Search</button></div>
             </div>
         </form>
@@ -24,7 +24,6 @@
             <thead>
             <tr>
                 <th width="250"></th>
-                <th>Product ID</th>
                 <th>Name</th>
                 <th>Description</th>
                 <th>Sizes</th>
@@ -32,12 +31,11 @@
             </tr>
             </thead>
             <tbody>
-            <% result.forEach(function(element) { %>
+            <%result.forEach(function(element) { %>
             <tr>
                 <td class="table-image-col">
                     <img src="<%=path.join('./img/products/' + element.image)%>">
                 </td>
-                <td><%=element.productId%></td>
                 <td><%=element.name%></td>
                 <td><%=element.description%></td>
                 <td>
@@ -78,7 +76,7 @@
 
         </table>
 
-        <a href="/add-product" class="button submit-button is-medium">Add Product</a>
+        <a href="/admin/admin-add-product" class="button submit-button is-medium">Add Product</a>
 
     </div>
 

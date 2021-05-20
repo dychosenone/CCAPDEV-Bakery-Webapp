@@ -22,7 +22,6 @@
         <table class="table table-hover admin-account-table" >
             <thead>
             <tr>
-                <th>User ID</th>
                 <th>Username</th>
                 <th>Name</th>
                 <th>Address</th>
@@ -32,7 +31,6 @@
             <tbody>
             <% result.forEach(function(element) { %>
             <tr>
-                <td><%=element._id%></td>
                 <td><%=element.username%></td>
                 <td><%=element.fullName%></td>
                 <td><%=element.billingAddress%></td>
@@ -51,7 +49,7 @@
             </tbody>
 
         </table>
-        <a href="" class="button submit-button is-medium" style="margin-left: 13%">Add New User Account</a>
+        <a href="/admin/admin-add-account" class="button submit-button is-medium" style="margin-left: 13%">Add New User Account</a>
     </div>
 
     <%- include('./partials/footer.ejs'); %>
