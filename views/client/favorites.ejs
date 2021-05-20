@@ -1,4 +1,4 @@
-<%- include('./partials/head.ejs');%>
+<%- include('./partials/head.ejs'); %>
 <body>
     <div class="container-js">
         <%- include('./partials/header.ejs');%>
@@ -11,24 +11,8 @@
         <div class="container">
             <section class="section">
                 <div class="columns">
-                    <div class="column is-one-quarter">
-                        <div class="menu">
-                            <p class="menu-label">My Account</p>
-                            <ul class="menu-list">
-                                <li><a href="account.html">My Account</a></li>
-                                <li><a href="editaccount.html">Edit My Account</a></li>
-                                <li><a class="is-active" href="favorites.html">My Favorites</a></li>
-                                <li><a href="login.html">Logout</a></li>
-                            </ul>
-                            <p class="menu-label">Shop</p>
-                            <ul class="menu-list">
-                                <li><a href="transactions.html">View Past Transactions</a></li>
-                                <li><a href="cart.html">View Cart</a></li>
-                                <li><a href="checkout.html">Checkout</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div id="checkout-1">
+                    <%- include('./partials/accountMenu.ejs'); %>
+                    <div id="errors">
                         
                     </div>
                     <div class="column">
@@ -50,31 +34,13 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td><div class="image is-3by2"><img src="../img/products/breads/sourdough.jpg"></div></td>
-                                            <td>Original Sourdough Bread</td>
-                                            <td><button class="button submit-button is-small">Remove</button></td>
-                                        </tr>
-                                        <tr>
-                                            <td><div class="image is-3by2"><img src="../img/products/breads/macarons.jpg"></div></td>
-                                            <td>Macarons (Set of 5)</td>
-                                            <td><button class="button submit-button is-small">Remove</button></td>
-                                        </tr>
-                                        <tr>
-                                            <td><div class="image is-3by2"><img src="../img/products/breads/cookies.jpg"></div></td>
-                                            <td>Original Chocolate Chip Cookies</td>
-                                            <td><button class="button submit-button is-small">Remove</button></td>
-                                        </tr>
-                                        <tr>
-                                            <td><div class="image is-3by2"><img src="../img/products/breads/chocolate-cake.jpg"></div></td>
-                                            <td>Classic Chocolate Cake</td>
-                                            <td><button class="button submit-button is-small">Remove</button></td>
-                                        </tr>
-                                        <tr>
-                                            <td><div class="image is-3by2"><img src="../img/products/breads/cinnamon.jpg"></div></td>
-                                            <td>Cinnamon Rolls</td>
-                                            <td><button class="button submit-button is-small">Remove</button></td>
-                                        </tr>
+                                        <% result.forEach(function(element) { %>
+                                            <tr>
+                                                <td><div class="image is-3by2"><img src="<%=path.join('../img/products/' + element.productImage); %>"></div></td>
+                                                <td><%=element.productName %></td>
+                                                <td><button class="button submit-button is-small">Remove</button></td>
+                                            </tr>
+                                        <% }); %>
                                     </tbody>
                                 </table>
                         </div>

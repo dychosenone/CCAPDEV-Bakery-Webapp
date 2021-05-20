@@ -1,5 +1,6 @@
 const database = require("../../models/db");
 const product = require("../../models/schemas/productSchema");
+const user = require("../../models/schemas/userSchema");
 const path = require('path');
 
 var productController = {
@@ -44,41 +45,63 @@ var productController = {
     getProduct : function(req, res) {
         const projection = '';
         const query = {productId: req.params.productId};
+        var productId = req.params.productId;
 
         var errors = [];
         var success = [];
 
         database.findOne(product, query, projection, function(result) {
-            var loggedIn = false;
 
-            if(req.session.userId) loggedIn = true;
-            else loggedIn = false;
+            var userQuery = {_id : req.session.userId};
+            var userProjection = 'favorites'
 
-            if(result != null) {
-                const details = {
-                    result,
-                    title: "Baked Goods | " + result.name,
-                    loggedIn: loggedIn,
-                    userId: req.session.userId,
-                    name: req.session.name,
-                    error: errors,
-                    path
-                };
+            database.findOne(user, userQuery, userProjection, function(findResult) {
+                if(findResult.favorites.length != null) {
+                    var favoritesIndex = findResult.favorites.findIndex(x => x.productId == productId);
+                    var isFavorite;
+                    if(favoritesIndex > -1) {
+                        isFavorite = true;
+                    } else {
+                        isFavorite = false;
+                    }
 
-                res.render('client/product', details);
-            } else {
-                const details = {
-                    result,
-                    title: "Baked Goods | Error 404",
-                    loggedIn: loggedIn,
-                    userId: req.session.userId,
-                    name: req.session.name,
-                    error: "404: Page not Found.",
-                    path
-                };
-                res.render('client/error', details);
-            }
+                    console.log(isFavorite);
+
+                    var loggedIn = false;
+
+                    if(req.session.userId) loggedIn = true;
+                    else loggedIn = false;
+
+                    if(result != null) {
+                        const details = {
+                            isFavorite,
+                            result,
+                            title: "Baked Goods | " + result.name,
+                            loggedIn: loggedIn,
+                            userId: req.session.userId,
+                            name: req.session.name,
+                            error: errors,
+                            path
+                        };
+
+                        res.render('client/product', details);
+                    } else {
+                        const details = {
+                            isFavorite,
+                            result,
+                            title: "Baked Goods | Error 404",
+                            loggedIn: loggedIn,
+                            userId: req.session.userId,
+                            name: req.session.name,
+                            error: "404: Page not Found.",
+                            path
+                        };
+                        res.render('client/error', details);
+                    }
+                }
+            });
         });
+            
     },
 
     postReview: function(req, res) {

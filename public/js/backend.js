@@ -126,4 +126,65 @@ $(document).ready(function(){
         });
     });
 
+    $(document).on('click', '#addToFavorites', function(e) {
+        e.preventDefault();
+        console.log('pressed');
+        $.get('/favorites/addToFavorites', {productId : productId, userId : userId}, function(result){
+
+            $('#favorites').load(' #favorites');
+
+            var textContainer = document.createElement('div');
+            textContainer.classList.add("message-body");
+            textContainer.innerHTML = result.message;
+
+            var container = document.createElement('div');
+            container.classList.add("message");
+
+            if(result.status == "success") {
+                container.classList.add("is-success");
+            } else if(result.status == "error"){
+                container.classList.add("is-danger");
+            }
+            
+            container.append(textContainer);
+            
+            $('#errors').append(container);
+
+            setTimeout(function () {
+                $('#errors').empty();
+            }, 1000);
+        });
+    });
+
+    $(document).on('click', '#removeFromFavorites', function(e) {
+        e.preventDefault();
+        console.log('pressed');
+        $.get('/favorites/removeFromFavorites', {productId : productId, userId : userId}, function(result){
+
+            $('#favorites').load(' #favorites');
+
+            var textContainer = document.createElement('div');
+            textContainer.classList.add("message-body");
+            textContainer.innerHTML = result.message;
+
+            var container = document.createElement('div');
+            container.classList.add("message");
+
+            if(result.status == "success") {
+                container.classList.add("is-success");
+            } else if(result.status == "error"){
+                container.classList.add("is-danger");
+            }
+            
+            container.append(textContainer);
+            
+            $('#errors').append(container);
+
+            setTimeout(function () {
+                $('#errors').empty();
+            }, 1000);
+
+        });
+    });
+
 });

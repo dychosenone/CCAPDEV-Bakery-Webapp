@@ -1,5 +1,20 @@
 const mongoose = require('mongoose');
 
+const favoritesSchema = new mongoose.Schema ({
+    productId : {
+        type : Number,
+        required: true
+    },
+    productName : {
+        type: String,
+        required: true
+    },
+    productImage : {
+        type : String,
+        required : true
+    }
+})
+
 const UserSchema = new mongoose.Schema({
     userID : {
         type: Number,
@@ -36,7 +51,9 @@ const UserSchema = new mongoose.Schema({
     fullName : {
         type: String,
         required: true
-    }
+    },
+    favorites : [favoritesSchema]
+    
 });
 
 module.exports = mongoose.model('user', UserSchema, 'users');

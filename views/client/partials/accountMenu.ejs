@@ -4,7 +4,7 @@
         <ul class="menu-list">
             <li><a <% if(page == 'account') {  %> class="is-active" <% } %> href="/account">My Account</a></li>
             <li><a <% if(page == 'editAccount') {  %> class="is-active" <% } %> href="/editAccount">Edit My Account</a></li>
-            <li><a href="favorites.html">My Favorites</a></li>
+            <li><a <% if(page == 'Favorites') {  %> class="is-active" <% } %> href="/favorites">My Favorites</a></li>
             <li><a href="/logout">Logout</a></li>
         </ul>
         <p class="menu-label">Shop</p>

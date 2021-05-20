@@ -9,6 +9,7 @@ const registerController = require('../controllers/client/registerController');
 const accountController = require('../controllers/client/accountController');
 
 const cartController = require('../controllers/client/cartController');
+const favoritesController = require('../controllers/client/favoritesController')
 
 const validator = require('../helpers/validator');
 
@@ -49,5 +50,11 @@ app.get('/addToCart', productController.getAddToCart);
 app.get('/cart', cartController.getCart);
 
 app.get('/cart/deleteItem', cartController.getDeleteCartItem);
+
+app.get('/favorites', favoritesController.getFavorites);
+
+app.get('/favorites/addToFavorites', favoritesController.getAddFavorites);
+
+app.get('/favorites/removeFromFavorites', favoritesController.getRemoveFavorites);
 
 module.exports = app;
