@@ -8,6 +8,8 @@ const registerController = require('../controllers/client/registerController');
 
 const accountController = require('../controllers/client/accountController');
 
+const cartController = require('../controllers/client/cartController');
+
 const validator = require('../helpers/validator');
 
 const app = express.Router();
@@ -41,6 +43,10 @@ app.get('/account', accountController.getAccount);
 app.get('/editAccount', accountController.getEditAccount);
 
 app.post('/editAccount', accountController.postEditAccount);
+
+app.get('/addToCart', productController.getAddToCart);
+
+app.get('/cart', cartController.getCart);
 
 
 module.exports = app;

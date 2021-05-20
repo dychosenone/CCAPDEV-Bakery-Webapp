@@ -10,7 +10,7 @@
         <p class="menu-label">Shop</p>
         <ul class="menu-list">
             <li><a href="transactions.html">View Past Transactions</a></li>
-            <li><a href="cart.html">View Cart</a></li>
+            <li><a <% if(page == 'Cart') {  %> class="is-active" <% } %> href="/cart">View Cart</a></li>
             <li><a href="checkout.html">Checkout</a></li>
         </ul>
     </div>

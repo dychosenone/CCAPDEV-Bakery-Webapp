@@ -34,7 +34,7 @@ const ProductSchema = new mongoose.Schema({
 
     sizes : [{
         size : {
-            type: String,
+            type: Number,
             required: true
         },
         price : {

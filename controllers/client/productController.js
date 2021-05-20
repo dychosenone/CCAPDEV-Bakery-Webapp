@@ -48,13 +48,6 @@ var productController = {
         var errors = [];
         var success = [];
 
-        if(req.query.success) {
-            success.push('You have successfully deleted a review.');
-        }
-
-        if(req.query.error) {
-            errors.push({msg: 'You can only add one review.'});
-        }
         database.findOne(product, query, projection, function(result) {
             var loggedIn = false;
 
@@ -62,7 +55,6 @@ var productController = {
             else loggedIn = false;
 
             if(result != null) {
-                console.log(errors.length);
                 const details = {
                     result,
                     title: "Baked Goods | " + result.name,
@@ -95,7 +87,7 @@ var productController = {
 
         database.findOne(product, query, '', function(result){
             if(result != null)
-                res.redirect('/products/' + req.params.productId + '?error=reviewError');
+                res.send({status: 'error', message: 'Error: You can only add one review.'});
             else {
                 
                 var filter = {productId : req.params.productId}
@@ -109,7 +101,7 @@ var productController = {
 
                 database.updateOne(product, filter, query, function(flag){
                     if(flag) {
-                        res.redirect('/products/' + req.params.productId);
+                        res.send({status: 'success', message: 'Successfully posted a review.'});
                     }
                 });
             }
@@ -122,10 +114,47 @@ var productController = {
 
         database.updateOne(product, filter, query, function(flag){
             if(flag) {
-                res.redirect('/products/' + req.params.productId + '?success=ok');
+                res.send({status: 'success', message: "Successfully deleted the review."});
             }
         });
 
+    },
+    
+    getAddToCart : function(req, res) {
+        
+        var productId = req.query.productId
+        var option = req.query.option;
+
+        var query = {productId : productId};
+        var projection = ''
+        
+        database.findOne(product, query, projection, function(result) {
+
+            var quantity = result.sizes[option].size;
+            var price = result.sizes[option].price;
+
+            var newItem = {
+                productId: result.productId,
+                productName:result.name,
+                quantity: quantity,
+                price : price
+            }
+
+            var productIndex = req.session.cart.findIndex(x => x.productId == productId);
+
+            if(productIndex != -1) {
+                req.session.cart[productIndex].price += price;
+                req.session.cart[productIndex].quantity += quantity;
+            } else {
+                req.session.cart.push(newItem);
+
+            }
+            req.session.save();
+            
+            res.send(result);
+        });
+
+        
     }
 }
 

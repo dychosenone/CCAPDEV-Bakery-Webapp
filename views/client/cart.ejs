@@ -1,0 +1,87 @@
+<%- include('./partials/head.ejs'); %>
+<body>
+    <div class="container-js">
+        <%- include('./partials/header.ejs'); %>
+        <section class="hero hero-header-background is-small">
+            <div class="hero-body has-text-centered">
+                <p class="hero-styling">Shop</p>
+            </div>
+        </section>
+
+        <div class="container">
+            <section class="section">
+                <div class="columns">
+                <%- include('./partials/accountMenu.ejs'); %>
+                    <div class="column">
+                        <div class="myaccount-container">
+                            <div class="level">
+                                <div class="level-left">
+                                    <div class="level-content">
+                                        <p class="title">My Cart</p> 
+                                    </div>
+                                </div>
+                            </div>
+                            <hr class="is-divider">
+                                <table class="table is-fullwidth">
+                                    <thead>
+                                        <tr>
+                                            <th>Quantity</th>
+                                            <th>Product Name</th>
+                                            <th>Price per Piece</th>
+                                            <th>Total</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% cartContent.forEach(function(element) { %>
+                                            <tr>
+                                                <td><%= element.quantity %></td>
+                                                <td><%=element.productName %></td>
+                                                <td><%=element.price / element.quantity %></td>
+                                                <td><%= element.price %></td>
+                                                <td><button class="button submit-button is-small">Delete</button></td>
+                                            </tr>
+                                        <% }); %>
+
+                                    </tbody>
+                                </table>
+                                <div class="level">
+                                    <div class="level-left">
+                                        <p class="is-small">*Note: All our goods are VAT-Inclusive (12% Added Value Tax)</p>
+                                    </div>
+                                    <div class="level-right">
+                                        <div class="level-item">
+                                            <table class="table">
+                                                <tbody>
+                                                    <tr>
+                                                        <th>Subtotal: </th>
+                                                        <td>1980</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Delivery: </th>
+                                                        <td>50</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Total: </th>
+                                                        <td>2030</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="container px-0 has-text-right-desktop"><a class="button is-medium submit-button" href="checkout.html">Proceed to Checkout</a></div>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+        </div>
+
+    </div>
+
+
+</body>
+
+</html>
