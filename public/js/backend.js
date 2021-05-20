@@ -56,7 +56,7 @@ $(document).ready(function(){
             $('#errors').append(container);
 
             setTimeout(function () {
-                $('#errors').fadeOut();
+                $('#errors').empty();
             }, 1000);
         });
 
@@ -89,9 +89,41 @@ $(document).ready(function(){
             $('#errors').append(container);
 
             setTimeout(function () {
-                $('#errors').fadeOut();
+                $('#errors').empty();
             }, 1000);
         });
     });
 
-})
+    $(document).on('click', '#deleteCartItem', function(e) {
+        e.preventDefault();
+
+        var productId = $(this).closest('tr').find("#productId").text();
+        console.log(productId);
+
+        $.get('cart/deleteItem', {productId : productId}, function(result) {
+            $('#cart').load(' #cart');
+
+            var textContainer = document.createElement('div');
+            textContainer.classList.add("message-body");
+            textContainer.innerHTML = result.message;
+
+            var container = document.createElement('div');
+            container.classList.add("message");
+
+            if(result.status == "success") {
+                container.classList.add("is-success");
+            } else if(result.status == "error"){
+                container.classList.add("is-danger");
+            }
+            
+            container.append(textContainer);
+            
+            $('#errors').append(container);
+
+            setTimeout(function () {
+                $('#errors').empty();
+            }, 1000);
+        });
+    });
+
+});

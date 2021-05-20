@@ -48,5 +48,6 @@ app.get('/addToCart', productController.getAddToCart);
 
 app.get('/cart', cartController.getCart);
 
+app.get('/cart/deleteItem', cartController.getDeleteCartItem);
 
 module.exports = app;
