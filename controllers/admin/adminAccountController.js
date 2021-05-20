@@ -1,12 +1,30 @@
 const database = require("../../models/db");
-const product = require("../../models/schemas/productSchema");
+const users = require("../../models/schemas/userSchema");
+
 const path = require('path');
 
-var productController = {
+var adminAccountController = {
 
-    getProducts : function(req, res) {
+    error: function(req, res) {
+        var loggedIn = false;
+        
+        if(req.session.userId) loggedIn = true;
+        else false;
+
+        const details = {
+            title: "Baked Goods | Error 404",
+            loggedIn: loggedIn,
+            userId: req.session.userId,
+            name: req.session.name,
+            error: "404: Page not Found."
+        };
+
+        res.render('admin/error', details);
+    },
+
+    getUsers : function(req, res) {
         const projection = '';
-        database.findMany(product, {}, projection, function(result) {
+        database.findMany(users, {}, projection, function(result) {
             var loggedIn = false;
 
             if(req.session.userId) loggedIn = true;
@@ -16,19 +34,19 @@ var productController = {
             if(result != null) {
                 const details = {
                     result,
-                    title: "Admin | Admin Products",
+                    title: "Admin | User Accounts",
                     loggedIn: loggedIn,
                     userId: req.session.userId,
                     name: req.session.name,
                     error: null,
                     path
                 };
-                res.render('admin/admin-product', details);
+                res.render('admin/admin-accounts', details);
             }
             else {
                 const details = {
                     result,
-                    title: "Admin | No Products Found",
+                    title: "Admin | User Accounts",
                     loggedIn: loggedIn,
                     userId: req.session.userId,
                     name: req.session.name,
@@ -36,15 +54,15 @@ var productController = {
                     path
                 };
                 console.log(result);
-                res.render('admin/admin-product-empty', details);
+                res.render('admin/admin-accounts', details);
             }
         });
     },
 
-    getProduct : function(req, res) {
-        const projection = '';
-        const query = {productId: req.params.productId};
-        database.findOne(product, query, projection, function(result) {
+    getUser : function(req, res) {
+        const projection = 'userID username fullName billingAddress contact alternativeContact';
+        const query = {userId: req.params.userID};
+        database.findOne(users, query, projection, function(result) {
             var loggedIn = false;
 
             if(req.session.userId) loggedIn = true;
@@ -75,6 +93,7 @@ var productController = {
             }
         });
     }
+
 }
 
-module.exports = productController;
+module.exports = adminAccountController;

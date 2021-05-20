@@ -6,6 +6,8 @@ const adminLoginController = require('../controllers/admin/adminLoginController'
 
 const adminProductController = require('../controllers/admin/productController');
 
+const adminAccountController = require('../controllers/admin/adminAccountController')
+
 const app = express.Router();
 
 app.get('/', function (req, res) {
@@ -18,5 +20,5 @@ app.post('/adminlogin', adminLoginController.postLogin);
 
 app.get('/admin-product', adminProductController.getProducts);
 
-
+app.get('/admin-accounts', adminAccountController.getUsers);
 module.exports = app;

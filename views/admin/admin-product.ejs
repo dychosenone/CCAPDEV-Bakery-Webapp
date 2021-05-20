@@ -35,11 +35,11 @@
             <% result.forEach(function(element) { %>
             <tr>
                 <td class="table-image-col">
-                <img src="">
+                    <img src="<%=path.join('./img/products/' + element.image)%>">
                 </td>
-                <td><%=element.productID%></td>
-                <td><%=element.name%>></td>
-                <td><%=element.description%>></td>
+                <td><%=element.productId%></td>
+                <td><%=element.name%></td>
+                <td><%=element.description%></td>
                 <td>
                     <div class="navbar-end">
                         <div class="navbar-item has-dropdown is-hoverable">
