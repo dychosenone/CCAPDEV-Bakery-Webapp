@@ -116,6 +116,7 @@ var productController = {
                     const details = {
                         result,
                         title: "Baked Goods | " + name,
+                        headertitle: "Successfully added " + Name,
                         loggedIn: true,
                         userId: req.session.userId,
                         name: req.session.name,

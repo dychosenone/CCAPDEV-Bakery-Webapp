@@ -71,10 +71,9 @@ var adminAccountController = {
             else loggedIn = false;
 
             if(result != null) {
-
                 const details = {
                     result,
-                    title: "Baked Goods | " + result.name,
+                    title: "Baked Goods | " + result.username,
                     loggedIn: loggedIn,
                     userId: req.session.userId,
                     name: req.session.name,
@@ -137,6 +136,7 @@ var adminAccountController = {
                 const details = {
                     result,
                     title: "Baked Goods | " + Username,
+                    headertitle: "Successfully Added " + Username,
                     loggedIn: true,
                     userId: req.session.userId,
                     name: req.session.name,
@@ -157,33 +157,34 @@ var adminAccountController = {
         var loggedIn = false;
         if(req.session.userId) loggedIn = true;
 
-        const filter = {_id: req.session.userId};
+        const filter = {username: editInput.Username};
         const update = { $set:
                 {
                     fullName : editInput.fullName,
                     email: editInput.email,
                     contact: editInput.contact,
                     alternativeContact: editInput.alternativeContact,
-                    billingAddress: editInput.billingAddresss,
+                    billingAddress: editInput.billingAddress,
                     deliveryAddress: editInput.deliveryAddress,
                 }
         }
         database.updateOne(users, filter, update, function(flag) {
-                projection = 'userID username fullName billingAddress deliveryAddress contact email alternativeContact';
-                query = {}
+                const projection = '';
+                const query = {username: editInput.Username}
                 database.findOne(users, query, projection, function(result) {
                     if(result != null) {
                         req.session.name = result.fullName;
                         const details = {
                             result,
-                            title: "Baked Goods | Error",
+                            title: "Baked Goods | " + result.username,
+                            headertitle: "Successfully Updated " + result.username,
                             loggedIn: loggedIn,
                             userId: req.session.userId,
                             name: req.session.name,
                             error: 'success',
                             page: 'editAccount'
                         };
-                        res.render('admin/admin-edit-account', details);
+                        res.render('admin/admin-success', details);
                     } else {
                         const details = {
                             result,
@@ -194,7 +195,7 @@ var adminAccountController = {
                             error: "User not Found",
                             page: 'editAccount'
                         };
-                        res.render('admin/error', details);
+                        res.render('admin/error' + editInput.Username, details);
                     }
                 });
         });
@@ -240,7 +241,7 @@ var adminAccountController = {
                     path
                 };
                 console.log(result);
-                res.render('admin/admin-accounts', details);
+                res.render('admin/error', details);
             }
         });
     }
