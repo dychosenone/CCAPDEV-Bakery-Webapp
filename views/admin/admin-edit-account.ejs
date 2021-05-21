@@ -1,0 +1,42 @@
+<%- include('./partials/head.ejs'); %>
+<body>
+<div class="container-js">
+    <%- include('./partials/header.ejs'); %>
+
+    <section class="hero hero-header-background is-small">
+        <div class="hero-body has-text-centered">
+            <p class="hero-styling">Edit Account</p>
+        </div>
+    </section>
+
+    <div class="container" style="margin-top: 60px; margin-bottom: 40px">
+        <form class="admin-edit-account" method="post">
+            <div class="has-text-justified" style="margin-left: 5%; margin-top: 40px;">
+                <label style="margin-left: 18.1%">Name</label>
+                <input type="text" name="fullName" id="fullName" class="input input-styled" style="width: 300px" value="<%=result.fullName%>" required><br><br>
+                <label style="margin-left: 14.6%">Username</label>
+                <input type="text" disabled class="input input-styled" style="width: 300px" value="<%=result.username%>" required><br><br>
+                <label style="margin-left: 9.9%">Address (Billing)</label>
+                <input type="text" name="billingAddress" id="billingAddress" class="input input-styled"  style="width: 500px" value="<%=result.billingAddress%>" required><br><br>
+                <label style="margin-left: 8.2%">Address (Delivery)</label>
+                <input type="text" name="deliveryAddress" id="deliveryAddress" class="input input-styled"  style="width: 500px" value="<%=result.deliveryAddress%>" required><br><br>
+                <label style="margin-left: 11.6%">Email Address</label>
+                <input type="text" name="email" id="email" class="input input-styled" style="width: 300px" value="<%=result.email%>" required><br><br>
+                <label style="margin-left: 9.4%">Contact Number</label>
+                <input type="text" name="contact" id="contact" class="input input-styled" style="width: 300px" value="<%=result.contact%>" required><br><br>
+                <label>Alternative Contact Number</label>
+                <input type="text" name="alternativeContact" id="alternativeContact" class="input input-styled" style="width: 300px" value="<%=result.alternativeContact%>"><br><br>
+            </div>
+            <input type="hidden" name="Username" id="Username" class="input input-styled" style="width: 300px" value="<%=result.username%>" >
+            <div>
+                <button type="submit" id="editUser" value="SUBMIT" class="button submit-button is-medium" style="margin-bottom: 10px; margin-left: 41.5%;" >Save Changes</button>
+            </div>
+
+        </form>
+    </div>
+
+    <%- include('./partials/footer.ejs'); %>
+
+</div>
+</body>
+</html>

@@ -17,12 +17,12 @@
             </div>
         </div>
 
-        <form class="admin-edit-product" action="/admin/admin-product">
+        <form class="admin-edit-product" method="post">
             <div class="has-text-justified" style="margin-left: 5%; margin-top: 40px;">
                 <label style="margin-left: 4.4%">Product Name</label>
-                <input type="text" id="Name" class="input input-styled" style="width: 300px" ><br><br>
+                <input type="text" name="Name" id="Name" class="input input-styled" style="width: 300px" required><br><br>
                 <label>Product Description </label>
-                <input type="text" id="Description" class="input input-styled"  style="width: 500px" ><br><br>
+                <input type="text" name="Description" id="Description" class="input input-styled"  style="width: 500px" required><br><br>
             </div>
 
             <table id="OfferingTable" class="table is-hoverable">
@@ -34,9 +34,8 @@
                 </thead>
                 <tbody>
                 <tr>
-                    <td><input type="text" class="input input-styled" size="11"></td>
-                    <td><input type="number" class="input input-styled" ></td>
-                    <td><button  type="button" class="button submit-button is-small removeOffering">Remove</button></td>
+                    <td><input type="text" name="size1" id="size1" class="input input-styled" size="11"></td>
+                    <td><input type="number" name="price1" id="price1" class="input input-styled" ></td>
                 </tr>
 
                 <tr id="buttonRow"><td><button type="button" id="AddOffering" class="button submit-button is-small">Add</button></td></tr>
@@ -44,7 +43,7 @@
             </table>
 
             <div>
-                <button class="button submit-button is-medium" style="margin-bottom: 10px; margin-left: 41.5%;" >Add Product</button>
+                <button type="submit" class="button submit-button is-medium" style="margin-bottom: 10px; margin-left: 41.5%;" value="SUBMIT">Add Product</button>
             </div>
 
         </form>

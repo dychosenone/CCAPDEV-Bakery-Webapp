@@ -91,6 +91,44 @@ var productController = {
             path
         };
         res.render('admin/admin-add-product', details)
+    },
+
+    postProduct : function(req,res){
+            var Name = req.body.fullName;
+            var Description = req.body.Description;
+            var sizes = [
+                {
+                    size: req.body.size1,
+                    price: req.body.price1
+                }
+            ];
+            sizes.push({size: req.body.size2, price: req.body.price2});
+            sizes.push({size: req.body.size3, price: req.body.price3});
+
+
+
+            database.addOne(product, {
+                name: Name,
+                description: Description,
+                sizes: sizes
+            }, function(result){
+                if(result != null){
+                    const details = {
+                        result,
+                        title: "Baked Goods | " + name,
+                        headertitle: "Successfully added " + Name,
+                        loggedIn: true,
+                        userId: req.session.userId,
+                        name: req.session.name,
+                        error: null
+                    };
+                    res.render('admin/admin-success', details);
+                }
+
+
+            });
+
+
     }
 }
 
