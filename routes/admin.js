@@ -24,6 +24,8 @@ app.get('/admin-product', adminProductController.getProducts);
 
 app.get('/admin-add-product', adminProductController.addProduct);
 
+app.post('/admin-add-product', adminProductController.postProduct);
+
 app.get('/admin-accounts', adminAccountController.getUsers);
 
 app.get('/admin-add-account', adminAccountController.addUser);
