@@ -3,23 +3,19 @@ const mongoose = require('mongoose');
 const favoritesSchema = new mongoose.Schema ({
     productId : {
         type : Number,
-        required: true
+        required: false
     },
     productName : {
         type: String,
-        required: true
+        required: false
     },
     productImage : {
         type : String,
-        required : true
+        required : false
     }
 })
 
 const UserSchema = new mongoose.Schema({
-    userID : {
-        type: Number,
-        required: true
-    },
     username : {
         type: String,
         required: true

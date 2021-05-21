@@ -54,52 +54,83 @@ var productController = {
 
             var userQuery = {_id : req.session.userId};
             var userProjection = 'favorites'
+            
+            var loggedIn = false;
 
-            database.findOne(user, userQuery, userProjection, function(findResult) {
-                if(findResult.favorites.length != null) {
-                    var favoritesIndex = findResult.favorites.findIndex(x => x.productId == productId);
-                    var isFavorite;
-                    if(favoritesIndex > -1) {
-                        isFavorite = true;
-                    } else {
-                        isFavorite = false;
+            if(req.session.userId) loggedIn = true;
+            else loggedIn = false;
+
+
+            if(loggedIn == true) {
+                database.findOne(user, userQuery, userProjection, function(findResult) {
+                    if(findResult.favorites.length != null) {
+                        var favoritesIndex = findResult.favorites.findIndex(x => x.productId == productId);
+                        var isFavorite;
+                        if(favoritesIndex > -1) {
+                            isFavorite = true;
+                        } else {
+                            isFavorite = false;
+                        }
+    
+                        console.log(isFavorite);
+    
+    
+                        if(result != null) {
+                            const details = {
+                                isFavorite,
+                                result,
+                                title: "Baked Goods | " + result.name,
+                                loggedIn: loggedIn,
+                                userId: req.session.userId,
+                                name: req.session.name,
+                                error: errors,
+                                path
+                            };
+    
+                            res.render('client/product', details);
+                        } else {
+                            const details = {
+                                isFavorite,
+                                result,
+                                title: "Baked Goods | Error 404",
+                                loggedIn: loggedIn,
+                                userId: req.session.userId,
+                                name: req.session.name,
+                                error: "404: Page not Found.",
+                                path
+                            };
+                            res.render('client/error', details);
+                        }
                     }
+                });
+            } else {
+                
+                if(result != null) {
+                    const details = {
+                        result,
+                        title: "Baked Goods | " + result.name,
+                        loggedIn: loggedIn,
+                        userId: req.session.userId,
+                        name: req.session.name,
+                        error: errors,
+                        path
+                    };
 
-                    console.log(isFavorite);
-
-                    var loggedIn = false;
-
-                    if(req.session.userId) loggedIn = true;
-                    else loggedIn = false;
-
-                    if(result != null) {
-                        const details = {
-                            isFavorite,
-                            result,
-                            title: "Baked Goods | " + result.name,
-                            loggedIn: loggedIn,
-                            userId: req.session.userId,
-                            name: req.session.name,
-                            error: errors,
-                            path
-                        };
-
-                        res.render('client/product', details);
-                    } else {
-                        const details = {
-                            isFavorite,
-                            result,
-                            title: "Baked Goods | Error 404",
-                            loggedIn: loggedIn,
-                            userId: req.session.userId,
-                            name: req.session.name,
-                            error: "404: Page not Found.",
-                            path
-                        };
-                        res.render('client/error', details);
-                    }
+                    res.render('client/product', details);
+                } else {
+                    const details = {
+                        result,
+                        title: "Baked Goods | Error 404",
+                        loggedIn: loggedIn,
+                        userId: req.session.userId,
+                        name: req.session.name,
+                        error: "404: Page not Found.",
+                        path
+                    };
+                    res.render('client/error', details);
                 }
-            });
+            }
+            
         });
             
     },

@@ -1,0 +1,135 @@
+<%- include('./partials/head.ejs'); %>
+<body>
+    <div class="container-js">
+        <%- include('./partials/header.ejs'); %>
+        <section class="hero hero-header-background is-small">
+            <div class="hero-body has-text-centered">
+                <p class="hero-styling">Shop</p>
+            </div>
+        </section>
+
+        <div class="container">
+            <section class="section">
+                <div class="columns">
+                    <%- include('./partials/accountMenu.ejs'); %>
+
+                    <div class="column">
+                        <!-- Checkout page 1-->
+                        <div class="myaccount-container" id="checkout-1">
+                            <div class="level">
+                                <div class="level-left">
+                                    <div class="level-content">
+                                        <p class="title">Step 1: Confirm Account Details</p> 
+                                    </div>
+                                </div>
+                                <div class="level-right">
+                                    <div class="level-content">
+                                        <div class="media-right"><a class="button submit-button is-small" href="/editAccount">Edit</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr class="is-divider">
+                            <div class="columns">
+                                <div class="column">
+                                    <p><strong>Email Address: </strong><%= result.email %></p>
+                                    <p><strong>Username: </strong><%= result.username %></p>
+                                    <br />
+                                    <p><strong>Contact Number: </strong><%= result.contact %></p>
+                                    <p><strong>Alternative Contact Number: </strong><%= result.alternativeContact %></p>
+                                </div>
+                                <div class="column">
+                                    <p><strong>Delivery Address: </strong></p>
+                                    <p><%= result.deliveryAddress %></p>
+                                    <br />
+                                    <p><strong>Billing Address: </strong></p>
+                                    <p><%= result.billingAddress %></p>
+                                </div>
+                            </div>
+                            <div class="container px-0 has-text-right-desktop"><button class="button is-medium submit-button" id="next-checkout-1">Next</button></div>
+                        </div>
+                        <!--Checkout Page 2-->
+                        <div class="myaccount-container" id="checkout-2">
+                            <div class="level">
+                                <div class="level-left">
+                                    <div class="level-content">
+                                        <p class="title">Step 2: Confirm your Order</p> 
+                                    </div>
+                                </div>
+                                <div class="level-right">
+                                    <% if(cartContent.length > 0) { %>
+                                        <div class="level-item"><a class="button submit-button is-small" href="/cart">Edit Cart</a></div>
+                                    <% } %>  
+                                </div>
+                            </div>
+                            <hr class="is-divider">
+                            <% if(cartContent.length < 1) { %>
+                                <p>Your cart is currently empty. <a href='/products'>Continue Shopping</a></p>
+                            <% } else { %>
+                                <table class="table is-fullwidth">
+                                    <thead>
+                                        <tr>
+                                            <th>Quantity</th>
+                                            <th>Product Name</th>
+                                            <th>Price per Piece</th>
+                                            <th>Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% cartContent.forEach(function(element) { %>
+                                            <tr>
+                                                <td style="display: none" id="productId"><%= element.productId %></td>
+                                                <td><%= element.quantity %></td>
+                                                <td><%=element.productName %></td>
+                                                <td><%=element.price / element.quantity %></td>
+                                                <td><%= element.price %></td>
+                                            </tr>
+                                        <% }); %>
+                                    </tbody>
+                                </table>
+
+                            <div class="level">
+                                <div class="level-left">
+                                    <p class="is-small">
+                                        *Note: All our goods are VAT-Inclusive (12% Added Value Tax)
+                                        <br />
+                                        *Delivery only available with Metro Manila. Standard Delivery Fee of P150 applies.
+                                    </p>
+                                </div>
+                                <div class="level-right">
+                                    <div class="level-item">
+                                        <table class="table">
+                                            <tbody>
+                                                <tr>
+                                                    <th>Subtotal: </th>
+                                                    <td><%=subtotal%></td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Delivery: </th>
+                                                    <td><%=delivery%></td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Total: </th>
+                                                    <td><%=total%></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <% } %>
+                            <% if(cartContent.length > 0) { %>
+                                <div class="container px-0 has-text-right-desktop"><a class="button is-medium submit-button" id="checkout">Checkout</a></div>
+                            <% } %>                        
+                        </div>
+                    </div> 
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+</body>
+
+</html>

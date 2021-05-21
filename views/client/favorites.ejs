@@ -12,10 +12,9 @@
             <section class="section">
                 <div class="columns">
                     <%- include('./partials/accountMenu.ejs'); %>
-                    <div id="errors">
-                        
-                    </div>
                     <div class="column">
+                        <div id="errors">
+                        </div>
                         <div class="myaccount-container">
                             <div class="level">
                                 <div class="level-left">
@@ -25,7 +24,7 @@
                                 </div>
                             </div>
                             <hr class="is-divider">
-                                <table class="table is-fullwidth">
+                                <table class="table is-fullwidth" id="favorites">
                                     <thead>
                                         <tr>
                                             <th>Image</th>
@@ -36,9 +35,10 @@
                                     <tbody>
                                         <% result.forEach(function(element) { %>
                                             <tr>
+                                                <td style="display: none;" id="productId"><%=element.productId%></td>
                                                 <td><div class="image is-3by2"><img src="<%=path.join('../img/products/' + element.productImage); %>"></div></td>
                                                 <td><%=element.productName %></td>
-                                                <td><button class="button submit-button is-small">Remove</button></td>
+                                                <td><button class="button submit-button is-small" id="removeFavorites">Remove</button></td>
                                             </tr>
                                         <% }); %>
                                     </tbody>

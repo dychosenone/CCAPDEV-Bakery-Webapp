@@ -13,31 +13,34 @@ var favoritesController = {
         if(req.session.userId) loggedIn = true;
         else loggedIn = false
 
-
-        var query = {_id : req.session.userId};
-        var projection = 'favorites';
-
-        database.findOne(user, query, projection, function(result) {
-            console.log(result.favorites);
-            if(result != null) {
-                details = {
-                    result : result.favorites,
-                    page: 'Favorites',
-                    title: "Baked Goods | Favorites",
-                    loggedIn: loggedIn,
-                    userId: req.session.userId,
-                    name: req.session.name,
-                    error: null,
-                    path
+        if(loggedIn == false) {
+            res.redirect('/');
+        } else {
+            var query = {_id : req.session.userId};
+            var projection = 'favorites';
+    
+            database.findOne(user, query, projection, function(result) {
+                console.log(result.favorites);
+                if(result != null) {
+                    details = {
+                        result : result.favorites,
+                        page: 'Favorites',
+                        title: "Baked Goods | Favorites",
+                        loggedIn: loggedIn,
+                        userId: req.session.userId,
+                        name: req.session.name,
+                        error: null,
+                        path
+                    }
+                    res.render('client/favorites', details);
                 }
-                res.render('client/favorites', details);
-            }
-
-        });
+    
+            });
+        }
 
     },
     getAddFavorites : function(req, res) {
-        var filter = {_id: req.query.userId};
+        var filter = {_id: req.session.userId};
         var productId = req.query.productId;
         console.log(productId);
 
@@ -66,7 +69,7 @@ var favoritesController = {
 
     getRemoveFavorites : function(req, res) {
         //TODO
-        var filter = {_id : req.query.userId};
+        var filter = {_id : req.session.userId};
         var query = {$pull : {favorites : {productId: req.query.productId}}};
 
         database.updateOne(user, filter, query, function(flag){

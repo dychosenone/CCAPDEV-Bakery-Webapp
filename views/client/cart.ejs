@@ -48,9 +48,10 @@
                                                 <td><%= element.price %></td>
                                                 <td><button class="button submit-button is-small" id="deleteCartItem">Delete</button></td>
                                             </tr>
-                                        <% }); %>
+
                                     </tbody>
                                 </table>
+                                <% }); %>
                                 <div class="level">
                                     <div class="level-left">
                                         <p class="is-small">
@@ -82,7 +83,9 @@
                                 </div>
                             <% } %>
                             </div>
-                            <div class="container px-0 has-text-right-desktop"><a class="button is-medium submit-button" href="checkout.html">Proceed to Checkout</a></div>
+                            <% if(cartContent.length > 0) { %>
+                                <div class="container px-0 has-text-right-desktop"><a class="button is-medium submit-button" href="/checkout">Proceed to Checkout</a></div>
+                            <% } %>
                         </div>
                     </div>
                 </div>

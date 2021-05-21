@@ -49,7 +49,11 @@ app.get('/addToCart', productController.getAddToCart);
 
 app.get('/cart', cartController.getCart);
 
+app.get('/checkout', cartController.getCheckout);
+
 app.get('/cart/deleteItem', cartController.getDeleteCartItem);
+
+app.get('checout/checkoutItems', cartController.getCheckoutItems);
 
 app.get('/favorites', favoritesController.getFavorites);
 
