@@ -62,8 +62,8 @@ var adminAccountController = {
     },
 
     getUser : function(req, res) {
-        const projection = '';
-        const query = {_id: req.params.id};
+        const projection = 'userID username fullName billingAddress contact alternativeContact';
+        const query = {userId: req.params.userID};
         database.findOne(users, query, projection, function(result) {
             var loggedIn = false;
 
@@ -81,7 +81,7 @@ var adminAccountController = {
                     error: null
                 };
 
-                res.render('admin/admin-edit-account', details);
+                res.render('admin/product', details);
             } else {
                 const details = {
                     result,
@@ -91,7 +91,7 @@ var adminAccountController = {
                     name: req.session.name,
                     error: "404: Page not Found."
                 };
-                res.render('client/error', details);
+                res.render('admin/error', details);
             }
         });
     },
@@ -118,7 +118,7 @@ var adminAccountController = {
         var fullName = req.body.fullName;
         var Username = req.body.Username;
         var billingAddress = req.body.billingAddress;
-        var deliveryAddress = req.body.deliveryAddress;
+        var deliveryAddress = req.body.billingAddress;
         var email = req.body.email;
         var contact = req.body.contact;
         var alternativeContact = req.body.alternativeContact;
@@ -149,100 +149,6 @@ var adminAccountController = {
         });
 
     });
-    },
-
-    postEdit : function(req, res) {
-        var editInput = req.body;
-
-        var loggedIn = false;
-        if(req.session.userId) loggedIn = true;
-
-        const filter = {_id: req.session.userId};
-        const update = { $set:
-                {
-                    fullName : editInput.fullName,
-                    email: editInput.email,
-                    contact: editInput.contact,
-                    alternativeContact: editInput.alternativeContact,
-                    billingAddress: editInput.billingAddresss,
-                    deliveryAddress: editInput.deliveryAddress,
-                }
-        }
-        database.updateOne(users, filter, update, function(flag) {
-                projection = 'userID username fullName billingAddress deliveryAddress contact email alternativeContact';
-                query = {}
-                database.findOne(users, query, projection, function(result) {
-                    if(result != null) {
-                        req.session.name = result.fullName;
-                        const details = {
-                            result,
-                            title: "Baked Goods | Error",
-                            loggedIn: loggedIn,
-                            userId: req.session.userId,
-                            name: req.session.name,
-                            error: 'success',
-                            page: 'editAccount'
-                        };
-                        res.render('admin/admin-edit-account', details);
-                    } else {
-                        const details = {
-                            result,
-                            title: "Baked Goods | Error",
-                            loggedIn: loggedIn,
-                            userId: req.session.userId,
-                            name: req.session.name,
-                            error: "User not Found",
-                            page: 'editAccount'
-                        };
-                        res.render('admin/error', details);
-                    }
-                });
-        });
-    },
-
-    deleteUser: function(req, res) {
-        var filter = {_id : req.params.id};
-
-        database.deleteOne(users,filter);
-
-        res.redirect('/admin/admin-accounts');
-    },
-
-    searchUsers: function(req, res) {
-        const filter = {username: req.params.key}
-        database.findMany(users, {}, projection, function(result) {
-            var loggedIn = false;
-
-            if(req.session.userId) loggedIn = true;
-            else loggedIn = false;
-
-
-            if(result != null) {
-                const details = {
-                    result,
-                    title: "Admin | User Accounts",
-                    loggedIn: loggedIn,
-                    userId: req.session.userId,
-                    name: req.session.name,
-                    error: null,
-                    path
-                };
-                res.render('admin/admin-accounts', details);
-            }
-            else {
-                const details = {
-                    result,
-                    title: "Admin | User Accounts",
-                    loggedIn: loggedIn,
-                    userId: req.session.userId,
-                    name: req.session.name,
-                    error: "No Products Found.",
-                    path
-                };
-                console.log(result);
-                res.render('admin/admin-accounts', details);
-            }
-        });
     }
 
 }
