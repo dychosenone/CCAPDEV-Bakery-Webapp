@@ -15,7 +15,7 @@
                 <label style="margin-left: 18.1%">Name</label>
                 <input type="text" name="fullName" id="fullName" class="input input-styled" style="width: 300px" value="<%=result.fullName%>" required><br><br>
                 <label style="margin-left: 14.6%">Username</label>
-                <input type="text" name="Username" id="Username" class="input input-styled" style="width: 300px" value="<%=result.username%>" required><br><br>
+                <input type="text" disabled class="input input-styled" style="width: 300px" value="<%=result.username%>" required><br><br>
                 <label style="margin-left: 9.9%">Address (Billing)</label>
                 <input type="text" name="billingAddress" id="billingAddress" class="input input-styled"  style="width: 500px" value="<%=result.billingAddress%>" required><br><br>
                 <label style="margin-left: 8.2%">Address (Delivery)</label>
@@ -27,7 +27,7 @@
                 <label>Alternative Contact Number</label>
                 <input type="text" name="alternativeContact" id="alternativeContact" class="input input-styled" style="width: 300px" value="<%=result.alternativeContact%>"><br><br>
             </div>
-
+            <input type="hidden" name="Username" id="Username" class="input input-styled" style="width: 300px" value="<%=result.username%>" >
             <div>
                 <button type="submit" id="editUser" value="SUBMIT" class="button submit-button is-medium" style="margin-bottom: 10px; margin-left: 41.5%;" >Save Changes</button>
             </div>
