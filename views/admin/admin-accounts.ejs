@@ -12,8 +12,11 @@
     <div class="container mt-6">
         <form>
             <div class="field has-addons search-field">
-                <input class="input input-styled" type="text" placeholder="Search">
-                <div class="control"><button class="button submit-button">Search</button></div>
+                <form method="post">
+                    <input class="input input-styled" type="text" placeholder="Search">
+                    <div class="control"><button type="submit" class="button submit-button">Search</button></div>
+                </form>
+
             </div>
         </form>
     </div>
@@ -39,10 +42,23 @@
                     <%=element.alternativeContact%>
                 </td>
                 <td>
-                    <a href="edit-account/user1.html" class="button submit-button is-small">Edit</a>
+                    <a href="/admin/admin-edit-account/<%=element._id%>" class="button submit-button is-small">Edit</a>
                 </td>
                 <td>
-                    <button class="button submit-button is-small">Delete</button>
+                    <a data-doc="<%=element._id%>" class="button submit-button is-small">Delete</a>
+                    <script>
+                        const trashcan = document.querySelector('a.delete');
+
+                        trashcan.addEventListener('click', (e) => {
+                            const endpoint = '/admin/admin-accounts/${trashcan.dataset.doc}';
+
+                            fetch(endpoint, {
+                                method: 'DELETE'
+                            })
+                                .then(() => {})
+                                .catch(err => console.log(err));
+                        })
+                    </script>
                 </td>
             </tr>
             <% });%>
