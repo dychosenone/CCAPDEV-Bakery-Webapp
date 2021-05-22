@@ -56,7 +56,7 @@ var productController = {
             else loggedIn = false;
 
             if(result != null) {
-
+                req.session.pName = result.name;
                 const details = {
                     result,
                     title: "Baked Goods | " + result.name,
@@ -117,8 +117,6 @@ var productController = {
 
 
 
-
-
             database.addOne(product, {
                 name: Name,
                 description: Description,
@@ -141,9 +139,15 @@ var productController = {
     },
 
     postEdit : function(req, res){
+        var Image;
+        var fs= require('fs');
+        if(req.file!= null){
+            Image = req.file.filename;
+            fs.unlinkSync('public/img/products/'+req.body.imgName);
+        }
+        else
+            Image = req.body.imgName;
 
-        if(req.file!= null)
-            var Image = req.file.filename;
         var Name = req.body.Name;
         var Description = req.body.Description;
         var sizes = [
@@ -162,7 +166,7 @@ var productController = {
         var loggedIn = false;
         if(req.session.userId) loggedIn = true;
 
-        const filter = {name: Name};
+        const filter = {_id: req.params.id};
         const update = { $set:
                 {
                     name: Name,
@@ -173,7 +177,7 @@ var productController = {
         }
         database.updateOne(product, filter, update, function(flag) {
             const projection = '';
-            const query = {name: Name}
+            const query = {_id: req.params.id}
             database.findOne(product, query, projection, function(result) {
                 if(result != null) {
 
@@ -201,7 +205,39 @@ var productController = {
                 }
             });
         });
-    }
+    },
+
+    deleteProduct: function(req, res) {
+        var fs = require('fs');
+        var filter = {_id : req.params.id};
+        var loggedIn = false;
+        var projection = 'image';
+        if(req.session.userId) loggedIn = true;
+        database.findOne(product, filter, projection,function(result){
+            var img = result.image;
+
+            if(img != null)
+                fs.unlinkSync('public/img/products/'+ img);
+
+            database.deleteOne(product,filter,  function(result){
+
+                if(result!= null) {
+                    const details = {
+                        title: "Baked Goods | Delete Successful",
+                        headertitle: "Successfully Deleted Product",
+                        loggedIn: loggedIn,
+                        userId: req.session.userId,
+                        name: req.session.name,
+                        error: 'success',
+                        page: 'deleteProduct'
+                    };
+                    res.render('admin/admin-success', details);
+                }
+            });
+        })
+
+
+    },
 }
 
 

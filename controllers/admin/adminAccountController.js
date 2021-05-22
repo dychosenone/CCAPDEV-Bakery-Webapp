@@ -218,8 +218,6 @@ var adminAccountController = {
                 res.render('admin/admin-success', details);
             }
         });
-
-
     },
 
     searchUsers: function(req, res) {

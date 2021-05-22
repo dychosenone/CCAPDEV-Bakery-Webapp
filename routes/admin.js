@@ -9,7 +9,7 @@ const storage = multer.diskStorage({
 
     filename: function (req, file, cb){
         const {originalname} = file;
-        cb(null, originalname);
+        cb(null, originalname + Date.now() + '.png');
     }
 });
 const upload = multer({storage: storage});
@@ -35,6 +35,7 @@ app.get('/adminlogin', adminLoginController.getLogin);
 app.post('/adminlogin', adminLoginController.postLogin);
 //product management
 app.get('/admin-product', adminProductController.getProducts);
+app.get('/admin-delete-product/:id', adminProductController.deleteProduct);
 app.get('/admin-add-product', adminProductController.addProduct);
 app.get('/admin-edit-product/:id', adminProductController.getProduct);
 app.post('/admin-add-product', upload.single('uploadFile'), adminProductController.postProduct);
