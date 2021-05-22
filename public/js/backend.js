@@ -230,10 +230,51 @@ $(document).ready(function(){
 
     $('#checkout').click(function(e) {
         e.preventDefault();
+        console.log('pressed');
+        $.get('/checkout/checkoutItems', function(result) {
+            if(result.status == 'success') {
+                window.location = result.redirect;
+            }
+        })
+    });
+    
+    $(".product-modal-open").click(function (e) {
+        e.preventDefault();
 
-        $.get('/checkout/checkoutItems', {}, function(result) {
+        var orderId = $(this).closest('tr').find("#orderId").text();
+
+        $.get('/transactions/details', {orderId : orderId}, function(result) {
+
+            $('#orderNumber').text('Order # ' + result.orderId);
+            $('#billingAddress').text(result.billingAddress);
+            $('#deliveryAddress').text(result.deliveryAddress);
+
+            $('#subtotal').text(result.subtotal);
+            $('#deliveryFee').text(result.deliveryFee);
+            $('#total').text(result.subtotal + result.deliveryFee);
+
+            result.orders.forEach(function(element) {
+
+
+                $('#cartBody').append(`
+                <tr>
+                    <td> ${element.quantity} </td>
+                    <td> ${element.productName} </td>
+                    <td> ${element.price / element.quantity} </td>
+                    <td> ${element.price} </td>
+                </tr>
+                `)
+            });
             
         });
+
+        $('.product-modal').fadeIn('fast');
+    });
+
+    $(".product-modal-close").click(function (e) {
+        e.preventDefault();
+        $('.product-modal').fadeOut('fast');
+        $('#cartBody').empty();
     });
 
 });

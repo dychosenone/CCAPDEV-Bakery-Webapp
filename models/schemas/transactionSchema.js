@@ -1,6 +1,9 @@
 const mongoose = require('mongoose');
 const database = require('../db');
 
+const { customAlphabet } = require('nanoid');
+const nanoid = customAlphabet('1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ', 10);
+
 const itemSchema = new mongoose.Schema({
     productId : {
         type: String,
@@ -22,9 +25,14 @@ const itemSchema = new mongoose.Schema({
 
 const TransactionSchema = new mongoose.Schema({
 
+    orderId : {
+        type: String,
+        default : nanoid()
+    },
+
     date : {
-        type: Number,
-        required: true
+        type: Date, 
+        default: Date.now
     },
 
     userId: {
@@ -39,6 +47,16 @@ const TransactionSchema = new mongoose.Schema({
 
     status : {
         type: String,
+        required: true
+    },
+
+    subtotal: {
+        type: Number,
+        required: true
+    },
+
+    deliveryFee: {
+        type: Number,
         required: true
     },
 
@@ -67,4 +85,4 @@ const TransactionSchema = new mongoose.Schema({
 
 });
 
-module.exports = mongoose.model('transaction', TransactionSchema, 'products');
+module.exports = mongoose.model('transaction', TransactionSchema, 'transactions');

@@ -94,30 +94,77 @@ var cartController = {
 
     getCheckoutItems : function(req, res) {
         
+        var loggedIn = false;
+
+        if(req.session.userId) loggedIn = true;
+        else loggedIn = false
+        
         var query = {_id : req.session.userId};
         var projection = '';
 
         database.findOne(user, query, projection, function(result) {
+
+            var subtotal = 0;
+
+            req.session.cart.forEach(function(element){
+                subtotal += element.price;
+            });
+
             var doc = {
-                date : new Date(),
                 userId : req.session.userId,
-                name : result.name,
+                name : result.fullName,
                 status : 'pending',
+                subtotal : subtotal,
+                deliveryFee : 150,
                 deliveryAddress : result.deliveryAddress,
                 billingAddress : result.billingAddress,
-                contactNumber : result.contactNumber,
+                contactNumber : result.contact,
                 alternativeContactNumber : result.alternativeContact,
                 orders : req.session.cart
             };
+
+            console.log(doc);
             database.addOne(transaction, doc, function(flag) {
                 if(flag) {
-                    res.redirect('/');
+                    console.log(flag);
+                    req.session.cart = [];
+                    req.session.save();
+
+                    req.session.newOrder = true;
+                    req.session.save();
+
+                    res.json({status: "success", redirect: '/checkoutsuccess'});
+
+                } else {
+                    res.json({status : 'error', message : 'There was an error processing your order. Please try again.'});
                 }
             });
-    
         });
 
+    },
 
+    getCheckoutSuccess : function(req, res) {
+
+        var details = {
+            title : 'Baked Goods | Success',
+            loggedIn,
+            userId: req.session.userId,
+            name: req.session.name
+        };
+
+        var loggedIn = false;
+
+        if(req.session.userId) loggedIn = true;
+        else loggedIn = false
+
+        if(req.session.newOrder == false) {
+            res.redirect('/');
+        } else {
+            req.session.newOrder = false;
+            req.session.save();
+
+            res.render('client/checkout-success', details);
+        }
 
     }
 

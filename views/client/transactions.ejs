@@ -1,0 +1,119 @@
+<%- include('./partials/head.ejs') %>
+<body>
+    <div class="container-js">
+        <%- include('./partials/header.ejs') %>
+
+        <section class="hero hero-header-background is-small">
+            <div class="hero-body has-text-centered">
+                <p class="hero-styling">Shop</p>
+            </div>
+        </section>
+
+        <div class="container">
+            <section class="section">
+                <div class="columns">
+                    <%- include('./partials/accountMenu.ejs') %>
+                    <div class="column">
+                        <div class="myaccount-container">
+                            <div class="level">
+                                <div class="level-left">
+                                    <div class="level-content">
+                                        <p class="title">My Transactions</p> 
+                                    </div>
+                                </div>
+                            </div>
+                            <hr class="is-divider">
+                                <table class="table is-fullwidth">
+                                    <thead>
+                                        <tr>
+                                            <th><abbr title="Order Number">OR#</abbr></th>
+                                            <th>Date of Purchase</th>
+                                            <th>Total</th>
+                                            <th>Status</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+                                            <% result.forEach(function(element) { %>
+                                            <tr>
+                                                <td id="orderId"><%=element.orderId %></td>
+                                                <td><%=element.date.getMonth() + 1 %>/<%=element.date.getDate() %>/<%=element.date.getFullYear() %> </td>
+                                                <td><%=element.subtotal  + element.deliveryFee%></td>
+                                                <td>
+                                                    <% if(element.status == 'pending') { %>
+                                                        <span class="tag is-warning">Processing</span>
+                                                    <% } else if(element.status == 'delivered') {%>
+                                                        <span class="tag is-primary">Delivered</span>
+                                                    <% } else if(element.status == 'cancelled') {%> 
+                                                        <span class="tag is-danger">Cancelled</span>
+                                                    <% } %>
+                                                </td>
+                                                <td><button class="button submit-button is-small product-modal-open">View</button></td>
+                                            </tr>
+                                            <% }); %>
+
+                                    </tbody>
+                                </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+    <!-- Order Number 1 -->
+    <div class="modal is-active product-modal" style="display: none;">
+        <div class="modal-background"></div>
+        <div class="modal-card">
+            <header class="modal-card-head">
+                <p class="modal-card-title" id="orderNumber"></p>
+                <button class="delete product-modal-close"></button>
+            </header>
+            <section class="modal-card-body">
+                <p><strong>Billing Address: </strong><p id="billingAddress" ></p></p>
+                <br />
+                <p><strong>Delivery Address: </strong><p id="deliveryAddress" ></p></p>
+                <hr class="is-divider">
+                <p class="title">Breakdown</p>
+                <table class="table is-fullwidth">
+                    <thead>
+                        <tr>
+                            <th>Quantity</th>
+                            <th>Product Name</th>
+                            <th>Price per Piece</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody id="cartBody">
+                    </tbody>
+                </table>
+                <div class="level">
+                    <div class="level-left">
+                        <p class="is-small">*Note: All our goods are VAT-Inclusive.</p>
+                    </div>
+                    <div class="level-right">
+                        <div class="level-item">
+                            <table class="table">
+                                <tbody>
+                                    <tr>
+                                        <th>Subtotal: </th>
+                                        <td id="subtotal"></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Delivery: </th>
+                                        <td id="deliveryFee">50</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Total: </th>
+                                        <td id="total">350</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</body>
+</html>

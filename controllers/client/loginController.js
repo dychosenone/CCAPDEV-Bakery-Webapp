@@ -28,6 +28,7 @@ var userController = {
                         req.session.name = result.fullName;
                         req.session.cartCount = 0;
                         req.session.cart = [];
+                        req.session.newOrder = false;
                         res.redirect('/');
                     }
                     else {

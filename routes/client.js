@@ -11,6 +11,9 @@ const accountController = require('../controllers/client/accountController');
 const cartController = require('../controllers/client/cartController');
 const favoritesController = require('../controllers/client/favoritesController')
 
+const transactionController = require('../controllers/client/transactionController');
+
+
 const validator = require('../helpers/validator');
 
 const app = express.Router();
@@ -53,12 +56,18 @@ app.get('/checkout', cartController.getCheckout);
 
 app.get('/cart/deleteItem', cartController.getDeleteCartItem);
 
-app.get('checout/checkoutItems', cartController.getCheckoutItems);
-
 app.get('/favorites', favoritesController.getFavorites);
 
 app.get('/favorites/addToFavorites', favoritesController.getAddFavorites);
 
 app.get('/favorites/removeFromFavorites', favoritesController.getRemoveFavorites);
+
+app.get('/checkout/checkoutItems', cartController.getCheckoutItems);
+
+app.get('/checkoutsuccess', cartController.getCheckoutSuccess);
+
+app.get('/transactions', transactionController.getTransactions);
+
+app.get('/transactions/details', transactionController.getTransactionDetails);
 
 module.exports = app;

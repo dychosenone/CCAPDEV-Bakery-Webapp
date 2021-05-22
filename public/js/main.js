@@ -42,44 +42,5 @@ $(document).ready(function(){
         function() {$(this).toggleClass("active")}
     )
 
-    // View Transactions Modal
-    $("#product-modal-button-1").click(function () {
-        $('#product-modal-1').fadeIn('fast')
-    });
 
-    $("#product-modal-close-1").click(function () {
-        $('#product-modal-1').fadeOut('fast')
-    });
-
-    $("#product-modal-button-2").click(function () {
-        $('#product-modal-2').fadeIn('fast')
-    });
-
-    $("#product-modal-close-2").click(function () {
-        $('#product-modal-2').fadeOut('fast')
-    });
-
-    $("#product-modal-button-3").click(function () {
-        $('#product-modal-3').fadeIn('fast')
-    });
-
-    $("#product-modal-close-3").click(function () {
-        $('#product-modal-3').fadeOut('fast')
-    });
-
-    $("#product-modal-button-4").click(function () {
-        $('#product-modal-4').fadeIn('fast')
-    });
-
-    $("#product-modal-close-4").click(function () {
-        $('#product-modal-4').fadeOut('fast')
-    });
-
-    $("#product-modal-button-5").click(function () {
-        $('#product-modal-5').fadeIn('fast')
-    });
-
-    $("#product-modal-close-5").click(function () {
-        $('#product-modal-5').fadeOut('fast')
-    });
 });
