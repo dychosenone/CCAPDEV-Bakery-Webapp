@@ -3,24 +3,19 @@ const mongoose = require('mongoose');
 const reviewSchema = new mongoose.Schema({
     userId : {
         type: String,
-        required: true
+        required: false
     },
     fullName : {
         type: String,
-        required: true
+        required: false
     },
     review : {
         type: String,
-        required: true
+        required: false
     }
 })
 
 const ProductSchema = new mongoose.Schema({
-
-    productId : {
-        type: Number,
-        required: true
-    },
 
     name: {
         type: String,
@@ -47,7 +42,7 @@ const ProductSchema = new mongoose.Schema({
 
     image: {
         type: String,
-        required: true
+        required: false
     }
 
 });

@@ -1,6 +1,11 @@
 const database = require("../../models/db");
 const product = require("../../models/schemas/productSchema");
+const multer = require('multer');
+const fs = require('fs');
+
 const path = require('path');
+
+
 
 var productController = {
 
@@ -43,7 +48,7 @@ var productController = {
 
     getProduct : function(req, res) {
         const projection = '';
-        const query = {productId: req.params.productId};
+        const query = {_id: req.params.id};
         database.findOne(product, query, projection, function(result) {
             var loggedIn = false;
 
@@ -61,7 +66,7 @@ var productController = {
                     error: null
                 };
 
-                res.render('admin/product', details);
+                res.render('admin/admin-edit-product', details);
             } else {
                 const details = {
                     result,
@@ -94,7 +99,8 @@ var productController = {
     },
 
     postProduct : function(req,res){
-            var Name = req.body.fullName;
+            var Image = req.file.filename;
+            var Name = req.body.Name;
             var Description = req.body.Description;
             var sizes = [
                 {
@@ -102,20 +108,27 @@ var productController = {
                     price: req.body.price1
                 }
             ];
-            sizes.push({size: req.body.size2, price: req.body.price2});
-            sizes.push({size: req.body.size3, price: req.body.price3});
+
+            if(req.body.size2 != null){
+                sizes.push({size: req.body.size2, price: req.body.price2});
+                if(req.body.size3 != null)
+                    sizes.push({size: req.body.size3, price: req.body.price3});
+            }
+
+
 
 
 
             database.addOne(product, {
                 name: Name,
                 description: Description,
-                sizes: sizes
+                sizes: sizes,
+                image: Image
             }, function(result){
                 if(result != null){
                     const details = {
                         result,
-                        title: "Baked Goods | " + name,
+                        title: "Baked Goods | " + Name,
                         headertitle: "Successfully added " + Name,
                         loggedIn: true,
                         userId: req.session.userId,
@@ -124,12 +137,72 @@ var productController = {
                     };
                     res.render('admin/admin-success', details);
                 }
-
-
             });
+    },
 
+    postEdit : function(req, res){
 
+        if(req.file!= null)
+            var Image = req.file.filename;
+        var Name = req.body.Name;
+        var Description = req.body.Description;
+        var sizes = [
+            {
+                size: req.body.size1,
+                price: req.body.price1
+            }
+        ];
+
+        if(req.body.size2 != null){
+            sizes.push({size: req.body.size2, price: req.body.price2});
+            if(req.body.size3 != null)
+                sizes.push({size: req.body.size3, price: req.body.price3});
+        }
+
+        var loggedIn = false;
+        if(req.session.userId) loggedIn = true;
+
+        const filter = {name: Name};
+        const update = { $set:
+                {
+                    name: Name,
+                    description: Description,
+                    sizes: sizes,
+                    image: Image
+                }
+        }
+        database.updateOne(product, filter, update, function(flag) {
+            const projection = '';
+            const query = {name: Name}
+            database.findOne(product, query, projection, function(result) {
+                if(result != null) {
+
+                    const details = {
+                        result,
+                        title: "Baked Goods | " + Name,
+                        headertitle: "Successfully Updated " + Name,
+                        loggedIn: loggedIn,
+                        userId: req.session.userId,
+                        name: req.session.name,
+                        error: 'success',
+                        page: 'editProduct'
+                    };
+                    res.render('admin/admin-success', details);
+                } else {
+                    const details = {
+                        result,
+                        title: "Baked Goods | Error",
+                        loggedIn: loggedIn,
+                        userId: req.session.userId,
+                        name: req.session.name,
+                        page: 'editProduct'
+                    };
+                    res.render('admin/error' + editInput.Username, details);
+                }
+            });
+        });
     }
 }
+
 
 module.exports = productController;

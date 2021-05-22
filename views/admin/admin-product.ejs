@@ -34,7 +34,7 @@
             <%result.forEach(function(element) { %>
             <tr>
                 <td class="table-image-col">
-                    <img src="<%=path.join('./img/products/' + element.image)%>">
+                    <img src="<%=path.join('/img/products/' + element.image)%>">
                 </td>
                 <td><%=element.name%></td>
                 <td><%=element.description%></td>
@@ -65,7 +65,7 @@
                     </div>
                 </td>
                 <td>
-                    <a href="../admin/" class="button submit-button is-small">Modify</a>
+                    <a href="/admin/admin-edit-product/<%=element._id%>" class="button submit-button is-small">Modify</a>
                 </td>
                 <td>
                     <button class="button submit-button is-small">Delete</button>

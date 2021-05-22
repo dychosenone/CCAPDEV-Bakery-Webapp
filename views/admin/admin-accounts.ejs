@@ -45,20 +45,8 @@
                     <a href="/admin/admin-edit-account/<%=element._id%>" class="button submit-button is-small">Edit</a>
                 </td>
                 <td>
-                    <a data-doc="<%=element._id%>" class="button submit-button is-small">Delete</a>
-                    <script>
-                        const trashcan = document.querySelector('a.delete');
+                    <a href="/admin/admin-delete-account/<%=element._id%>" class="button submit-button is-small">Delete</a>
 
-                        trashcan.addEventListener('click', (e) => {
-                            const endpoint = '/admin/admin-accounts/${trashcan.dataset.doc}';
-
-                            fetch(endpoint, {
-                                method: 'DELETE'
-                            })
-                                .then(() => {})
-                                .catch(err => console.log(err));
-                        })
-                    </script>
                 </td>
             </tr>
             <% });%>

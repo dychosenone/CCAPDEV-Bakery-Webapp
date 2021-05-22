@@ -10,14 +10,18 @@
     </section>
 
     <div class="container" style="margin-top: 60px">
-        <div class="product-photos align-items-center">
-            <div>
-                <button class="button submit-button is-small">ADD IMAGE</button><br>
-                <button class="button submit-button is-small">REMOVE IMAGE</button>
+        <form enctype="multipart/form-data" class="admin-edit-product" method="post">
+            <div class="product-photos align-items-center">
+                <div>
+                    <table id="imageTable" class="table is-hoverable">
+                        <td>
+                            <input type="file" name="uploadFile" id="uploadFile" class="button submit-button is-small" required><br>
+                        </td>
+                    </table>
+                </div>
             </div>
-        </div>
 
-        <form class="admin-edit-product" method="post">
+
             <div class="has-text-justified" style="margin-left: 5%; margin-top: 40px;">
                 <label style="margin-left: 4.4%">Product Name</label>
                 <input type="text" name="Name" id="Name" class="input input-styled" style="width: 300px" required><br><br>
@@ -34,8 +38,8 @@
                 </thead>
                 <tbody>
                 <tr>
-                    <td><input type="text" name="size1" id="size1" class="input input-styled" size="11"></td>
-                    <td><input type="number" name="price1" id="price1" class="input input-styled" ></td>
+                    <td><input type="text" name="size1" id="size1" class="input input-styled" size="11" required></td>
+                    <td><input type="number" name="price1" id="price1" class="input input-styled" required></td>
                 </tr>
 
                 <tr id="buttonRow"><td><button type="button" id="AddOffering" class="button submit-button is-small">Add</button></td></tr>

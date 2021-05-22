@@ -144,10 +144,7 @@ var adminAccountController = {
                 };
                 res.render('admin/admin-success', details);
             }
-
-
         });
-
     });
     },
 
@@ -173,7 +170,7 @@ var adminAccountController = {
                 const query = {username: editInput.Username}
                 database.findOne(users, query, projection, function(result) {
                     if(result != null) {
-                        req.session.name = result.fullName;
+
                         const details = {
                             result,
                             title: "Baked Goods | " + result.username,
@@ -203,10 +200,26 @@ var adminAccountController = {
 
     deleteUser: function(req, res) {
         var filter = {_id : req.params.id};
+        var loggedIn = false;
+        if(req.session.userId) loggedIn = true;
 
-        database.deleteOne(users,filter);
+        database.deleteOne(users,filter, function(result){
 
-        res.redirect('/admin/admin-accounts');
+            if(result!= null) {
+                const details = {
+                    title: "Baked Goods | Delete",
+                    headertitle: "Successfully Deleted User ",
+                    loggedIn: loggedIn,
+                    userId: req.session.userId,
+                    name: req.session.name,
+                    error: 'success',
+                    page: 'deleteAccount'
+                };
+                res.render('admin/admin-success', details);
+            }
+        });
+
+
     },
 
     searchUsers: function(req, res) {

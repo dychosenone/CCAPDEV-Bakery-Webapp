@@ -44,7 +44,7 @@ const database = {
             } else {
                 return callback(true);
             }
-        })
+        });
     },
 
     addMany : function (model, doc, callback) {
@@ -58,7 +58,7 @@ const database = {
         });
     },
 
-    deleteOne : function(model, cond) {
+    deleteOne : function(model, cond, callback) {
         model.deleteOne(cond, function(error, result) {
             if(error == true) {
                 return callback(false);
@@ -69,7 +69,7 @@ const database = {
         });
     },
 
-    deleteMany : function(model, cond) {
+    deleteMany : function(model, cond, callback) {
         model.deleteMany(cond, function(error, result) {
             if(error == true) {
                 return callback(false);

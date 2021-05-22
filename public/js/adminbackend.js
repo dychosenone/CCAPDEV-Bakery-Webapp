@@ -1,3 +1,4 @@
+
 $(document).ready(function(){
 
     //Add product functions
@@ -7,8 +8,8 @@ $(document).ready(function(){
 
         if(rowCount < 4){
             $(this).closest('table').find('tr:last').prev().after('<tr>' +
-                '<td><input type="text" name="size2" id="size2" class="input input-styled" size="11"></td>\n' +
-                '            <td><input type="number"  name="price2" id="price2" class="input input-styled" ></td>\n' +
+                '<td><input type="text" name="size2" id="size2" class="input input-styled" size="11" required></td>\n' +
+                '            <td><input type="number"  name="price2" id="price2" class="input input-styled" required></td>\n' +
                 '            <td class="removeOffering"><button  type="button" class="button submit-button is-small">Remove</button></td>' +
                 '</tr>'
             );
@@ -16,8 +17,8 @@ $(document).ready(function(){
         else if(rowCount < 5){
             $(".removeOffering").hide();
             $(this).closest('table').find('tr:last').prev().after('<tr>' +
-                '<td><input type="text" name="size3" id="size3" class="input input-styled" size="11"></td>\n' +
-                '            <td><input type="number"  name="price3" id="price3" class="input input-styled" ></td>\n' +
+                '<td><input type="text" name="size3" id="size3" class="input input-styled" size="11" required></td>\n' +
+                '            <td><input type="number"  name="price3" id="price3" class="input input-styled" required></td>\n' +
                 '            <td class="removeOffering"><button  type="button" class="button submit-button is-small">Remove</button></td>' +
                 '</tr>'
             );
@@ -41,5 +42,8 @@ $(document).ready(function(){
 
 
     })
+
+    //edit Products function
+
 })
 
