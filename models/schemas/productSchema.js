@@ -22,7 +22,7 @@ const ProductSchema = new mongoose.Schema({
 
     productId : {
         type: Number,
-        required: nanoid()
+        default: () => nanoid()
     },
 
     name: {
