@@ -69,5 +69,15 @@ $(document).ready(function(){
         });
 
     });
+
+    $('#status').on('change', function(e) {
+        e.preventDefault();
+        var status = $('#status option:selected').val();
+        var orderId = $('#orderId').text();
+
+        $.get('/admin/setStatus', {status : status, orderId : orderId}, function(result) {
+
+        });
+    })
 })
 

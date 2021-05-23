@@ -5,6 +5,7 @@ const bcrypt = require('bcrypt');
 const {validationResult} = require('express-validator');
 const path = require('path');
 const e = require("express");
+const transactionSchema = require("../../models/schemas/transactionSchema");
 
 var adminController = {
 
@@ -212,6 +213,22 @@ var adminController = {
 
     },
 
+    getStatus : function(req, res) {
+        var status = req.query.status;
+        var query = {status : status};
+        var filter = {orderId : req.query.orderId};
+
+        console.log(status);
+
+        database.updateOne(orders, filter, query, function(flag) {
+            if(flag) {
+                res.send({status : 'success', message : 'Status updated successfully.'});
+            } else {
+                res.send({status : 'error', message : 'Error updating status.'});
+            }
+        });
+    },
+ 
     getLogout : function(req, res) {
         if(req.session.adminId) {
             delete req.session.adminId;

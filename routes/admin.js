@@ -63,5 +63,6 @@ app.get('/admin-success', adminSuccessController.getSuccess);
 app.get('/admin-error', adminController.error);
 
 app.get('/details/:orderId', adminController.getOrderDetails);
+app.get('/setStatus', adminController.getStatus);
 
 module.exports = app;

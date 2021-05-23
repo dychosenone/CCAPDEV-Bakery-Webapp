@@ -12,7 +12,7 @@
 				<div class="columns">
 					<div class="column">
 						<p class="orderno">
-							<strong>Order Number: </strong><%=result.orderId %>
+							<strong>Order Number: </strong><span id="orderId"><%=result.orderId %></span>
 						  </p>
 						  <p class="client">
 							  <strong>Client Name: </strong><%=result.name %>
@@ -36,10 +36,10 @@
 						<span class="status">
 							<strong>Status: </strong>
 							<div class="select is-small is-warning is-vcentered">
-								<select>
-								  <option <% if(result.status == "pending") { %> selected<% } %> >Processing</option>
-								  <option <% if(result.status == "completed") { %> selected<% } %>>Completed</option>
-								  <option <% if(result.status == "cancelled") { %> selected<% } %>>Cancelled</option>
+								<select id="status">
+								  <option value="pending" <% if(result.status == "pending") { %> selected<% } %> >Processing</option>
+								  <option value="completed" <% if(result.status == "completed") { %> selected<% } %>>Completed</option>
+								  <option value="cancelled" <% if(result.status == "cancelled") { %> selected<% } %>>Cancelled</option>
 								</select>
 							</div>
 						</span>
