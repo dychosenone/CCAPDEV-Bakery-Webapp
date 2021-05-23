@@ -9,74 +9,84 @@ var adminAccountController = {
 
     getUsers : function(req, res) {
         const projection = '';
-        database.findMany(users, {}, projection, function(result) {
-            var loggedIn = false;
+        var loggedIn = false;
 
-            if(req.session.userId) loggedIn = true;
-            else loggedIn = false;
+        if (req.session.adminId) loggedIn = true;
+        else loggedIn = false;
 
-
-            if(result != null) {
-                const details = {
-                    result,
-                    title: "Admin | User Accounts",
-                    loggedIn: loggedIn,
-                    userId: req.session.userId,
-                    username: req.session.adminUsername,
-                    error: null,
-                    path
-                };
-                res.render('admin/admin-accounts', details);
-            }
-            else {
-                const details = {
-                    result,
-                    title: "Admin | User Accounts",
-                    loggedIn: loggedIn,
-                    userId: req.session.userId,
-                    username: req.session.adminUsername,
-                    error: "No Products Found.",
-                    path
-                };
-                console.log(result);
-                res.render('admin/admin-accounts', details);
-            }
-        });
+        if (loggedIn){
+            database.findMany(users, {}, projection, function (result) {
+                if (result != null) {
+                    const details = {
+                        result,
+                        title: "Admin | User Accounts",
+                        loggedIn: loggedIn,
+                        userId: req.session.adminId,
+                        username: req.session.adminUsername,
+                        error: null,
+                        path
+                    };
+                    res.render('admin/admin-accounts', details);
+                } else {
+                    const details = {
+                        result,
+                        title: "Admin | User Accounts",
+                        loggedIn: loggedIn,
+                        userId: req.session.adminId,
+                        username: req.session.adminUsername,
+                        error: "No Products Found.",
+                        path
+                    };
+                    console.log(result);
+                    res.render('admin/admin-accounts', details);
+                }
+            });
+        }
+        else
+        {
+            res.redirect('/admin/adminLogin');
+        }
     },
 
     getUser : function(req, res) {
         const projection = '';
         const query = {_id: req.params.id};
-        database.findOne(users, query, projection, function(result) {
-            var loggedIn = false;
+        var loggedIn = false;
 
-            if(req.session.userId) loggedIn = true;
-            else loggedIn = false;
+        if(req.session.adminId) loggedIn = true;
+        else loggedIn = false;
 
-            if(result != null) {
-                req.session.username= result.username;
-                const details = {
-                    result,
-                    title: "Baked Goods | " + result.username,
-                    loggedIn: loggedIn,
-                    userId: req.session.userId,
-                    username: req.session.adminUsername,
-                    error: null
-                };
+        if(loggedIn){
+            database.findOne(users, query, projection, function(result) {
+                if(result != null) {
+                    req.session.username= result.username;
+                    const details = {
+                        result,
+                        title: "Baked Goods | " + result.username,
+                        loggedIn: loggedIn,
+                        userId: req.session.adminId,
+                        username: req.session.adminUsername,
+                        error: null
+                    };
 
-                res.render('admin/admin-edit-account', details);
-            } else {
-                const details = {
-                    result,
-                    title: "Baked Goods | Error 404",
-                    loggedIn: loggedIn,
-                    userId: req.session.userId,
-                    username: req.session.adminUsername,
-                    error: "404: Page not Found."
-                };
-                res.render('admin/admin-error', details);
-            }
-        });
+                    res.render('admin/admin-edit-account', details);
+                } else {
+                    const details = {
+                        result,
+                        title: "Baked Goods | Error 404",
+                        loggedIn: loggedIn,
+                        userId: req.session.adminId,
+                        username: req.session.adminUsername,
+                        error: "404: Page not Found."
+                    };
+                    res.render('admin/admin-error', details);
+                }
+            });
+        }
+        else{
+            res.redirect('/admin/adminLogin');
+        }
+
     },
 
     addUser : function(req,res){
@@ -84,16 +94,20 @@ var adminAccountController = {
 
         if(req.session.userId) loggedIn = true;
         else loggedIn = false;
-
-        const details = {
-            title: "Admin | User Accounts",
-            loggedIn: loggedIn,
-            userId: req.session.userId,
-            username: req.session.adminUsername,
-            error: null,
-            path
-        };
-        res.render('admin/admin-add-account', details);
+        if(loggedIn){
+            const details = {
+                title: "Admin | User Accounts",
+                loggedIn: loggedIn,
+                userId: req.session.adminId,
+                username: req.session.adminUsername,
+                error: null,
+                path
+            };
+            res.render('admin/admin-add-account', details);
+        } else
+        {
+            res.redirect('/admin/adminLogin');
+        }
     },
 
     postUser : function(req,res){
@@ -106,56 +120,64 @@ var adminAccountController = {
         var contact = req.body.contact;
         var alternativeContact = req.body.alternativeContact;
         var errors = validationResult(req).array()
+            var loggedIn = false;
+            if(req.session.adminId) loggedIn = true;
+            else loggedIn = false;
 
-        if(errors.length > 0) {
-            console.log(errors);
-            const details = {
-                title: "Baked Goods | Register",
-                loggedIn: true,
-                userId: req.session.userId,
-                username: req.session.adminUsername,
-                error: errors
+            if(loggedIn){
+                if(errors.length > 0) {
+                    console.log(errors);
+                    const details = {
+                        title: "Baked Goods | Register",
+                        loggedIn: true,
+                        userId: req.session.adminId,
+                        username: req.session.adminUsername,
+                        error: errors
+                    }
+                    res.render('admin/admin-add-account', details);
+                }
+                else {
+                    database.addOne(users, {
+                        fullName: fullName,
+                        username: Username,
+                        password: hash,
+                        email: email,
+                        contact: contact,
+                        alternativeContact: alternativeContact,
+                        billingAddress: billingAddress,
+                        deliveryAddress: deliveryAddress
+                    }, function (result) {
+                        if (result != null) {
+                            const details = {
+                                result,
+                                title: "Baked Goods | " + Username,
+                                headertitle: "Successfully Added " + Username,
+                                loggedIn: loggedIn,
+                                userId: req.session.adminId,
+                                username: req.session.adminUsername,
+                                line1: Username + " has been successfully registered as a user!",
+                                line2: "You can view the list of users through the User Management Tab",
+                                link: "/admin/admin-accounts"
+                            };
+                            res.render('admin/admin-success', details);
+                        }
+                        else{
+                            const details = {
+                                result,
+                                title: "Baked Goods | Error 404",
+                                loggedIn: loggedIn,
+                                userId: req.session.adminId,
+                                username: req.session.adminUsername,
+                                error: "404: Page not Found."
+                            };
+                            res.render('admin/admin-error', details);
+                        }
+                    });
+                }
             }
-            res.render('admin/admin-add-account', details);
-        }
-        else {
-            database.addOne(users, {
-                fullName: fullName,
-                username: Username,
-                password: hash,
-                email: email,
-                contact: contact,
-                alternativeContact: alternativeContact,
-                billingAddress: billingAddress,
-                deliveryAddress: deliveryAddress
-            }, function (result) {
-                if (result != null) {
-                    const details = {
-                        result,
-                        title: "Baked Goods | " + Username,
-                        headertitle: "Successfully Added " + Username,
-                        loggedIn: true,
-                        userId: req.session.userId,
-                        username: req.session.adminUsername,
-                        line1: Username + " has been successfully registered as a user!",
-                        line2: "You can view the list of users through the User Management Tab",
-                        link: "/admin/admin-accounts"
-                    };
-                    res.render('admin/admin-success', details);
-                }
-                else{
-                    const details = {
-                        result,
-                        title: "Baked Goods | Error 404",
-                        loggedIn: true,
-                        userId: req.session.userId,
-                        username: req.session.adminUsername,
-                        error: "404: Page not Found."
-                    };
-                    res.render('admin/admin-error', details);
-                }
-            });
-        }
+            else{
+                res.redirect('/admin/adminLogin');
+            }
         });
     },
 
@@ -164,7 +186,7 @@ var adminAccountController = {
         var editInput = req.body;
 
         var loggedIn = false;
-        if(req.session.userId) loggedIn = true;
+        if(req.session.adminId) loggedIn = true;
 
         const filter = {username: editInput.Username};
         const update = { $set:
@@ -178,53 +200,58 @@ var adminAccountController = {
                 }
         }
 
-        if(errors.length > 0) {
-            var result= editInput;
-            result.username= req.session.username;
-            console.log(errors);
-            const details = {
-                result,
-                title: "Baked Goods | " + result.username,
-                loggedIn : true,
-                userId: req.session.userId,
-                username: req.session.adminUsername,
-                error: errors
+        if(loggedIn){
+            if(errors.length > 0) {
+                var result= editInput;
+                result.username= req.session.username;
+                console.log(errors);
+                const details = {
+                    result,
+                    title: "Baked Goods | " + result.username,
+                    loggedIn : true,
+                    userId: req.session.adminId,
+                    username: req.session.adminUsername,
+                    error: errors
+                }
+                res.render('admin/admin-edit-account', details);
             }
-            res.render('admin/admin-edit-account', details);
-        }
-        else {
-            database.updateOne(users, filter, update, function (flag) {
-                const projection = '';
-                const query = {username: editInput.Username}
-                database.findOne(users, query, projection, function (result) {
-                    if (result != null) {
+            else {
+                database.updateOne(users, filter, update, function (flag) {
+                    const projection = '';
+                    const query = {username: editInput.Username}
+                    database.findOne(users, query, projection, function (result) {
+                        if (result != null) {
 
-                        const details = {
-                            result,
-                            title: "Baked Goods | " + result.username,
-                            headertitle: "Successfully Updated " + result.username,
-                            loggedIn: loggedIn,
-                            userId: req.session.userId,
-                            username: req.session.adminUsername,
-                            error: null,
-                            line1: "Data for " + editInput.Username + " has been successfully updates!",
-                            line2: "You can view the list of users through the User Management Tab",
-                            link: "/admin/admin-accounts"
-                        };
-                        res.render('admin/admin-success', details);
-                    } else {
-                        const details = {
-                            result,
-                            title: "Baked Goods | Error 404",
-                            loggedIn: loggedIn,
-                            userId: req.session.userId,
-                            username: req.session.adminUsername,
-                            error: "404: Page not Found."
-                        };
-                        res.render('admin/admin-error', details);
-                    }
+                            const details = {
+                                result,
+                                title: "Baked Goods | " + result.username,
+                                headertitle: "Successfully Updated " + result.username,
+                                loggedIn: loggedIn,
+                                userId: req.session.adminId,
+                                username: req.session.adminUsername,
+                                error: null,
+                                line1: "Data for " + editInput.Username + " has been successfully updates!",
+                                line2: "You can view the list of users through the User Management Tab",
+                                link: "/admin/admin-accounts"
+                            };
+                            res.render('admin/admin-success', details);
+                        } else {
+                            const details = {
+                                result,
+                                title: "Baked Goods | Error 404",
+                                loggedIn: loggedIn,
+                                userId: req.session.adminId,
+                                username: req.session.adminUsername,
+                                error: "404: Page not Found."
+                            };
+                            res.render('admin/admin-error', details);
+                        }
+                    });
                 });
-            });
+            }
+        }
+        else{
+            res.redirect('/admin/adminLogin');
         }
     },
 
@@ -232,38 +259,43 @@ var adminAccountController = {
         var filter = {_id : req.params.id};
         var loggedIn = false
         var Name;
-        if(req.session.userId) loggedIn = true;
+        if(req.session.adminId) loggedIn = true;
         database.findOne(users, filter, 'username', function(result){
             Name = result.username;
         });
+        if(loggedIn){
+            database.deleteOne(users,filter, function(result){
 
-        database.deleteOne(users,filter, function(result){
+                if(result!= null) {
+                    const details = {
+                        title: "Baked Goods | Delete",
+                        headertitle: "Successfully Deleted User ",
+                        loggedIn: loggedIn,
+                        userId: req.session.adminId,
+                        username: req.session.adminUsername,
+                        line1: Name + " has been removed from the user database",
+                        line2: "You can view the list of users through the User Management Tab",
+                        link: "admin/admin-accounts"
+                    };
+                    res.render('admin/admin-success', details);
+                }
+                else {
+                    const details = {
+                        result,
+                        title: "Baked Goods | Error",
+                        loggedIn: loggedIn,
+                        userId: req.session.adminId,
+                        username: req.session.adminUsername,
+                        error: "Oops! Something went wrong"
+                    };
+                    res.render('admin/admin-error', details);
+                }
+            });
+        }
+        else{
+            req.redirect('/admin/adminLogin');
+        }
 
-            if(result!= null) {
-                const details = {
-                    title: "Baked Goods | Delete",
-                    headertitle: "Successfully Deleted User ",
-                    loggedIn: loggedIn,
-                    userId: req.session.userId,
-                    username: req.session.adminUsername,
-                    line1: Name + " has been removed from the user database",
-                    line2: "You can view the list of users through the User Management Tab",
-                    link: "admin/admin-accounts"
-                };
-                res.render('admin/admin-success', details);
-            }
-            else {
-                const details = {
-                    result,
-                    title: "Baked Goods | Error",
-                    loggedIn: loggedIn,
-                    userId: req.session.userId,
-                    username: req.session.adminUsername,
-                    error: "Oops! Something went wrong"
-                };
-                res.render('admin/admin-error', details);
-            }
-        });
     },
 
     searchUsers: function(req, res) {
@@ -271,7 +303,7 @@ var adminAccountController = {
         database.findMany(users, {}, projection, function(result) {
             var loggedIn = false;
 
-            if(req.session.userId) loggedIn = true;
+            if(req.session.adminId) loggedIn = true;
             else loggedIn = false;
 
 
@@ -280,7 +312,7 @@ var adminAccountController = {
                     result,
                     title: "Admin | User Accounts",
                     loggedIn: loggedIn,
-                    userId: req.session.userId,
+                    userId: req.session.adminId,
                     username: req.session.adminUsername,
                     error: null,
                     path
@@ -292,7 +324,7 @@ var adminAccountController = {
                     result,
                     title: "Admin | User Accounts",
                     loggedIn: loggedIn,
-                    userId: req.session.userId,
+                    userId: req.session.adminId,
                     username: req.session.adminUsername,
                     error: "No Products Found.",
                     path

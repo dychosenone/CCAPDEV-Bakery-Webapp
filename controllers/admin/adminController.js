@@ -15,15 +15,21 @@ var adminController = {
         if(req.session.adminId) loggedIn = true;
         else false;
 
-        const details = {
-            title: "Baked Goods | Error 404",
-            loggedIn: loggedIn,
-            userId: req.session.adminId,
-            username: req.session.adminUsername,
-            error: "404: Page not Found."
-        };
+        if(loggedIn){
+            const details = {
+                title: "Baked Goods | Error 404",
+                loggedIn: loggedIn,
+                userId: req.session.adminId,
+                username: req.session.adminUsername,
+                error: "404: Page not Found."
+            };
 
-        res.render('admin/admin-error', details);
+            res.render('admin/admin-error', details);
+        }
+        else{
+            res.redirect('/admin/adminLogin');
+        }
+
     },
 
     getIndex : function (req, res) {
@@ -74,42 +80,63 @@ var adminController = {
         const projection = '';
         const query = {};
 
-        database.findOne(admin, query, projection, function(result){
-            if(result != null){
-                const details ={
-                    result,
-                    title: "Admin | Account",
-                    loggedIn: true,
-                    userId: req.session.adminId,
-                    username: req.session.adminUsername,
-                    error: null,
-                    path
-                }
+        var loggedIn = false;
 
-                res.render('admin/admin-profile', details);
-            }
-        })
+        if(req.session.adminId) loggedIn = true;
+        else loggedIn = false;
+
+        if(loggedIn){
+            database.findOne(admin, query, projection, function(result){
+                if(result != null){
+                    const details ={
+                        result,
+                        title: "Admin | Account",
+                        loggedIn: true,
+                        userId: req.session.adminId,
+                        username: req.session.adminUsername,
+                        error: null,
+                        path
+                    }
+
+                    res.render('admin/admin-profile', details);
+                }
+            })
+        }
+        else {
+            res.redirect("/admin/adminLogin");
+        }
     },
 
     editAdmin : function(req,res){
         const projection = '';
-        const query = {_id: req.param.id};
+        const query = {_id: req.params.id};
 
-        database.findOne(admin, query, projection, function(result){
-            if(result != null){
-                const details ={
-                    result,
-                    title: "Admin | Edit",
-                    loggedIn: true,
-                    userId: req.session.adminId,
-                    username: req.session.username,
-                    error: null,
-                    path
+        var loggedIn = false;
+
+        if(req.session.adminId) loggedIn = true;
+        else loggedIn = false;
+
+        if(loggedIn){
+            database.findOne(admin, query, projection, function(result){
+                if(result != null){
+                    const details ={
+                        result,
+                        title: "Admin | Edit",
+                        loggedIn: true,
+                        userId: req.session.adminId,
+                        username: req.session.username,
+                        error: null,
+                        path
+                    }
+
+                    res.render('admin/admin-edit', details);
                 }
+            })
+        }
+        else{
+            res.redirect('/admin/adminLogin');
+        }
 
-                res.render('admin/admin-edit', details);
-            }
-        })
     },
 
     postAdmin : function(req, res){
@@ -117,57 +144,64 @@ var adminController = {
         var errors = validationResult(req).array()
         var Username = req.body.username;
         var Password = req.body.password;
+        var loggedIn = false;
 
-        if(errors.length > 0) {
-            const result= {
-                username: Username,
-                password: Password,
-            };
-            console.log(errors);
-            const details = {
-                result,
-                title: "Baked Goods | Register",
-                loggedIn: true,
-                userId: req.session.adminId,
-                username: req.session.adminUsername,
-                error: errors
+        if(req.session.adminId) loggedIn = true;
+        else loggedIn = false;
+
+        if(loggedIn){
+            if(errors.length > 0) {
+                const result= {
+                    username: Username,
+                    password: Password,
+                };
+                console.log(errors);
+                const details = {
+                    result,
+                    title: "Baked Goods | Register",
+                    loggedIn: true,
+                    userId: req.session.adminId,
+                    username: req.session.adminUsername,
+                    error: errors
+                }
+                res.render('admin/admin-edit', details);
             }
-            res.render('admin/admin-edit', details);
+            else{
+                database.updateOne(admin, query, {
+                    username: req.body.username,
+                    password: req.body.password,
+                }, function (result){
+                    if (result != null) {
+                        const details = {
+                            result,
+                            title: "Baked Goods | " + Username,
+                            headertitle: "Successfully Added " + Username,
+                            loggedIn: true,
+                            userId: req.session.adminId,
+                            username: req.session.adminUsername,
+                            line1: "Admin has been successfully Up!",
+                            line2: "You can view your credentials in Account",
+                            link: "/admin/admin-profile"
+                        };
+                        res.render('admin/admin-success', details);
+                    }
+                    else{
+                        const details = {
+                            result,
+                            title: "Baked Goods | Error 404",
+                            loggedIn: true,
+                            userId: req.session.adminId,
+                            username: req.session.adminUsername,
+                            error: "Oops! Something went wrong in updating your credentials."
+                        };
+                        res.render('admin/admin-error', details);
+                    }
+                });
+            }
         }
         else{
-            database.updateOne(admin, query, {
-                username: req.body.username,
-                password: req.body.password,
-            }, function (result){
-                if (result != null) {
-                    const details = {
-                        result,
-                        title: "Baked Goods | " + Username,
-                        headertitle: "Successfully Added " + Username,
-                        loggedIn: true,
-                        userId: req.session.adminId,
-                        username: req.session.adminUsername,
-                        line1: "Admin has been successfully Up!",
-                        line2: "You can view your credentials in Account",
-                        link: "/admin/admin-profile"
-                    };
-                    res.render('admin/admin-success', details);
-                }
-                else{
-                    const details = {
-                        result,
-                        title: "Baked Goods | Error 404",
-                        loggedIn: true,
-                        userId: req.session.adminId,
-                        username: req.session.adminUsername,
-                        error: "Oops! Something went wrong in updating your credentials."
-                    };
-                    res.render('admin/admin-error', details);
-                }
-            });
+            res.redirect('/admin/adminLogin');
         }
-
-
     },
 
     getOrderDetails : function(req, res) {
@@ -233,7 +267,7 @@ var adminController = {
         if(req.session.adminId) {
             delete req.session.adminId;
             delete req.session.adminUsername;
-            res.redirect('/admin/adminlogin')
+            res.redirect('/admin/adminLogin')
         } else {
             res.redirect('/');
         }

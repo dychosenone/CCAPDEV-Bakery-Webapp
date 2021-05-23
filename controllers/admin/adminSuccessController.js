@@ -8,18 +8,24 @@ var adminAccountController = {
     getSuccess: function(req, res){
         var loggedIn = false;
 
-        if(req.session.userId) loggedIn = true;
+        if(req.session.adminId) loggedIn = true;
         else loggedIn = false;
 
-        const details = {
-            title: "Admin | Success",
-            loggedIn: loggedIn,
-            userId: req.session.userId,
-            username: req.session.adminUsername,
-            error: null,
-            path
-        };
-        res.render('admin/admin-success', details)
+        if(loggedIn){
+            const details = {
+                title: "Admin | Success",
+                loggedIn: loggedIn,
+                userId: req.session.adminId,
+                username: req.session.adminUsername,
+                error: null,
+                path
+            };
+            res.render('admin/admin-success', details)
+        }
+        else
+        {
+            res.redirect('/admin/adminLogin');
+        }
     }
 }
 
