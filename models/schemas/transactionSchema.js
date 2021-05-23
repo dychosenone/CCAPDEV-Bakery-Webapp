@@ -27,7 +27,7 @@ const TransactionSchema = new mongoose.Schema({
 
     orderId : {
         type: String,
-        default : nanoid()
+        default : () => nanoid()
     },
 
     date : {

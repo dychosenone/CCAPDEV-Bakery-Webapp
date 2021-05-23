@@ -24,6 +24,9 @@
                                 </div>
                             </div>
                             <hr class="is-divider">
+                            <% if(result.length < 1) { %>
+                                <p>Your favorites is currently empty. <a href='/products'>Check out our products here.</a></p>
+                            <% } else { %>
                                 <table class="table is-fullwidth" id="favorites">
                                     <thead>
                                         <tr>
@@ -43,6 +46,7 @@
                                         <% }); %>
                                     </tbody>
                                 </table>
+                            <% } %>
                         </div>
                     </div>
                 </div>

@@ -13,29 +13,34 @@ var cartController = {
         if(req.session.userId) loggedIn = true;
         else loggedIn = false
 
-        var subtotal = 0;
+        if(loggedIn == false) {
+            res.redirect('/');
+        } else {
+            var subtotal = 0;
 
-        req.session.cart.forEach(function(element){
-            subtotal += element.price;
-        });
+            req.session.cart.forEach(function(element){
+                subtotal += element.price;
+            });
+    
+            var total = subtotal + 150;
+    
+            var details = {
+                page: 'Cart',
+                title: "Baked Goods | Cart",
+                loggedIn: loggedIn,
+                userId: req.session.userId,
+                name: req.session.name,
+                error: null,
+                cartContent: req.session.cart,
+                subtotal: subtotal, 
+                delivery: 150,
+                total: total,
+                path
+            };
+    
+            res.render('client/cart', details);
+        }
 
-        var total = subtotal + 150;
-
-        var details = {
-            page: 'Cart',
-            title: "Baked Goods | Cart",
-            loggedIn: loggedIn,
-            userId: req.session.userId,
-            name: req.session.name,
-            error: null,
-            cartContent: req.session.cart,
-            subtotal: subtotal, 
-            delivery: 150,
-            total: total,
-            path
-        };
-
-        res.render('client/cart', details);
     },
 
     getDeleteCartItem : function(req, res) {
@@ -58,38 +63,42 @@ var cartController = {
         if(req.session.userId) loggedIn = true;
         else loggedIn = false
 
+        if(loggedIn == false) {
+            res.redirect('/');
+        } else {
+            // Get Cart Details
+            var subtotal = 0;
 
-        // Get Cart Details
-        var subtotal = 0;
+            req.session.cart.forEach(function(element){
+                subtotal += element.price;
+            });
 
-        req.session.cart.forEach(function(element){
-            subtotal += element.price;
-        });
+            var total = subtotal + 150;
 
-        var total = subtotal + 150;
+            const query = {_id : req.session.userId};
+            const projection = '';
 
-        const query = {_id : req.session.userId};
-        const projection = '';
-
-        database.findOne(user, query, projection, function(result) {
+            database.findOne(user, query, projection, function(result) {
 
 
-            var details = {
-                result,
-                loggedIn,
-                page: 'Checkout',
-                delivery: 150,
-                total : total,
-                subtotal : subtotal,
-                cartContent : req.session.cart,
-                userId: req.session.userId,
-                name: req.session.name,
-                title : 'Baked Goods | Checkout'
-            };
+                var details = {
+                    result,
+                    loggedIn,
+                    page: 'Checkout',
+                    delivery: 150,
+                    total : total,
+                    subtotal : subtotal,
+                    cartContent : req.session.cart,
+                    userId: req.session.userId,
+                    name: req.session.name,
+                    title : 'Baked Goods | Checkout'
+                };
 
-            res.render('client/checkout', details);
+                res.render('client/checkout', details);
 
-        });
+            });
+                
+        }
     },
 
     getCheckoutItems : function(req, res) {

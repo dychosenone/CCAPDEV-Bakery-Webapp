@@ -81,11 +81,11 @@
                                         </div>
                                     </div>
                                 </div>
+                                <% if(cartContent.length > 0) { %>
+                                    <div class="container px-0 has-text-right-desktop"><a class="button is-medium submit-button" href="/checkout">Proceed to Checkout</a></div>
+                                <% } %>
                             <% } %>
-                            </div>
-                            <% if(cartContent.length > 0) { %>
-                                <div class="container px-0 has-text-right-desktop"><a class="button is-medium submit-button" href="/checkout">Proceed to Checkout</a></div>
-                            <% } %>
+                        </div>
                         </div>
                     </div>
                 </div>
