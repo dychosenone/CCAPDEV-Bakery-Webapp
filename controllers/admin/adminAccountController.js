@@ -92,7 +92,7 @@ var adminAccountController = {
     addUser : function(req,res){
         var loggedIn = false;
 
-        if(req.session.userId) loggedIn = true;
+        if(req.session.adminId) loggedIn = true;
         else loggedIn = false;
         if(loggedIn){
             const details = {
@@ -275,7 +275,7 @@ var adminAccountController = {
                         username: req.session.adminUsername,
                         line1: Name + " has been removed from the user database",
                         line2: "You can view the list of users through the User Management Tab",
-                        link: "admin/admin-accounts"
+                        link: "/admin/admin-accounts"
                     };
                     res.render('admin/admin-success', details);
                 }

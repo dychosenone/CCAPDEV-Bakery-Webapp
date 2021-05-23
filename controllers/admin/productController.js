@@ -14,7 +14,7 @@ var productController = {
         database.findMany(product, {}, projection, function(result) {
             var loggedIn = false;
 
-            if(req.session.userId) loggedIn = true;
+            if(req.session.adminId) loggedIn = true;
             else loggedIn = false;
 
             if(loggedIn){
@@ -23,7 +23,7 @@ var productController = {
                         result,
                         title: "Admin | Admin Products",
                         loggedIn: loggedIn,
-                        userId: req.session.userId,
+                        userId: req.session.adminId,
                         username: req.session.adminUsername,
                         error: null,
                         path
@@ -35,7 +35,7 @@ var productController = {
                         result,
                         title: "Baked Goods | Error 404",
                         loggedIn: loggedIn,
-                        userId: req.session.userId,
+                        userId: req.session.adminId,
                         username: req.session.adminUsername,
                         error: "404: Page not Found."
                     };
@@ -54,7 +54,7 @@ var productController = {
         database.findOne(product, query, projection, function(result) {
             var loggedIn = false;
 
-            if(req.session.userId) loggedIn = true;
+            if(req.session.adminId) loggedIn = true;
             else loggedIn = false;
 
             if(loggedIn){
@@ -64,7 +64,7 @@ var productController = {
                         result,
                         title: "Baked Goods | " + result.name,
                         loggedIn: loggedIn,
-                        userId: req.session.userId,
+                        userId: req.session.adminId,
                         username: req.session.adminUsername,
                         error: null
                     };
@@ -75,7 +75,7 @@ var productController = {
                         result,
                         title: "Baked Goods | Error 404",
                         loggedIn: loggedIn,
-                        userId: req.session.userId,
+                        userId: req.session.adminId,
                         username: req.session.adminUsername,
                         error: "404: Page not Found."
                     };
@@ -91,14 +91,14 @@ var productController = {
     addProduct : function(req,res){
         var loggedIn = false;
 
-        if(req.session.userId) loggedIn = true;
+        if(req.session.adminId) loggedIn = true;
         else loggedIn = false;
 
         if(loggedIn){
             const details = {
                 title: "Admin | User Accounts",
                 loggedIn: loggedIn,
-                userId: req.session.userId,
+                userId: req.session.adminId,
                 username: req.session.adminUsername,
                 error: null,
                 path
@@ -129,7 +129,7 @@ var productController = {
                     sizes.push({size: req.body.size3, price: req.body.price3});
             }
             var loggedIn = false;
-            if(req.session.userId) loggedIn = true;
+            if(req.session.adminId) loggedIn = true;
 
             if(loggedIn){
                 database.addOne(product, {
@@ -145,7 +145,7 @@ var productController = {
                             title: "Baked Goods | " + Name,
                             headertitle: "Successfully added " + Name,
                             loggedIn: true,
-                            userId: req.session.userId,
+                            userId: req.session.adminId,
                             username: req.session.adminUsername,
                             line1: Name + " has been successfully added to the list of products!",
                             line2: "You can view the list of products through the Product Management Tab",
@@ -158,7 +158,7 @@ var productController = {
                             result,
                             title: "Baked Goods | Error",
                             loggedIn: true,
-                            userId: req.session.userId,
+                            userId: req.session.adminId,
                             username: req.session.adminUsername,
                             error: "Oops! something went wrong with adding " + Name,
                         };
@@ -198,7 +198,7 @@ var productController = {
         }
 
         var loggedIn = false;
-        if(req.session.userId) loggedIn = true;
+        if(req.session.adminId) loggedIn = true;
 
         const filter = {_id: req.params.id};
         const update = { $set:
@@ -222,7 +222,7 @@ var productController = {
                             title: "Baked Goods | " + Name,
                             headertitle: "Successfully Updated " + Name,
                             loggedIn: loggedIn,
-                            userId: req.session.userId,
+                            userId: req.session.adminId,
                             username: req.session.adminUsername,
                             line1: "Data for " + Name + " been successfully updated!",
                             line2: "You can view the list of products through the Product Management Tab",
@@ -234,7 +234,7 @@ var productController = {
                             result,
                             title: "Baked Goods | Error",
                             loggedIn: loggedIn,
-                            userId: req.session.userId,
+                            userId: req.session.adminId,
                             username: req.session.adminUsername,
                             error: "Oops! something went wrong with updating" + Name
                         };
@@ -253,7 +253,7 @@ var productController = {
         var filter = {_id : req.params.id};
         var loggedIn = false;
         var projection = 'image username';
-        if(req.session.userId) loggedIn = true;
+        if(req.session.adminId) loggedIn = true;
 
         if(loggedIn){
             database.findOne(product, filter, projection,function(result){
@@ -270,7 +270,7 @@ var productController = {
                             title: "Baked Goods | Delete Successful",
                             headertitle: "Successfully Deleted Product",
                             loggedIn: loggedIn,
-                            userId: req.session.userId,
+                            userId: req.session.adminId,
                             username: req.session.adminUsername,
                             line1: Name + " has been removed from the list of products.",
                             line2: "You can view the list of products through the Product Management Tab",
@@ -283,7 +283,7 @@ var productController = {
                             result,
                             title: "Baked Goods | Error",
                             loggedIn: loggedIn,
-                            userId: req.session.userId,
+                            userId: req.session.adminId,
                             username: req.session.adminUsername,
                             error: "Oops! something went wrong in deleting" + Name
                         };
@@ -303,7 +303,7 @@ var productController = {
         database.findMany(product, query, projection, function(result) {
             var loggedIn = false;
 
-            if(req.session.userId) loggedIn = true;
+            if(req.session.adminId) loggedIn = true;
             else loggedIn = false;
 
             if(loggedIn){
@@ -312,7 +312,7 @@ var productController = {
                         result,
                         title: "Admin | Admin Products",
                         loggedIn: loggedIn,
-                        userId: req.session.userId,
+                        userId: req.session.adminId,
                         username: req.session.adminUsername,
                         error: null,
                         path
@@ -324,7 +324,7 @@ var productController = {
                         result,
                         title: "Baked Goods | Error",
                         loggedIn: loggedIn,
-                        userId: req.session.userId,
+                        userId: req.session.adminId,
                         username: req.session.adminUsername,
                         error: "Oops! something went wrong with searching for the products"
                     };

@@ -140,9 +140,8 @@ var adminController = {
     },
 
     postAdmin : function(req, res){
-        const query = {_id: req.param.id};
+        const query = {_id: req.params.id};
         var errors = validationResult(req).array()
-        var Username = req.body.username;
         var Password = req.body.password;
         var loggedIn = false;
 
@@ -150,54 +149,52 @@ var adminController = {
         else loggedIn = false;
 
         if(loggedIn){
-            if(errors.length > 0) {
-                const result= {
-                    username: Username,
-                    password: Password,
-                };
-                console.log(errors);
-                const details = {
-                    result,
-                    title: "Baked Goods | Register",
-                    loggedIn: true,
-                    userId: req.session.adminId,
-                    username: req.session.adminUsername,
-                    error: errors
+            bcrypt.hash(req.body.Password, 12, function(err, hash) {
+                if (errors.length > 0) {
+                    const result = {
+                        password: Password,
+                    };
+                    console.log(errors);
+                    const details = {
+                        result,
+                        title: "Baked Goods | Register",
+                        loggedIn: true,
+                        userId: req.session.adminId,
+                        username: req.session.adminUsername,
+                        error: errors
+                    }
+                    res.render('admin/admin-edit', details);
+                } else {
+                    database.updateOne(admin, query, {
+                        password: req.body.password,
+                    }, function (result) {
+                        if (result != null) {
+                            const details = {
+                                result,
+                                title: "Baked Goods | Success",
+                                headertitle: "Successfully Updated Admin",
+                                loggedIn: true,
+                                userId: req.session.adminId,
+                                username: req.session.adminUsername,
+                                line1: "Admin has been successfully Updated!",
+                                line2: "You can view your credentials in Account",
+                                link: "/admin/admin-profile"
+                            };
+                            res.render('admin/admin-success', details);
+                        } else {
+                            const details = {
+                                result,
+                                title: "Baked Goods | Error 404",
+                                loggedIn: true,
+                                userId: req.session.adminId,
+                                username: req.session.adminUsername,
+                                error: "Oops! Something went wrong in updating your credentials."
+                            };
+                            res.render('admin/admin-error', details);
+                        }
+                    });
                 }
-                res.render('admin/admin-edit', details);
-            }
-            else{
-                database.updateOne(admin, query, {
-                    username: req.body.username,
-                    password: req.body.password,
-                }, function (result){
-                    if (result != null) {
-                        const details = {
-                            result,
-                            title: "Baked Goods | " + Username,
-                            headertitle: "Successfully Added " + Username,
-                            loggedIn: true,
-                            userId: req.session.adminId,
-                            username: req.session.adminUsername,
-                            line1: "Admin has been successfully Up!",
-                            line2: "You can view your credentials in Account",
-                            link: "/admin/admin-profile"
-                        };
-                        res.render('admin/admin-success', details);
-                    }
-                    else{
-                        const details = {
-                            result,
-                            title: "Baked Goods | Error 404",
-                            loggedIn: true,
-                            userId: req.session.adminId,
-                            username: req.session.adminUsername,
-                            error: "Oops! Something went wrong in updating your credentials."
-                        };
-                        res.render('admin/admin-error', details);
-                    }
-                });
-            }
+            });
         }
         else{
             res.redirect('/admin/adminLogin');
