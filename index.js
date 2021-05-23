@@ -22,8 +22,8 @@ app.use(bodyParser.urlencoded({extended : false}));
 app.use(bodyParser.json());
 
 //Routes
-const clientRoute = require('./routes/client');
-const adminRoute = require('./routes/admin');
+const clientRoute = require(path.join(__dirname + '/routes/client'));
+const adminRoute = require(path.join(__dirname + '/routes/admin'));
 const { body } = require('express-validator');
 
 // Set View Engine
@@ -32,7 +32,7 @@ app.set('view engine', 'ejs');
 
 // Set Public Folder
 app.use(express.static(path.join(__dirname + '/public')));
-app.use(express.static(__dirname + '/images'));
+app.use(express.static(path.join(__dirname + '/images')));
 
 // Define Session Details
 
@@ -54,11 +54,11 @@ app.use('/', session({
 
 
 // Route Definitions
-app.use('/', clientRoute);
-app.use('/admin', adminRoute);
+app.use(path.join(__dirname + '/'), clientRoute);
+app.use(path.join(__dirname + '/admin'), adminRoute);
 
 // Controller 404
-const controller = require('./controllers/client/controller');
+const controller = require(path.join(__dirname + '/controllers/client/controller'));
 app.use(controller.error);
 
 app.use(express.urlencoded({extended: true}));
