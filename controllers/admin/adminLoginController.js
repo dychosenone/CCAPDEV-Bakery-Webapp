@@ -1,5 +1,5 @@
 const database = require("../../models/db");
-const user = require("../../models/schemas/AdminUserSchema");
+const user = require("../../models/schemas/adminUserSchema");
 const bycrypt = require('bcrypt');
 
 var userController = {

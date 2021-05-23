@@ -1,5 +1,5 @@
 const database = require("../../models/db");
-const admin = require("../../models/schemas/AdminUserSchema");
+const admin = require("../../models/schemas/adminUserSchema");
 const orders = require("../../models/schemas/transactionSchema");
 const bcrypt = require('bcrypt');
 const {validationResult} = require('express-validator');
