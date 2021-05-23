@@ -4,20 +4,21 @@ const orders = require("../../models/schemas/transactionSchema");
 const bcrypt = require('bcrypt');
 const {validationResult} = require('express-validator');
 const path = require('path');
+const e = require("express");
 
 var adminController = {
 
     error: function(req, res) {
         var loggedIn = false;
         
-        if(req.session.userId) loggedIn = true;
+        if(req.session.adminId) loggedIn = true;
         else false;
 
         const details = {
             title: "Baked Goods | Error 404",
             loggedIn: loggedIn,
-            userId: req.session.userId,
-            name: req.session.name,
+            userId: req.session.adminId,
+            username: req.session.adminUsername,
             error: "404: Page not Found."
         };
 
@@ -28,36 +29,44 @@ var adminController = {
         const projection = '';
         const query = {};
 
-        database.findMany(orders, query, projection, function(result) {
-            var loggedIn = false;
+        var loggedIn = false;
 
-            if(req.session.userId) loggedIn = true;
-            else loggedIn = false;
+        if(req.session.adminId) loggedIn = true;
+        else loggedIn = false;
 
-            if(result != null) {
-                const details = {
-                    result,
-                    title: "Admin | Active Orders",
-                    loggedIn: loggedIn,
-                    userId: req.session.userId,
-                    name: req.session.name,
-                    error: null,
-                    path
-                };
-                res.render('admin/adminIndex', details);
-            }
-            else {
-                const details = {
-                    result,
-                    title: "Baked Goods | Error 404",
-                    loggedIn: loggedIn,
-                    userId: req.session.userId,
-                    name: req.session.name,
-                    error: "404: Page not Found."
-                };
-                res.render('admin/admin-error', details);
-            }
-        });
+        if(loggedIn == false) {
+            res.redirect('/admin/adminLogin');
+        } else {
+          
+            database.findMany(orders, query, projection, function(result) {
+
+                if(result != null) {
+                    const details = {
+                        result,
+                        title: "Admin | Active Orders",
+                        loggedIn: loggedIn,
+                        userId: req.session.adminId,
+                        username: req.session.adminUsername,
+                        error: null,
+                        path
+                    };
+                    res.render('admin/index', details);
+                }
+                else {
+                    const details = {
+                        result,
+                        title: "Baked Goods | Error 404",
+                        loggedIn: loggedIn,
+                        userId: req.session.adminId,
+                        username: req.session.adminUsername,
+                        error: "404: Page not Found."
+                    };
+                    res.render('admin/admin-error', details);
+                }
+            });  
+        }
+
+
     },
 
     getAdminAccount : function(req,res){
@@ -70,8 +79,8 @@ var adminController = {
                     result,
                     title: "Admin | Account",
                     loggedIn: true,
-                    userId: req.session.userId,
-                    name: req.session.name,
+                    userId: req.session.adminId,
+                    username: req.session.adminUsername,
                     error: null,
                     path
                 }
@@ -91,8 +100,8 @@ var adminController = {
                     result,
                     title: "Admin | Edit",
                     loggedIn: true,
-                    userId: req.session.userId,
-                    name: req.session.name,
+                    userId: req.session.adminId,
+                    username: req.session.username,
                     error: null,
                     path
                 }
@@ -118,8 +127,8 @@ var adminController = {
                 result,
                 title: "Baked Goods | Register",
                 loggedIn: true,
-                userId: req.session.userId,
-                name: req.session.name,
+                userId: req.session.adminId,
+                username: req.session.adminUsername,
                 error: errors
             }
             res.render('admin/admin-edit', details);
@@ -135,8 +144,8 @@ var adminController = {
                         title: "Baked Goods | " + Username,
                         headertitle: "Successfully Added " + Username,
                         loggedIn: true,
-                        userId: req.session.userId,
-                        name: req.session.name,
+                        userId: req.session.adminId,
+                        username: req.session.adminUsername,
                         line1: "Admin has been successfully Up!",
                         line2: "You can view your credentials in Account",
                         link: "/admin/admin-profile"
@@ -148,8 +157,8 @@ var adminController = {
                         result,
                         title: "Baked Goods | Error 404",
                         loggedIn: true,
-                        userId: req.session.userId,
-                        name: req.session.name,
+                        userId: req.session.adminId,
+                        username: req.session.adminUsername,
                         error: "Oops! Something went wrong in updating your credentials."
                     };
                     res.render('admin/admin-error', details);
@@ -160,13 +169,57 @@ var adminController = {
 
     },
 
+    getOrderDetails : function(req, res) {
+        const projection = '';
+        const query = {orderId : req.params.orderId};
+
+        var loggedIn = false;
+
+        if(req.session.adminId) loggedIn = true;
+        else loggedIn = false;
+
+        if(loggedIn == false) {
+            res.redirect('/admin/adminLogin');
+        } else {
+          
+            database.findOne(orders, query, projection, function(result) {
+
+                if(result != null) {
+                    const details = {
+                        result,
+                        title: "Admin | Order Detail",
+                        loggedIn: loggedIn,
+                        userId: req.session.adminId,
+                        username: req.session.adminUsername,
+                        error: null,
+                        path
+                    };
+                    res.render('admin/orderdetails', details);
+                }
+                else {
+                    const details = {
+                        result,
+                        title: "Baked Goods | Error 404",
+                        loggedIn: loggedIn,
+                        userId: req.session.adminId,
+                        username: req.session.adminUsername,
+                        error: "404: Page not Found."
+                    };
+                    res.render('admin/admin-error', details);
+                }
+            });  
+        }
+
+    },
+
     getLogout : function(req, res) {
-        req.session.destroy(function(error) {
-            if(error == true) {
-                throw error;
-            }
-            res.redirect('/admin');
-        })
+        if(req.session.adminId) {
+            delete req.session.adminId;
+            delete req.session.adminUsername;
+            res.redirect('/admin/adminlogin')
+        } else {
+            res.redirect('/');
+        }
     }
 
 }

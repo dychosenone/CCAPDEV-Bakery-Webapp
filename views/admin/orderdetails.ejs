@@ -1,0 +1,111 @@
+<%- include('./partials/head.ejs') %>
+    <div class="container-js">
+        <%- include('./partials/header.ejs') %>
+        <section class="hero hero-header-background is-small">
+            <div class="hero-body has-text-centered">
+                <p class="hero-styling">Order Details</p>
+            </div>
+        </section>
+
+		<div class="container">
+			<section class="section">
+				<div class="columns">
+					<div class="column">
+						<p class="orderno">
+							<strong>Order Number: </strong><%=result.orderId %>
+						  </p>
+						  <p class="client">
+							  <strong>Client Name: </strong><%=result.name %>
+						  </p>
+						  <br />
+						  <p class="billingadd">
+							  <strong>Billing Address: </strong><%=result.billingAddress %>
+						  </p>
+						  <p>
+							  <strong>Delivery Address: </strong><%=result.deliveryAddress %>
+						  </p>
+					</div>
+					<div class="column">
+						<p>
+							<strong>Contact Number: </strong><%=result.deliveryAddress %>
+						</p>
+						<p>
+							<strong>Alternative Contact Number: </strong> <%=result.deliveryAddress %>
+						</p>
+						<br />
+						<p class="status">
+							<strong>Status: </strong>
+							<% if(result.status == 'pending') { %>
+								<span class="tag is-warning">Processing</span>
+							<% } else if(result.status == 'delivered') {%>
+								<span class="tag is-primary">Delivered</span>
+							<% } else if(result.status == 'cancelled') {%> 
+								<span class="tag is-danger">Cancelled</span>
+							<% } %>
+						</p>
+					</div>
+				</div>
+
+	
+			</section>
+	
+			<section class="section">
+				<p class="breakdown"><strong>Order Breakdown</strong></p>
+				<div class="container">
+					<table class="table" style="width:100%">
+						<thead>
+						  <tr>
+							<th>Quantity</th>
+							<th>Product</th>
+							<th>Price</th>
+							<th>Total</th>
+						  </tr>
+						</thead>
+						<tbody>
+							<% result.orders.forEach(function(element) { %>
+								<tr>
+									<td><%= element.quantity %></td>
+									<td><%=element.productName %></td>
+									<td><%=element.price / element.quantity %></td>
+									<td><%= element.price %></td>
+								</tr>
+							<% }); %>
+						</tbody>
+					</table>
+				</div>
+			</section>
+				
+			<div class="level">
+				<div class="level-left">
+					<p class="is-small">
+						*Note: All our goods are VAT-Inclusive (12% Added Value Tax)
+						<br />
+						*Delivery only available with Metro Manila. Standard Delivery Fee of P150 applies.
+					</p>
+				</div>
+				<div class="level-right">
+					<div class="level-item">
+						<table class="table">
+							<tbody>
+								<tr>
+									<th>Subtotal: </th>
+									<td><%=result.subtotal%></td>
+								</tr>
+								<tr>
+									<th>Delivery: </th>
+									<td><%=result.deliveryFee%></td>
+								</tr>
+								<tr>
+									<th>Total: </th>
+									<td><%=result.subtotal + result.deliveryFee%></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+    </div>
+</body>
+
+</html>

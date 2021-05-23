@@ -22,7 +22,7 @@ var adminAccountController = {
                     title: "Admin | User Accounts",
                     loggedIn: loggedIn,
                     userId: req.session.userId,
-                    name: req.session.name,
+                    username: req.session.adminUsername,
                     error: null,
                     path
                 };
@@ -34,7 +34,7 @@ var adminAccountController = {
                     title: "Admin | User Accounts",
                     loggedIn: loggedIn,
                     userId: req.session.userId,
-                    name: req.session.name,
+                    username: req.session.adminUsername,
                     error: "No Products Found.",
                     path
                 };
@@ -60,7 +60,7 @@ var adminAccountController = {
                     title: "Baked Goods | " + result.username,
                     loggedIn: loggedIn,
                     userId: req.session.userId,
-                    name: req.session.name,
+                    username: req.session.adminUsername,
                     error: null
                 };
 
@@ -71,7 +71,7 @@ var adminAccountController = {
                     title: "Baked Goods | Error 404",
                     loggedIn: loggedIn,
                     userId: req.session.userId,
-                    name: req.session.name,
+                    username: req.session.adminUsername,
                     error: "404: Page not Found."
                 };
                 res.render('admin/admin-error', details);
@@ -89,7 +89,7 @@ var adminAccountController = {
             title: "Admin | User Accounts",
             loggedIn: loggedIn,
             userId: req.session.userId,
-            name: req.session.name,
+            username: req.session.adminUsername,
             error: null,
             path
         };
@@ -113,7 +113,7 @@ var adminAccountController = {
                 title: "Baked Goods | Register",
                 loggedIn: true,
                 userId: req.session.userId,
-                name: req.session.name,
+                username: req.session.adminUsername,
                 error: errors
             }
             res.render('admin/admin-add-account', details);
@@ -136,7 +136,7 @@ var adminAccountController = {
                         headertitle: "Successfully Added " + Username,
                         loggedIn: true,
                         userId: req.session.userId,
-                        name: req.session.name,
+                        username: req.session.adminUsername,
                         line1: Username + " has been successfully registered as a user!",
                         line2: "You can view the list of users through the User Management Tab",
                         link: "/admin/admin-accounts"
@@ -149,7 +149,7 @@ var adminAccountController = {
                         title: "Baked Goods | Error 404",
                         loggedIn: true,
                         userId: req.session.userId,
-                        name: req.session.name,
+                        username: req.session.adminUsername,
                         error: "404: Page not Found."
                     };
                     res.render('admin/admin-error', details);
@@ -187,7 +187,7 @@ var adminAccountController = {
                 title: "Baked Goods | " + result.username,
                 loggedIn : true,
                 userId: req.session.userId,
-                name: req.session.name,
+                username: req.session.adminUsername,
                 error: errors
             }
             res.render('admin/admin-edit-account', details);
@@ -205,7 +205,7 @@ var adminAccountController = {
                             headertitle: "Successfully Updated " + result.username,
                             loggedIn: loggedIn,
                             userId: req.session.userId,
-                            name: req.session.name,
+                            username: req.session.adminUsername,
                             error: null,
                             line1: "Data for " + editInput.Username + " has been successfully updates!",
                             line2: "You can view the list of users through the User Management Tab",
@@ -218,7 +218,7 @@ var adminAccountController = {
                             title: "Baked Goods | Error 404",
                             loggedIn: loggedIn,
                             userId: req.session.userId,
-                            name: req.session.name,
+                            username: req.session.adminUsername,
                             error: "404: Page not Found."
                         };
                         res.render('admin/admin-error', details);
@@ -245,7 +245,7 @@ var adminAccountController = {
                     headertitle: "Successfully Deleted User ",
                     loggedIn: loggedIn,
                     userId: req.session.userId,
-                    name: req.session.name,
+                    username: req.session.adminUsername,
                     line1: Name + " has been removed from the user database",
                     line2: "You can view the list of users through the User Management Tab",
                     link: "admin/admin-accounts"
@@ -258,7 +258,7 @@ var adminAccountController = {
                     title: "Baked Goods | Error",
                     loggedIn: loggedIn,
                     userId: req.session.userId,
-                    name: req.session.name,
+                    username: req.session.adminUsername,
                     error: "Oops! Something went wrong"
                 };
                 res.render('admin/admin-error', details);
@@ -281,7 +281,7 @@ var adminAccountController = {
                     title: "Admin | User Accounts",
                     loggedIn: loggedIn,
                     userId: req.session.userId,
-                    name: req.session.name,
+                    username: req.session.adminUsername,
                     error: null,
                     path
                 };
@@ -293,7 +293,7 @@ var adminAccountController = {
                     title: "Admin | User Accounts",
                     loggedIn: loggedIn,
                     userId: req.session.userId,
-                    name: req.session.name,
+                    username: req.session.adminUsername,
                     error: "No Products Found.",
                     path
                 };

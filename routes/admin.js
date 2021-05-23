@@ -30,15 +30,13 @@ const adminSuccessController = require('../controllers/admin/adminSuccessControl
 
 const app = express.Router();
 
-app.get('/', function (req, res) {
-    res.render('/adminlogin', {title: 'Admin Login'});
-});
+app.get('/', adminController.getIndex);
 
 app.get('/adminlogin', adminLoginController.getLogin);
-
-app.get('/adminIndex', adminController.getIndex);
-
 app.post('/adminlogin', adminLoginController.postLogin);
+
+app.get('/logout', adminController.getLogout);
+
 //admin Account
 app.get('/admin-profile', adminController.getAdminAccount);
 app.get('/admin-edit/:id', adminController.editAdmin);
@@ -63,5 +61,7 @@ app.post('/admin-edit-account/:id', validator.editUserValidator(), adminAccountC
 
 app.get('/admin-success', adminSuccessController.getSuccess);
 app.get('/admin-error', adminController.error);
+
+app.get('/details/:orderId', adminController.getOrderDetails);
 
 module.exports = app;

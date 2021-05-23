@@ -7,8 +7,6 @@ const nanoid = customAlphabet('1234567890', 10);
 
 const path = require('path');
 
-
-
 var productController = {
 
     getProducts : function(req, res) {
@@ -26,7 +24,7 @@ var productController = {
                     title: "Admin | Admin Products",
                     loggedIn: loggedIn,
                     userId: req.session.userId,
-                    name: req.session.name,
+                    username: req.session.adminUsername,
                     error: null,
                     path
                 };
@@ -38,7 +36,7 @@ var productController = {
                     title: "Baked Goods | Error 404",
                     loggedIn: loggedIn,
                     userId: req.session.userId,
-                    name: req.session.name,
+                    username: req.session.adminUsername,
                     error: "404: Page not Found."
                 };
                 res.render('admin/admin-error', details);
@@ -62,7 +60,7 @@ var productController = {
                     title: "Baked Goods | " + result.name,
                     loggedIn: loggedIn,
                     userId: req.session.userId,
-                    name: req.session.name,
+                    username: req.session.adminUsername,
                     error: null
                 };
 
@@ -73,7 +71,7 @@ var productController = {
                     title: "Baked Goods | Error 404",
                     loggedIn: loggedIn,
                     userId: req.session.userId,
-                    name: req.session.name,
+                    username: req.session.adminUsername,
                     error: "404: Page not Found."
                 };
                 res.render('admin/admin-error', details);
@@ -91,7 +89,7 @@ var productController = {
             title: "Admin | User Accounts",
             loggedIn: loggedIn,
             userId: req.session.userId,
-            name: req.session.name,
+            username: req.session.adminUsername,
             error: null,
             path
         };
@@ -116,8 +114,6 @@ var productController = {
                     sizes.push({size: req.body.size3, price: req.body.price3});
             }
 
-
-
             database.addOne(product, {
                 productId: prodID,
                 name: Name,
@@ -132,7 +128,7 @@ var productController = {
                         headertitle: "Successfully added " + Name,
                         loggedIn: true,
                         userId: req.session.userId,
-                        name: req.session.name,
+                        username: req.session.adminUsername,
                         line1: Name + " has been successfully added to the list of products!",
                         line2: "You can view the list of products through the Product Management Tab",
                         link: "/admin/admin-product"
@@ -145,7 +141,7 @@ var productController = {
                         title: "Baked Goods | Error",
                         loggedIn: true,
                         userId: req.session.userId,
-                        name: req.session.name,
+                        username: req.session.adminUsername,
                         error: "Oops! something went wrong with adding " + Name,
                     };
                     res.render('admin/admin-error', details);
@@ -155,7 +151,7 @@ var productController = {
 
     postEdit : function(req, res){
         var Image;
-        var fs= require('fs');
+
         if(req.file!= null){
             Image = req.file.filename;
           if(fs.existsSync('public/img/products/'+ req.body.imgName))
@@ -205,7 +201,7 @@ var productController = {
                         headertitle: "Successfully Updated " + Name,
                         loggedIn: loggedIn,
                         userId: req.session.userId,
-                        name: req.session.name,
+                        username: req.session.adminUsername,
                         line1: "Data for " + Name + " been successfully updated!",
                         line2: "You can view the list of products through the Product Management Tab",
                         link: "/admin/admin-product"
@@ -217,7 +213,7 @@ var productController = {
                         title: "Baked Goods | Error",
                         loggedIn: loggedIn,
                         userId: req.session.userId,
-                        name: req.session.name,
+                        username: req.session.adminUsername,
                         error: "Oops! something went wrong with updating" + Name
                     };
                     res.render('admin/admin-error', details);
@@ -247,7 +243,7 @@ var productController = {
                         headertitle: "Successfully Deleted Product",
                         loggedIn: loggedIn,
                         userId: req.session.userId,
-                        name: req.session.name,
+                        username: req.session.adminUsername,
                         line1: Name + " has been removed from the list of products.",
                         line2: "You can view the list of products through the Product Management Tab",
                         link: "/admin/admin-product"
@@ -260,7 +256,7 @@ var productController = {
                         title: "Baked Goods | Error",
                         loggedIn: loggedIn,
                         userId: req.session.userId,
-                        name: req.session.name,
+                        username: req.session.adminUsername,
                         error: "Oops! something went wrong in deleting" + Name
                     };
                     res.render('admin/admin-error', details);
@@ -285,7 +281,7 @@ var productController = {
                     title: "Admin | Admin Products",
                     loggedIn: loggedIn,
                     userId: req.session.userId,
-                    name: req.session.name,
+                    username: req.session.adminUsername,
                     error: null,
                     path
                 };
@@ -297,7 +293,7 @@ var productController = {
                     title: "Baked Goods | Error",
                     loggedIn: loggedIn,
                     userId: req.session.userId,
-                    name: req.session.name,
+                    username: req.session.adminUsername,
                     error: "Oops! something went wrong with searching for the products"
                 };
                 res.render('admin/admin-error', details);

@@ -33,11 +33,22 @@ app.set('view engine', 'ejs');
 // Set Public Folder
 app.use(express.static(path.join(__dirname + '/public')));
 app.use(express.static(__dirname + '/images'));
+
 // Define Session Details
-app.use(session({
+
+app.use('/admin', session({
+    'name' : 'admin',
+    'secret' : "6mEyFi0fxZhdmz2ON26GdZnUCdGIWbCY",
+    'resave': false,
+    'saveUninitialized': false,
+    store: MongoStore.create({mongoUrl: 'mongodb://localhost:27017/baked_goods'})
+}));
+
+app.use('/', session({
+    'name' : 'client',
     'secret' : "4ebd020883285d698c44ec50939c0967",
     'resave': false,
-    'saveUninitialized': true,
+    'saveUninitialized': false,
     store: MongoStore.create({mongoUrl: 'mongodb://localhost:27017/baked_goods'})
 }));
 

@@ -1,0 +1,63 @@
+<%- include('./partials/head.ejs'); %>
+<body>
+<div class="container-js">
+    <%- include('./partials/header.ejs'); %>
+
+    <section class="hero hero-header-background is-small">
+        <div class="hero-body has-text-centered">
+            <p class="hero-styling">Active Orders</p>
+        </div>
+    </section>
+
+    <div class="container mt-6">
+        <form>
+            <div class="field has-addons search-field">
+                <form method="post">
+                    <input class="input input-styled" type="text" placeholder="Search">
+                    <div class="control"><button type="submit" class="button submit-button">Search</button></div>
+                </form>
+
+            </div>
+        </form>
+    </div>
+
+
+
+    <div class="container">
+        <table class="table" style="width:100%">
+            <thead>
+            <tr>
+                <th>ORDER NUMBER</th>
+                <th>NAME</th>
+                <th>AMOUNT</th>
+                <th>STATUS</th>
+                <th>VIEW</th>
+            </tr>
+            </thead>
+            <tbody>
+            <% if(result != null) result.forEach(function(element) { %>
+            <tr>
+                <td><%=element.orderId%></td>
+                <td><%=element.name%></td>
+                <td><%=element.subtotal%>
+                <td>
+                    <% if(element.status == 'pending') { %>
+                        <span class="tag is-warning">Processing</span>
+                    <% } else if(element.status == 'delivered') {%>
+                        <span class="tag is-primary">Delivered</span>
+                    <% } else if(element.status == 'cancelled') {%> 
+                        <span class="tag is-danger">Cancelled</span>
+                    <% } %>
+                </td>
+                <td>
+                    <a class="button submit-button is-small" href="<%- path.join('/admin/details/' + element.orderId) %>">View</a>
+                </td>
+            </tr>
+            <% });%>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+</body>
+</html>

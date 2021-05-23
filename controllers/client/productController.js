@@ -48,7 +48,6 @@ var productController = {
         var productId = req.params.productId;
 
         var errors = [];
-        var success = [];
 
         database.findOne(product, query, projection, function(result) {
 
@@ -72,7 +71,7 @@ var productController = {
                             isFavorite = false;
                         }
     
-                        console.log(isFavorite);
+                        console.log(result);
     
     
                         if(result != null) {
@@ -204,7 +203,6 @@ var productController = {
 
             }
             req.session.save();
-            
             res.send(result);
         });
 

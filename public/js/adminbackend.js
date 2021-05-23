@@ -35,6 +35,39 @@ $(document).ready(function(){
             $(this).closest ('tr').remove ();
     });
 
+    $('#login').click(function(e) {
+        e.preventDefault();
+        var username = $('#username').val();
+        var password = $('#password').val();
 
+        $.post('/admin/adminlogin', {username : username, password : password}, function (result) {
+            console.log(result);
+            if(result.status == 'error') {
+                 var textContainer = document.createElement('div');
+                textContainer.classList.add("message-body");
+                textContainer.innerHTML = result.body;
+
+                var container = document.createElement('div');
+                container.classList.add("message");
+
+                if(result.status == "success") {
+                    container.classList.add("is-success");
+                } else if(result.status == "error"){
+                    container.classList.add("is-danger");
+                }
+                
+                container.append(textContainer);
+                
+                $('#errors').append(container);
+
+                setTimeout(function () {
+                    $('#errors').empty();
+                }, 1000);
+            } else {
+                window.location = result.redirect;
+            }
+        });
+
+    });
 })
 

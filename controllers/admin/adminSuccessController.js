@@ -15,7 +15,7 @@ var adminAccountController = {
             title: "Admin | Success",
             loggedIn: loggedIn,
             userId: req.session.userId,
-            name: req.session.name,
+            username: req.session.adminUsername,
             error: null,
             path
         };
