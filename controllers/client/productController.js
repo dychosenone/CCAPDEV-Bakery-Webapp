@@ -14,6 +14,8 @@ var productController = {
             query = {};
         }
 
+        console.log(query);
+
         database.findMany(product, query, projection, function(result) {
             var loggedIn = false;
 
@@ -31,6 +33,7 @@ var productController = {
                     error: null,
                     path
                 };
+                console.log(result);
                 res.render('client/products', details);
             }
             else {
