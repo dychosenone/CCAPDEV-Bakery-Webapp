@@ -277,4 +277,14 @@ $(document).ready(function(){
         $('#cartBody').empty();
     });
 
+    $('#search').click(function(e){
+        e.preventDefault();
+        var searchQuery = $('#searchInput').val();
+        console.log(searchQuery);
+
+        if(searchQuery != '') {
+            window.location = `/products?search=${searchQuery}`
+        }
+    });
+
 });

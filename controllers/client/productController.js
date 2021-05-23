@@ -7,7 +7,14 @@ var productController = {
 
     getProducts : function(req, res) {
         const projection = 'name description image productId';
-        database.findMany(product, {}, projection, function(result) {
+        
+        if(req.query.search) {
+            query = {name : { $regex: req.query.search, $options: "i"}};
+        } else {
+            query = {};
+        }
+
+        database.findMany(product, query, projection, function(result) {
             var loggedIn = false;
 
             if(req.session.userId) loggedIn = true;
@@ -36,7 +43,6 @@ var productController = {
                     error: "No Products Found.",
                     path
                 };
-                console.log(result);
                 res.render('client/products', details);
             }
         });
