@@ -57,5 +57,6 @@ app.post('/admin-add-account', validator.addUserValidator() , adminAccountContro
 app.post('/admin-edit-account/:id', validator.editUserValidator(), adminAccountController.postEdit);
 
 app.get('/admin-success', adminSuccessController.getSuccess);
+app.get('/admin-error', adminController.error);
 
 module.exports = app;

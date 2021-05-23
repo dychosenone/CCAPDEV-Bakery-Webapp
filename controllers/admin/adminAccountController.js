@@ -74,7 +74,7 @@ var adminAccountController = {
                     name: req.session.name,
                     error: "404: Page not Found."
                 };
-                res.render('admin/error', details);
+                res.render('admin/admin-error', details);
             }
         });
     },
@@ -129,7 +129,7 @@ var adminAccountController = {
                 billingAddress: billingAddress,
                 deliveryAddress: deliveryAddress
             }, function (result) {
-                if (result) {
+                if (result != null) {
                     const details = {
                         result,
                         title: "Baked Goods | " + Username,
@@ -142,6 +142,17 @@ var adminAccountController = {
                         link: "/admin/admin-accounts"
                     };
                     res.render('admin/admin-success', details);
+                }
+                else{
+                    const details = {
+                        result,
+                        title: "Baked Goods | Error 404",
+                        loggedIn: true,
+                        userId: req.session.userId,
+                        name: req.session.name,
+                        error: "404: Page not Found."
+                    };
+                    res.render('admin/admin-error', details);
                 }
             });
         }
@@ -204,14 +215,13 @@ var adminAccountController = {
                     } else {
                         const details = {
                             result,
-                            title: "Baked Goods | Error",
+                            title: "Baked Goods | Error 404",
                             loggedIn: loggedIn,
                             userId: req.session.userId,
                             name: req.session.name,
-                            error: "User not Found",
-                            page: 'editAccount'
+                            error: "404: Page not Found."
                         };
-                        res.render('admin/error' + editInput.Username, details);
+                        res.render('admin/admin-error', details);
                     }
                 });
             });
@@ -241,6 +251,17 @@ var adminAccountController = {
                     link: "admin/admin-accounts"
                 };
                 res.render('admin/admin-success', details);
+            }
+            else {
+                const details = {
+                    result,
+                    title: "Baked Goods | Error",
+                    loggedIn: loggedIn,
+                    userId: req.session.userId,
+                    name: req.session.name,
+                    error: "Oops! Something went wrong"
+                };
+                res.render('admin/admin-error', details);
             }
         });
     },

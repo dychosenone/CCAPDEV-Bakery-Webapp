@@ -35,15 +35,13 @@ var productController = {
             else {
                 const details = {
                     result,
-                    title: "Admin | No Products Found",
+                    title: "Baked Goods | Error 404",
                     loggedIn: loggedIn,
                     userId: req.session.userId,
                     name: req.session.name,
-                    error: "No Products Found.",
-                    path
+                    error: "404: Page not Found."
                 };
-                console.log(result);
-                res.render('admin/admin-product', details);
+                res.render('admin/admin-error', details);
             }
         });
     },
@@ -78,7 +76,7 @@ var productController = {
                     name: req.session.name,
                     error: "404: Page not Found."
                 };
-                res.render('admin/error', details);
+                res.render('admin/admin-error', details);
             }
         });
     },
@@ -141,6 +139,17 @@ var productController = {
                     };
                     res.render('admin/admin-success', details);
                 }
+                else{
+                    const details = {
+                        result,
+                        title: "Baked Goods | Error",
+                        loggedIn: true,
+                        userId: req.session.userId,
+                        name: req.session.name,
+                        error: "Oops! something went wrong with adding " + Name,
+                    };
+                    res.render('admin/admin-error', details);
+                }
             });
     },
 
@@ -182,6 +191,8 @@ var productController = {
                     image: Image
                 }
         }
+
+
         database.updateOne(product, filter, update, function(flag) {
             const projection = '';
             const query = {_id: req.params.id}
@@ -207,8 +218,9 @@ var productController = {
                         loggedIn: loggedIn,
                         userId: req.session.userId,
                         name: req.session.name,
+                        error: "Oops! something went wrong with updating" + Name
                     };
-                    res.render('admin/error' + editInput.Username, details);
+                    res.render('admin/admin-error', details);
                 }
             });
         });
@@ -242,6 +254,17 @@ var productController = {
                     };
                     res.render('admin/admin-success', details);
                 }
+                else{
+                    const details = {
+                        result,
+                        title: "Baked Goods | Error",
+                        loggedIn: loggedIn,
+                        userId: req.session.userId,
+                        name: req.session.name,
+                        error: "Oops! something went wrong in deleting" + Name
+                    };
+                    res.render('admin/admin-error', details);
+                }
             });
         })
 
@@ -271,15 +294,13 @@ var productController = {
             else {
                 const details = {
                     result,
-                    title: "Admin | No Products Found",
+                    title: "Baked Goods | Error",
                     loggedIn: loggedIn,
                     userId: req.session.userId,
                     name: req.session.name,
-                    error: "No Products Found.",
-                    path
+                    error: "Oops! something went wrong with searching for the products"
                 };
-                console.log(result);
-                res.render('admin/admin-product', details);
+                res.render('admin/admin-error', details);
             }
         });
     }

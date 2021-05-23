@@ -20,7 +20,7 @@ var adminController = {
             error: "404: Page not Found."
         };
 
-        res.render('admin/error', details);
+        res.render('admin/admin-error', details);
     },
 
     getIndex : function (req, res) {
@@ -32,6 +32,7 @@ var adminController = {
 
             if(req.session.userId) loggedIn = true;
             else loggedIn = false;
+
             if(result != null) {
                 const details = {
                     result,
@@ -47,25 +48,15 @@ var adminController = {
             else {
                 const details = {
                     result,
-                    title: "Admin | No Products Found",
+                    title: "Baked Goods | Error 404",
                     loggedIn: loggedIn,
                     userId: req.session.userId,
                     name: req.session.name,
-                    error: "No Products Found.",
-                    path
+                    error: "404: Page not Found."
                 };
-                console.log(result);
-                res.render('admin/error', details);
+                res.render('admin/admin-error', details);
             }
         });
-    },
-
-    getAbout : function (req, res) {
-        if(req.session.userId) {
-            res.render('admin/index', {title: 'Baked Goods', loggedIn: true, name: req.session.name});
-        } else {
-            res.render('admin/about', {title: 'Baked Goods | About', loggedIn: false});
-        }
     },
 
     getLogout : function(req, res) {
