@@ -1,11 +1,8 @@
 const mongoose = require('mongoose');
 
 const { customAlphabet } = require('nanoid');
-<<<<<<< Updated upstream
-const nanoid = customAlphabet('1234567890', 10);
-=======
 const nanoid = customAlphabet('1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ', 10);
->>>>>>> Stashed changes
+
 
 const reviewSchema = new mongoose.Schema({
     userId : {
