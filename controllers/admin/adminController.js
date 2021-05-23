@@ -142,17 +142,16 @@ var adminController = {
     postAdmin : function(req, res){
         const query = {_id: req.params.id};
         var errors = validationResult(req).array()
-        var Password = req.body.password;
         var loggedIn = false;
 
         if(req.session.adminId) loggedIn = true;
         else loggedIn = false;
 
         if(loggedIn){
-            bcrypt.hash(req.body.Password, 12, function(err, hash) {
+            bcrypt.hash(req.body.password, 12, function(err, hash) {
                 if (errors.length > 0) {
                     const result = {
-                        password: Password,
+                        password: hash,
                     };
                     console.log(errors);
                     const details = {
@@ -166,7 +165,7 @@ var adminController = {
                     res.render('admin/admin-edit', details);
                 } else {
                     database.updateOne(admin, query, {
-                        password: req.body.password,
+                        password: hash,
                     }, function (result) {
                         if (result != null) {
                             const details = {
