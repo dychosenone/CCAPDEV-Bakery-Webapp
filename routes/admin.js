@@ -1,17 +1,21 @@
 const express = require('express');
 const multer = require('multer');
 const uuid = require('uuid').v4;
+const { customAlphabet } = require('nanoid');
+const nanoid = customAlphabet('1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ', 10);
 
 const storage = multer.diskStorage({
     destination: function(req, file, cb) {
-        cb(null, './public/img/products');
+        cb(null, './images/products');
     },
 
     filename: function (req, file, cb){
-        const {originalname} = file;
-        cb(null, originalname + Date.now() + '.png');
+        cb(null, nanoid() + '.png');
     }
 });
+
+const validator = require('../helpers/validator');
+
 const upload = multer({storage: storage});
 
 const adminController = require('../controllers/admin/adminController');
@@ -32,12 +36,15 @@ app.get('/', function (req, res) {
 
 app.get('/adminlogin', adminLoginController.getLogin);
 
+app.get('/adminIndex', adminController.getIndex);
+
 app.post('/adminlogin', adminLoginController.postLogin);
 //product management
 app.get('/admin-product', adminProductController.getProducts);
 app.get('/admin-delete-product/:id', adminProductController.deleteProduct);
 app.get('/admin-add-product', adminProductController.addProduct);
 app.get('/admin-edit-product/:id', adminProductController.getProduct);
+app.post('/admin-product/', adminProductController.searchProducts);
 app.post('/admin-add-product', upload.single('uploadFile'), adminProductController.postProduct);
 app.post('/admin-edit-product/:id', upload.single('uploadFile'), adminProductController.postEdit);
 
@@ -46,8 +53,8 @@ app.get('/admin-accounts', adminAccountController.getUsers);
 app.get('/admin-delete-account/:id', adminAccountController.deleteUser);
 app.get('/admin-add-account', adminAccountController.addUser);
 app.get('/admin-edit-account/:id', adminAccountController.getUser);
-app.post('/admin-add-account', adminAccountController.postUser);
-app.post('/admin-edit-account/:id', adminAccountController.postEdit);
+app.post('/admin-add-account', validator.addUserValidator() , adminAccountController.postUser);
+app.post('/admin-edit-account/:id', validator.editUserValidator(), adminAccountController.postEdit);
 
 app.get('/admin-success', adminSuccessController.getSuccess);
 

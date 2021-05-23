@@ -2,6 +2,8 @@ const database = require("../../models/db");
 const product = require("../../models/schemas/productSchema");
 const multer = require('multer');
 const fs = require('fs');
+const { customAlphabet } = require('nanoid');
+const nanoid = customAlphabet('1234567890', 10);
 
 const path = require('path');
 
@@ -41,7 +43,7 @@ var productController = {
                     path
                 };
                 console.log(result);
-                res.render('admin/admin-product-empty', details);
+                res.render('admin/admin-product', details);
             }
         });
     },
@@ -99,6 +101,7 @@ var productController = {
     },
 
     postProduct : function(req,res){
+            var prodID = nanoid();
             var Image = req.file.filename;
             var Name = req.body.Name;
             var Description = req.body.Description;
@@ -118,6 +121,7 @@ var productController = {
 
 
             database.addOne(product, {
+                productId: prodID,
                 name: Name,
                 description: Description,
                 sizes: sizes,
@@ -131,7 +135,9 @@ var productController = {
                         loggedIn: true,
                         userId: req.session.userId,
                         name: req.session.name,
-                        error: null
+                        line1: Name + " has been successfully added to the list of products!",
+                        line2: "You can view the list of products through the Product Management Tab",
+                        link: "/admin/admin-product"
                     };
                     res.render('admin/admin-success', details);
                 }
@@ -143,7 +149,8 @@ var productController = {
         var fs= require('fs');
         if(req.file!= null){
             Image = req.file.filename;
-            fs.unlinkSync('public/img/products/'+req.body.imgName);
+          if(fs.existsSync('images/products/'+ req.body.imgName))
+            fs.unlinkSync('images/products/'+ req.body.imgName);
         }
         else
             Image = req.body.imgName;
@@ -188,8 +195,9 @@ var productController = {
                         loggedIn: loggedIn,
                         userId: req.session.userId,
                         name: req.session.name,
-                        error: 'success',
-                        page: 'editProduct'
+                        line1: "Data for " + Name + " been successfully updated!",
+                        line2: "You can view the list of products through the Product Management Tab",
+                        link: "/admin/admin-product"
                     };
                     res.render('admin/admin-success', details);
                 } else {
@@ -199,7 +207,6 @@ var productController = {
                         loggedIn: loggedIn,
                         userId: req.session.userId,
                         name: req.session.name,
-                        page: 'editProduct'
                     };
                     res.render('admin/error' + editInput.Username, details);
                 }
@@ -211,13 +218,14 @@ var productController = {
         var fs = require('fs');
         var filter = {_id : req.params.id};
         var loggedIn = false;
-        var projection = 'image';
+        var projection = 'image username';
         if(req.session.userId) loggedIn = true;
         database.findOne(product, filter, projection,function(result){
             var img = result.image;
+            var Name = result.name;
 
-            if(img != null)
-                fs.unlinkSync('public/img/products/'+ img);
+            if(img != null && fs.existsSync('images/products/'+ img))
+                fs.unlinkSync('images/products/'+ img);
 
             database.deleteOne(product,filter,  function(result){
 
@@ -228,8 +236,9 @@ var productController = {
                         loggedIn: loggedIn,
                         userId: req.session.userId,
                         name: req.session.name,
-                        error: 'success',
-                        page: 'deleteProduct'
+                        line1: Name + " has been removed from the list of products.",
+                        line2: "You can view the list of products through the Product Management Tab",
+                        link: "/admin/admin-product"
                     };
                     res.render('admin/admin-success', details);
                 }
@@ -238,6 +247,42 @@ var productController = {
 
 
     },
+
+    searchProducts: function(req,res){
+        const projection = '';
+        const query ={name: req.body.searchInput}
+        database.findMany(product, query, projection, function(result) {
+            var loggedIn = false;
+
+            if(req.session.userId) loggedIn = true;
+            else loggedIn = false;
+            if(result != null) {
+                const details = {
+                    result,
+                    title: "Admin | Admin Products",
+                    loggedIn: loggedIn,
+                    userId: req.session.userId,
+                    name: req.session.name,
+                    error: null,
+                    path
+                };
+                res.render('admin/admin-product', details);
+            }
+            else {
+                const details = {
+                    result,
+                    title: "Admin | No Products Found",
+                    loggedIn: loggedIn,
+                    userId: req.session.userId,
+                    name: req.session.name,
+                    error: "No Products Found.",
+                    path
+                };
+                console.log(result);
+                res.render('admin/admin-product', details);
+            }
+        });
+    }
 }
 
 

@@ -32,7 +32,7 @@ app.set('view engine', 'ejs');
 
 // Set Public Folder
 app.use(express.static(path.join(__dirname + '/public')));
-
+app.use(express.static(__dirname + '/images'));
 // Define Session Details
 app.use(session({
     'secret' : "4ebd020883285d698c44ec50939c0967",

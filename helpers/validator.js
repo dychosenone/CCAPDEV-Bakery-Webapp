@@ -24,7 +24,27 @@ const validator = {
         ];
 
         return validation;
-    }
+    },
+
+    addUserValidator : function() {
+
+        var validation = [
+            check('email').isEmail().withMessage('Should be a valid email address.').normalizeEmail(),
+            check('Password').isLength({min : 8}).withMessage('Password should be at least 8 characters'),
+
+        ];
+
+        return validation;
+    },
+
+    editUserValidator : function() {
+
+        var validation = [
+            check('email').isEmail().withMessage('Should be a valid email address.').normalizeEmail(),
+        ];
+
+        return validation;
+    },
 
 };
 

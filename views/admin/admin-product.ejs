@@ -12,15 +12,18 @@
     <div class="container mt-6">
         <form>
             <div class="field has-addons search-field">
-                <input class="input input-styled" type="text" placeholder="Search" id="searchBar">
-                <div class="control"><button class="button submit-button">Search</button></div>
+                <form method="post">
+                    <input class="input input-styled" type="text" name="searchInput" placeholder="Search" id="searchBar">
+                    <button type="submit" class="button submit-button">Search</button>
+                </form>
+
             </div>
         </form>
     </div>
 
     <div class="container" style="margin-top: 60px; margin-bottom: 40px">
-
-        <table class="table table-hover admin-product-table" >
+        <%if(result.length > 0){%>
+        <table class="table table-hover admin-product-table" style="width: 100%" >
             <thead>
             <tr>
                 <th width="250"></th>
@@ -34,7 +37,7 @@
             <%result.forEach(function(element) { %>
             <tr>
                 <td class="table-image-col">
-                    <img src="<%=path.join('/img/products/' + element.image)%>">
+                    <img src="<%=path.join('/products/' + element.image)%>">
                 </td>
                 <td><%=element.name%></td>
                 <td><%=element.description%></td>
@@ -75,7 +78,9 @@
             </tbody>
 
         </table>
-
+        <%} else{%>
+            <p class="hero-styling has-background-grey-lighter" style="font-size: 30px; text-align: center; margin-bottom: 70px;">No products found</p>
+        <%}%>
         <a href="/admin/admin-add-product" class="button submit-button is-medium">Add Product</a>
 
     </div>

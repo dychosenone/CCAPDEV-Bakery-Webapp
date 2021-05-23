@@ -1,5 +1,8 @@
 const mongoose = require('mongoose');
 
+const { customAlphabet } = require('nanoid');
+const nanoid = customAlphabet('1234567890', 10);
+
 const reviewSchema = new mongoose.Schema({
     userId : {
         type: String,
@@ -17,6 +20,11 @@ const reviewSchema = new mongoose.Schema({
 
 const ProductSchema = new mongoose.Schema({
 
+    productId : {
+        type: Number,
+        required: nanoid()
+    },
+
     name: {
         type: String,
         required: true
@@ -29,7 +37,7 @@ const ProductSchema = new mongoose.Schema({
 
     sizes : [{
         size : {
-            type: Number,
+            type: String,
             required: true
         },
         price : {

@@ -1,28 +1,11 @@
 const database = require("../../models/db");
 const users = require("../../models/schemas/userSchema");
 const bcrypt = require('bcrypt');
-
+const {validationResult} = require('express-validator');
 
 const path = require('path');
 
 var adminAccountController = {
-
-    error: function(req, res) {
-        var loggedIn = false;
-        
-        if(req.session.userId) loggedIn = true;
-        else false;
-
-        const details = {
-            title: "Baked Goods | Error 404",
-            loggedIn: loggedIn,
-            userId: req.session.userId,
-            name: req.session.name,
-            error: "404: Page not Found."
-        };
-
-        res.render('admin/error', details);
-    },
 
     getUsers : function(req, res) {
         const projection = '';
@@ -71,6 +54,7 @@ var adminAccountController = {
             else loggedIn = false;
 
             if(result != null) {
+                req.session.username= result.username;
                 const details = {
                     result,
                     title: "Baked Goods | " + result.username,
@@ -90,7 +74,7 @@ var adminAccountController = {
                     name: req.session.name,
                     error: "404: Page not Found."
                 };
-                res.render('client/error', details);
+                res.render('admin/error', details);
             }
         });
     },
@@ -121,34 +105,51 @@ var adminAccountController = {
         var email = req.body.email;
         var contact = req.body.contact;
         var alternativeContact = req.body.alternativeContact;
+        var errors = validationResult(req).array()
 
-        database.addOne(users, {
-            fullName: fullName,
-            username: Username,
-            password: hash,
-            email: email,
-            contact: contact,
-            alternativeContact: alternativeContact,
-            billingAddress: billingAddress,
-            deliveryAddress: deliveryAddress
-        }, function(result){
-            if(result){
-                const details = {
-                    result,
-                    title: "Baked Goods | " + Username,
-                    headertitle: "Successfully Added " + Username,
-                    loggedIn: true,
-                    userId: req.session.userId,
-                    name: req.session.name,
-                    error: null
-                };
-                res.render('admin/admin-success', details);
+        if(errors.length > 0) {
+            console.log(errors);
+            const details = {
+                title: "Baked Goods | Register",
+                loggedIn: true,
+                userId: req.session.userId,
+                name: req.session.name,
+                error: errors
             }
+            res.render('admin/admin-add-account', details);
+        }
+        else {
+            database.addOne(users, {
+                fullName: fullName,
+                username: Username,
+                password: hash,
+                email: email,
+                contact: contact,
+                alternativeContact: alternativeContact,
+                billingAddress: billingAddress,
+                deliveryAddress: deliveryAddress
+            }, function (result) {
+                if (result) {
+                    const details = {
+                        result,
+                        title: "Baked Goods | " + Username,
+                        headertitle: "Successfully Added " + Username,
+                        loggedIn: true,
+                        userId: req.session.userId,
+                        name: req.session.name,
+                        line1: Username + " has been successfully registered as a user!",
+                        line2: "You can view the list of users through the User Management Tab",
+                        link: "/admin/admin-accounts"
+                    };
+                    res.render('admin/admin-success', details);
+                }
+            });
+        }
         });
-    });
     },
 
     postEdit : function(req, res) {
+        var errors = validationResult(req).array()
         var editInput = req.body;
 
         var loggedIn = false;
@@ -165,11 +166,27 @@ var adminAccountController = {
                     deliveryAddress: editInput.deliveryAddress,
                 }
         }
-        database.updateOne(users, filter, update, function(flag) {
+
+        if(errors.length > 0) {
+            var result= editInput;
+            result.username= req.session.username;
+            console.log(errors);
+            const details = {
+                result,
+                title: "Baked Goods | " + result.username,
+                loggedIn : true,
+                userId: req.session.userId,
+                name: req.session.name,
+                error: errors
+            }
+            res.render('admin/admin-edit-account', details);
+        }
+        else {
+            database.updateOne(users, filter, update, function (flag) {
                 const projection = '';
                 const query = {username: editInput.Username}
-                database.findOne(users, query, projection, function(result) {
-                    if(result != null) {
+                database.findOne(users, query, projection, function (result) {
+                    if (result != null) {
 
                         const details = {
                             result,
@@ -178,8 +195,10 @@ var adminAccountController = {
                             loggedIn: loggedIn,
                             userId: req.session.userId,
                             name: req.session.name,
-                            error: 'success',
-                            page: 'editAccount'
+                            error: null,
+                            line1: "Data for " + editInput.Username + " has been successfully updates!",
+                            line2: "You can view the list of users through the User Management Tab",
+                            link: "/admin/admin-accounts"
                         };
                         res.render('admin/admin-success', details);
                     } else {
@@ -195,13 +214,18 @@ var adminAccountController = {
                         res.render('admin/error' + editInput.Username, details);
                     }
                 });
-        });
+            });
+        }
     },
 
     deleteUser: function(req, res) {
         var filter = {_id : req.params.id};
-        var loggedIn = false;
+        var loggedIn = false
+        var Name;
         if(req.session.userId) loggedIn = true;
+        database.findOne(users, filter, 'username', function(result){
+            Name = result.username;
+        });
 
         database.deleteOne(users,filter, function(result){
 
@@ -212,8 +236,9 @@ var adminAccountController = {
                     loggedIn: loggedIn,
                     userId: req.session.userId,
                     name: req.session.name,
-                    error: 'success',
-                    page: 'deleteAccount'
+                    line1: Name + " has been removed from the user database",
+                    line2: "You can view the list of users through the User Management Tab",
+                    link: "admin/admin-accounts"
                 };
                 res.render('admin/admin-success', details);
             }

@@ -36,14 +36,6 @@ $(document).ready(function(){
     });
 
 
-    //add user functions
-    $("#AddUser").click(function(){
-        e.preventDefault();
-
-
-    })
-
-    //edit Products function
 
 })
 
