@@ -2,7 +2,6 @@ const express = require('express');
 const path = require('path');
 
 const app = express();
-const port = process.env.PORT || 3000;
 
 //Database
 const database = require(path.join(__dirname + '/models/db'));
@@ -67,8 +66,8 @@ app.use(express.urlencoded({extended: true}));
 database.connect();
 
 
-app.listen(port, function () {
-    console.log(`Listening at localhost: ${port}`);
+app.listen(process.env.PORT || 3000, function () {
+    console.log(`Listening server`);
 })
 
 module.exports = app;
