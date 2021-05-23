@@ -12,36 +12,46 @@
     <div class="container pb-0">
         <form>
             <div class="field has-addons search-field">
-                <input class="input input-styled" type="text"placeholder="Search">
-                <div class="control"><button class="button submit-button">Search</button></div>
+                <input class="input input-styled" type="text"placeholder="Search" id="searchInput">
+                <div class="control"><button class="button submit-button" id="search">Search</button></div>
             </div>
         </form>
     </div>
 
     <section class="section">
+        <% if(result.length < 1) { %>
+            <div class="container">
+                <article class="message is-danger">
+                    <div class="message-body">
+                        <p>No products found.</p>
+                    </div>
+                </article>
+            </div>
+           
+        <% } else {%>
         <div class="columns">
             <% result.forEach(function(element) { %>
-
-            <div class="column is-one-fifth-desktop">
-                <div class="card ourproducts-card">
-                    <div class="card-image">
-                        <figure class="image is-3by2">
-                            <img src="<%=path.join('./img/products/' + element.image)%>">
-                        </figure>
-                    </div>
-                    <div class="card-content">
-                        <div class="content">
-                            <p class="title title-product"><%=element.name%></p>
-                            
-                            <p class="subtitle subtitle-product"><%=element.description%></p>
+                <div class="column is-one-fifth-desktop">
+                    <div class="card ourproducts-card">
+                        <div class="card-image">
+                            <figure class="image is-3by2">
+                                <img src="<%=path.join('./img/products/' + element.image)%>">
+                            </figure>
                         </div>
+                        <div class="card-content">
+                            <div class="content">
+                                <p class="title title-product"><%=element.name%></p>
+                                
+                                <p class="subtitle subtitle-product"><%=element.description%></p>
+                            </div>
+                        </div>
+                        <footer class="card-footer card-footer-no-border">
+                            <a class="card-footer-item button submit-button content-item-button" href="<%-path.join('products/' + element.productId);%> ">See more</a>
+                        </footer>
                     </div>
-                    <footer class="card-footer card-footer-no-border">
-                        <a class="card-footer-item button submit-button content-item-button" href="<%-path.join('products/' + element.productId);%> ">See more</a>
-                    </footer>
                 </div>
-            </div>
         <% }); %>
+        <% }%>
         </div>
     </section>
     <%- include('./partials/footer.ejs');%>
