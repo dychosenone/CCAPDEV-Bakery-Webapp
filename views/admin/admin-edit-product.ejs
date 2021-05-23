@@ -44,12 +44,12 @@
                 </thead>
                 <tbody>
                 <tr>
-                    <td><input type="text" name="size1" id="size1" class="input input-styled" size="11" value="<%=result.sizes[0].size%>" required></td>
+                    <td><input type="number" name="size1" id="size1" class="input input-styled" size="11" value="<%=result.sizes[0].size%>" required></td>
                     <td><input type="number" name="price1" id="price1" class="input input-styled" value="<%=result.sizes[0].price%>" required></td>
                 </tr>
                 <%if(result.sizes[1]!= null){%>
                     <tr>
-                        <td><input type="text" name="size2" id="size2" class="input input-styled" size="11" value="<%=result.sizes[1].size%>" required></td>
+                        <td><input type="number" name="size2" id="size2" class="input input-styled" size="11" value="<%=result.sizes[1].size%>" required></td>
                         <td><input type="number" name="price2" id="price2" class="input input-styled" value="<%=result.sizes[1].price%>" required></td>
                         <td class="removeOffering" id="removeOffering"><button  type="button" class="button submit-button is-small">Remove</button></td>
                     </tr>
@@ -58,7 +58,7 @@
                     %>
 
                     <tr>
-                        <td><input type="text" name="size3" id="size3" class="input input-styled" size="11" value="<%=result.sizes[2].size%>" required></td>
+                        <td><input type="number" name="size3" id="size3" class="input input-styled" size="11" value="<%=result.sizes[2].size%>" required></td>
                         <td><input type="number" name="price3" id="price3" class="input input-styled" value="<%=result.sizes[2].price%>" required></td>
                         <td class="removeOffering" id="removeOffering"><button  type="button" class="button submit-button is-small">Remove</button></td>
                     </tr>
