@@ -5,7 +5,7 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 //Database
-const database = require('./models/db');
+const database = require(path.join(__dirname + '/models/db'));
 
 // Session
 const session = require('express-session');
@@ -54,8 +54,8 @@ app.use('/', session({
 
 
 // Route Definitions
-app.use(path.join(__dirname + '/'), clientRoute);
-app.use(path.join(__dirname + '/admin'), adminRoute);
+app.use('/', clientRoute);
+app.use('/admin', adminRoute);
 
 // Controller 404
 const controller = require(path.join(__dirname + '/controllers/client/controller'));
