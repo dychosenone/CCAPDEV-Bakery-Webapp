@@ -41,7 +41,7 @@ app.use('/admin', session({
     'secret' : "6mEyFi0fxZhdmz2ON26GdZnUCdGIWbCY",
     'resave': false,
     'saveUninitialized': false,
-    store: MongoStore.create({mongoUrl: 'mongodb://localhost:27017/baked_goods'})
+    store: MongoStore.create({mongoUrl: 'mongodb+srv://user:shusanzingzoo@jacobscluster.raxpp.mongodb.net/baked-goods?retryWrites=true&w=majority' || process.env.MONGOLAB_URI})
 }));
 
 app.use('/', session({
@@ -49,7 +49,7 @@ app.use('/', session({
     'secret' : "4ebd020883285d698c44ec50939c0967",
     'resave': false,
     'saveUninitialized': false,
-    store: MongoStore.create({mongoUrl: 'mongodb://localhost:27017/baked_goods'})
+    store: MongoStore.create({mongoUrl: 'mongodb+srv://user:shusanzingzoo@jacobscluster.raxpp.mongodb.net/baked-goods?retryWrites=true&w=majority' || process.env.MONGOLAB_URI})
 }));
 
 
