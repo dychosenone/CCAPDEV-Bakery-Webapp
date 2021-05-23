@@ -158,8 +158,8 @@ var productController = {
         var fs= require('fs');
         if(req.file!= null){
             Image = req.file.filename;
-          if(fs.existsSync('images/products/'+ req.body.imgName))
-            fs.unlinkSync('images/products/'+ req.body.imgName);
+          if(fs.existsSync('public/img/products/'+ req.body.imgName))
+            fs.unlinkSync('public/img/products/'+ req.body.imgName);
         }
         else
             Image = req.body.imgName;
@@ -236,8 +236,8 @@ var productController = {
             var img = result.image;
             var Name = result.name;
 
-            if(img != null && fs.existsSync('images/products/'+ img))
-                fs.unlinkSync('images/products/'+ img);
+            if(img != null && fs.existsSync('public/img/products/'+ img))
+                fs.unlinkSync('public/img/products/'+ img);
 
             database.deleteOne(product,filter,  function(result){
 

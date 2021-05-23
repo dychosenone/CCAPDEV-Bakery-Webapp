@@ -6,7 +6,7 @@ const nanoid = customAlphabet('1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ', 10);
 
 const storage = multer.diskStorage({
     destination: function(req, file, cb) {
-        cb(null, './images/products');
+        cb(null, './public/img/products');
     },
 
     filename: function (req, file, cb){
@@ -39,6 +39,11 @@ app.get('/adminlogin', adminLoginController.getLogin);
 app.get('/adminIndex', adminController.getIndex);
 
 app.post('/adminlogin', adminLoginController.postLogin);
+//admin Account
+app.get('/admin-profile', adminController.getAdminAccount);
+app.get('/admin-edit/:id', adminController.editAdmin);
+app.post('/admin-edit/:id', validator.adminValidator(), adminController.postAdmin);
+
 //product management
 app.get('/admin-product', adminProductController.getProducts);
 app.get('/admin-delete-product/:id', adminProductController.deleteProduct);

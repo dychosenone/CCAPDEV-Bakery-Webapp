@@ -46,6 +46,15 @@ const validator = {
         return validation;
     },
 
+    adminValidator : function() {
+
+        var validation = [
+            check('password').isLength({min : 8}).withMessage('Password should be at least 8 characters'),
+        ];
+
+        return validation;
+    },
+
 };
 
 module.exports = validator;
