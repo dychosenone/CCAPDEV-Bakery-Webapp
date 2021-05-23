@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const url = 'mongodb://localhost:27017/baked_goods';
+const url = 'mongodb+srv://user:<7zWqdtOSlfwSgCBE>@jacobscluster.raxpp.mongodb.net/baked-goods?retryWrites=true&w=majority';
 
 const config = {
     useUnifiedTopology: true,
