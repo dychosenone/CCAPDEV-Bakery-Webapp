@@ -5,18 +5,19 @@
 
     <section class="hero hero-header-background is-small">
         <div class="hero-body has-text-centered">
-            <p class="hero-styling">Active Orders</p>
+            <p class="hero-styling"><%=headertitle%></p>
         </div>
     </section>
 
     <div class="container mt-6">
         <form>
             <div class="field has-addons search-field">
-                <form method="post">
-                    <input class="input input-styled" type="text" placeholder="Search">
-                    <div class="control"><button type="submit" class="button submit-button">Search</button></div>
-                </form>
-
+                    <input class="input input-styled" type="text" placeholder="Search" id="searchInput">
+                    <%if(headertitle === 'Active Orders'){%>
+                        <div class="control"><button class="button submit-button" id="searchOrders">Search</button></div>
+                    <%} else {%>
+                        <div class="control"><button class="button submit-button" id="searchOrders2">Search</button></div>
+                    <%}%>
             </div>
         </form>
     </div>
@@ -47,7 +48,9 @@
                         <span class="tag is-primary">Delivered</span>
                     <% } else if(element.status == 'cancelled') {%> 
                         <span class="tag is-danger">Cancelled</span>
-                    <% } %>
+                    <% } else if(element.status == 'passed') {%>
+                            <span class="tag is-danger">Passed</span>
+                        <% } %>
                 </td>
                 <td>
                     <a class="button submit-button is-small" href="<%- path.join('/admin/details/' + element.orderId) %>">View</a>

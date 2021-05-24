@@ -65,7 +65,7 @@ $(document).ready(function(){
 
     $(document).on('click', '#editReview', function(e) {
         e.preventDefault();
-        
+        $('#input-'+ element.fullname)
         
 
     });

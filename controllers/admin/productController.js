@@ -11,7 +11,14 @@ var productController = {
 
     getProducts : function(req, res) {
         const projection = '';
-        database.findMany(product, {}, projection, function(result) {
+
+        if(req.query.search) {
+            query = {name : { $regex: req.query.search, $options: "i"}};
+        } else {
+            query = {};
+        }
+
+        database.findMany(product, query, projection, function(result) {
             var loggedIn = false;
 
             if(req.session.adminId) loggedIn = true;
@@ -296,46 +303,6 @@ var productController = {
             res.redirect('/admin/adminLogin');
         }
     },
-
-    searchProducts: function(req,res){
-        const projection = '';
-        const query ={name: req.body.searchInput}
-        database.findMany(product, query, projection, function(result) {
-            var loggedIn = false;
-
-            if(req.session.adminId) loggedIn = true;
-            else loggedIn = false;
-
-            if(loggedIn){
-                if(result != null) {
-                    const details = {
-                        result,
-                        title: "Admin | Admin Products",
-                        loggedIn: loggedIn,
-                        userId: req.session.adminId,
-                        username: req.session.adminUsername,
-                        error: null,
-                        path
-                    };
-                    res.render('admin/admin-product', details);
-                }
-                else {
-                    const details = {
-                        result,
-                        title: "Baked Goods | Error",
-                        loggedIn: loggedIn,
-                        userId: req.session.adminId,
-                        username: req.session.adminUsername,
-                        error: "Oops! something went wrong with searching for the products"
-                    };
-                    res.render('admin/admin-error', details);
-                }
-            }
-            else{
-                res.redirect('/admin/adminLogin');
-            }
-        });
-    }
 }
 
 

@@ -31,6 +31,7 @@ const adminSuccessController = require('../controllers/admin/adminSuccessControl
 const app = express.Router();
 
 app.get('/', adminController.getIndex);
+app.get('/passedOrders', adminController.getPassedOrders);
 
 app.get('/adminlogin', adminLoginController.getLogin);
 app.post('/adminlogin', adminLoginController.postLogin);
@@ -47,7 +48,6 @@ app.get('/admin-product', adminProductController.getProducts);
 app.get('/admin-delete-product/:id', adminProductController.deleteProduct);
 app.get('/admin-add-product', adminProductController.addProduct);
 app.get('/admin-edit-product/:id', adminProductController.getProduct);
-app.post('/admin-product/', adminProductController.searchProducts);
 app.post('/admin-add-product', upload.single('uploadFile'), adminProductController.postProduct);
 app.post('/admin-edit-product/:id', upload.single('uploadFile'), adminProductController.postEdit);
 

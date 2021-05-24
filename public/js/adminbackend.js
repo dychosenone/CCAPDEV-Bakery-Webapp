@@ -79,5 +79,45 @@ $(document).ready(function(){
 
         });
     })
+
+    $('#searchUser').click(function(e){
+        e.preventDefault();
+        var searchQuery = $('#searchInput').val();
+        console.log(searchQuery);
+
+        if(searchQuery != '') {
+            window.location = `/admin/admin-accounts?search=${searchQuery}`
+        }
+    });
+
+    $('#searchProduct').click(function(e){
+        e.preventDefault();
+        var searchQuery = $('#searchInput').val();
+        console.log(searchQuery);
+
+        if(searchQuery != '') {
+            window.location = `/admin/admin-product?search=${searchQuery}`
+        }
+    });
+
+    $('#searchOrders').click(function(e){
+        e.preventDefault();
+        var searchQuery = $('#searchInput').val();
+        console.log(searchQuery);
+
+        if(searchQuery != '') {
+            window.location = `/admin/?search=${searchQuery}`
+        }
+    });
+
+    $('#searchOrders2').click(function(e){
+        e.preventDefault();
+        var searchQuery = $('#searchInput').val();
+        console.log(searchQuery);
+
+        if(searchQuery != '') {
+            window.location = `/admin/passedOrders?search=${searchQuery}`
+        }
+    });
 })
 

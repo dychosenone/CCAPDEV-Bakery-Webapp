@@ -34,7 +34,6 @@ var adminController = {
 
     getIndex : function (req, res) {
         const projection = '';
-        const query = {};
 
         var loggedIn = false;
 
@@ -44,13 +43,73 @@ var adminController = {
         if(loggedIn == false) {
             res.redirect('/admin/adminLogin');
         } else {
-          
+            if(req.query.search) {
+                query = {orderId : req.query.search};
+            } else {
+                query = {};
+            }
+            database.findMany(orders, query, projection, function(result) {
+
+                if(result != null) {
+                    for (let i = 0; i < result.length; i++) {
+                        if(result[0].status === 'passed'){
+                            result.splice(i,1);
+                        }
+                    }
+
+
+                    const details = {
+                        result,
+                        title: "Admin | Active Orders",
+                        loggedIn: loggedIn,
+                        userId: req.session.adminId,
+                        username: req.session.adminUsername,
+                        headertitle: "Active Orders",
+                        error: null,
+                        path
+                    };
+                    res.render('admin/index', details);
+                }
+                else {
+                    const details = {
+                        result,
+                        title: "Baked Goods | Error 404",
+                        loggedIn: loggedIn,
+                        userId: req.session.adminId,
+                        username: req.session.adminUsername,
+                        error: "404: Page not Found."
+                    };
+                    res.render('admin/admin-error', details);
+                }
+            });  
+        }
+
+
+    },
+
+    getPassedOrders : function (req, res) {
+        const projection = '';
+
+        var loggedIn = false;
+
+        if(req.session.adminId) loggedIn = true;
+        else loggedIn = false;
+
+        if(loggedIn == false) {
+            res.redirect('/admin/adminLogin');
+        } else {
+            if(req.query.search) {
+                query = {orderId : req.query.search, status: 'passed'};
+            } else {
+                query = {status: 'passed'};
+            }
             database.findMany(orders, query, projection, function(result) {
 
                 if(result != null) {
                     const details = {
                         result,
-                        title: "Admin | Active Orders",
+                        title: "Admin | Passed Orders",
+                        headertitle: "Passed Orders",
                         loggedIn: loggedIn,
                         userId: req.session.adminId,
                         username: req.session.adminUsername,
@@ -70,7 +129,7 @@ var adminController = {
                     };
                     res.render('admin/admin-error', details);
                 }
-            });  
+            });
         }
 
 

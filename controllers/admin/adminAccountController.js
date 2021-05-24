@@ -14,8 +14,14 @@ var adminAccountController = {
         if (req.session.adminId) loggedIn = true;
         else loggedIn = false;
 
+        if(req.query.search) {
+            query = {username : { $regex: req.query.search, $options: "i"}};
+        } else {
+            query = {};
+        }
+
         if (loggedIn){
-            database.findMany(users, {}, projection, function (result) {
+            database.findMany(users, query, projection, function (result) {
                 if (result != null) {
                     const details = {
                         result,
