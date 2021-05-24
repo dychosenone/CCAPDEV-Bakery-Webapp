@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const url = 'mongodb+srv://user:shusanzingzoo@jacobscluster.raxpp.mongodb.net/baked-goods?retryWrites=true&w=majority' || process.env.MONGO_URI;
+const url = "mongodb://localhost:27017/baked_goods" || process.env.MONGO_URI;
 
 const config = {
     useUnifiedTopology: true,
