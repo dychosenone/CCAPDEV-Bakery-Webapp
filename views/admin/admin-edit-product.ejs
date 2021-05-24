@@ -10,6 +10,16 @@
     </section>
 
     <div class="container" style="margin-top: 60px">
+        <div id="errorDiv">
+            <% if(error != null) { %>
+                <% error.forEach(function(element) { %>
+                <div class="notification is-danger">
+                    <p><%=element.msg%></p>
+                </div>
+                <% }) %>
+            <% } %>
+        </div>
+
         <form enctype="multipart/form-data" class="admin-edit-product" method="post">
             <div class="product-photos align-items-center">
 
@@ -68,7 +78,7 @@
             </table>
 
             <div>
-                <button type="submit" id="submitEdit" class="button submit-button is-medium" style="margin-bottom: 10px; margin-left: 41.5%;" value="SUBMIT">Save Product</button>
+                <button type="submit" id="prodEdit" class="button submit-button is-medium" style="margin-bottom: 10px; margin-left: 41.5%;" value="SUBMIT">Save Product</button>
             </div>
 
         </form>

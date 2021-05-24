@@ -44,14 +44,13 @@ var adminController = {
             res.redirect('/admin/adminLogin');
         } else {
             if(req.query.search) {
-                query = {orderId : req.query.search};
+                query = {orderId : req.query.search, status: 'pending'};
             } else {
-                query = {};
+                query = {status: 'pending'};
             }
             database.findMany(orders, query, projection, function(result) {
 
                 if(result != null) {
-
                     const details = {
                         page : 'index',
                         result,
@@ -94,13 +93,18 @@ var adminController = {
             res.redirect('/admin/adminLogin');
         } else {
             if(req.query.search) {
-                query = {orderId : req.query.search, status: 'passed'};
+                query = {orderId : req.query.search};
             } else {
-                query = {status: 'passed'};
+                query = {};
             }
             database.findMany(orders, query, projection, function(result) {
 
                 if(result != null) {
+                    for (let i = 0; i < result.length; i++) {
+                        if(result[i].status === 'pending'){
+                            result.splice(i,1);
+                        }
+                    }
                     const details = {
                         result,
                         title: "Admin | Passed Orders",

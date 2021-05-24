@@ -61,7 +61,14 @@ const validator = {
     editUserValidator : function() {
 
         var validation = [
+            check('Username', 'Your username should not be empty.').notEmpty(),
+            check('fullName', 'Your Full name should not be empty.').notEmpty(),
             check('email').isEmail().withMessage('Should be a valid email address.').normalizeEmail(),
+            check('Password').isLength({min : 8}).withMessage('Password should be at least 8 characters'),
+            check('deliveryAddress', 'The delivery address must not be left blank').notEmpty(),
+            check('billingAddress', 'The billing address must not be left blank').notEmpty(),
+            check('contact', 'The contact number must not be left blank and must be valid.').notEmpty().isNumeric(12),
+            check('alternativeContact', 'The alternative contact number must be valid.').isNumeric()
         ];
 
         return validation;

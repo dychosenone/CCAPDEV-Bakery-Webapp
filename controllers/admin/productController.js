@@ -5,6 +5,7 @@ const fs = require('fs');
 const { customAlphabet } = require('nanoid');
 const nanoid = customAlphabet('1234567890', 10);
 
+
 const path = require('path');
 
 var productController = {

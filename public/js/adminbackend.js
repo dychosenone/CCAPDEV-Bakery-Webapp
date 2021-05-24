@@ -117,5 +117,115 @@ $(document).ready(function(){
             window.location = `/admin/passedOrders?search=${searchQuery}`
         }
     });
+
+    $("#prodAdd").click(function(e){
+        e.preventDefault();
+        var Emptyerror = [];
+        var priceReported = false;
+        var sizeReported = false;
+        if($("#productImg").length){
+            if($('#productImg')[0].files.length === 0){
+                Emptyerror.push('An image file should be uploaded');
+            }
+        }
+        if($("#Name").val() === ''){
+            Emptyerror.push('Product Name should not be empty.');
+        }
+        if($("#Description").val() === ''){
+            Emptyerror.push('Description should not be empty.');
+        }
+        if($("#price1").val() === ''){
+            Emptyerror.push('Prize should not be empty.');
+
+        }
+        if($("#size1").val() === ''){
+            Emptyerror.push('Size should not be empty.');
+        }
+        if($("#size2").length){
+            if(priceReported === false){
+                if($("#price2").val() === ''){
+                    Emptyerror.push('Price should not be empty.');
+                }
+            }
+           if(sizeReported === false){
+               if($("#size2").val() === ''){
+                   Emptyerror.push('Size Name should not be empty.');
+               }
+           }
+            if($("#size3").length){
+                if(priceReported === false){
+                    if($("#price3").val() === ''){
+                        Emptyerror.push('Price should not be empty.');
+                    }
+                }
+                if(sizeReported === false){
+                    if($("#size3").val() === ''){
+                        Emptyerror.push('Size Name should not be empty.');
+                    }
+                }
+            }
+        }
+        $('#errorDiv').replaceWith('<div id="errorDiv"></div>');
+        for (let i = 0; i < Emptyerror.length; i++) {
+            $('#errorDiv').append('<div class="notification is-danger">\n' +
+                '                    <p>' + Emptyerror[i] + '</p>\n' +
+                '                </div>\n'
+            )
+        }
+
+    });
+
+    $("#prodEdit").click(function(e){
+        e.preventDefault();
+        var Emptyerror = [];
+        var priceReported = false;
+        var sizeReported = false;
+        if($("#Name").val() === ''){
+            Emptyerror.push('Product Name should not be empty.');
+        }
+        if($("#Description").val() === ''){
+            Emptyerror.push('Description should not be empty.');
+        }
+        if($("#price1").val() === ''){
+            Emptyerror.push('Price should not be empty.');
+
+        }
+        if($("#size1").val() === ''){
+            Emptyerror.push('Size should not be empty.');
+        }
+        if($("#size2").length){
+            if(priceReported === false){
+                if($("#price2").val() === ''){
+                    Emptyerror.push('Price should not be empty.');
+                }
+            }
+            if(sizeReported === false){
+                if($("#size2").val() === ''){
+                    Emptyerror.push('Size Name should not be empty.');
+                }
+            }
+            if($("#size3").length){
+                if(priceReported === false){
+                    if($("#price3").val() === ''){
+                        Emptyerror.push('Price should not be empty.');
+                    }
+                }
+                if(sizeReported === false){
+                    if($("#size3").val() === ''){
+                        Emptyerror.push('Size Name should not be empty.');
+                    }
+                }
+            }
+        }
+        $('#errorDiv').replaceWith('<div id="errorDiv"></div>');
+        for (let i = 0; i < Emptyerror.length; i++) {
+            $('#errorDiv').append(
+                '                <div class="notification is-danger">\n' +
+                '                    <p>' + Emptyerror[i] + '</p>\n' +
+                '                </div>\n'
+            )
+        }
+
+    });
 })
 

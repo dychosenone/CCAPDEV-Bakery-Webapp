@@ -48,9 +48,7 @@
                         <span class="tag is-primary">Delivered</span>
                     <% } else if(element.status == 'cancelled') {%> 
                         <span class="tag is-danger">Cancelled</span>
-                    <% } else if(element.status == 'passed') {%>
-                            <span class="tag is-danger">Passed</span>
-                        <% } %>
+                    <% } %>
                 </td>
                 <td>
                     <a class="button submit-button is-small" href="<%- path.join('/admin/details/' + element.orderId) %>">View</a>
