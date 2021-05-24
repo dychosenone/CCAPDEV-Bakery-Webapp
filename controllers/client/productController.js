@@ -177,19 +177,23 @@ var productController = {
         database.findOne(product, query, '', function(result){
             if(result != null){
                 var filter = {productId : req.params.productId}
-                var review = {
-                    userId : req.session.userId,
-                    fullName: req.session.name,
-                    review: req.body.review
-                }
-                console.log(review);
-                var query = {reviews: review};
 
-                database.updateOne(product, filter, query, function(flag){
-                    if(flag) {
-                        res.send({status: 'success', message: 'Successfully updated a review.', review: req.body.review});
+                var success = false;
+                for (let i = 0; i < result.reviews.length; i++) {
+                    if(result.reviews[i].userId === req.session.userId){
+                        result.reviews[i].review=req.body.review;
+
+                        database.updateOne(product, filter, {reviews: result.reviews}, function(flag){
+                            if(flag) {
+                                res.send({status: 'success', message: 'Successfully updated a review.', review: req.body.review});
+                            }
+                        });
+                        success= true;
                     }
-                });
+                }
+                if(success === false){
+                    res.send({status: 'error', message: 'Error: Did not find review in database'});
+                }
             }
             else {
                 res.send({status: 'error', message: 'Error: Did not find review in database'});

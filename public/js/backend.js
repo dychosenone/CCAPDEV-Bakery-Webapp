@@ -63,17 +63,15 @@ $(document).ready(function(){
 
     });
 
-    $('#saveReview').click(function (e) {
+    $(document).on("click", "#saveReview", function (e) {
         e.preventDefault();
-        var review = $('#reviewText').val();
-        var contentId = '#' + $(this).closest('#reviewArticle').find("#reviewText").attr('id');
-        var inputId = '#' + $(this).closest('#reviewArticle').find("#input").attr('id');
+        var review = $("#reviewText").val();
+
         console.log(review);
         $.post(`/products/${productId}/editReview`, {review: review}, function (result) {
-            $(inputId).hide();
-            $(contentId).replaceWith(function (){
+            $('#reviewText').closest('#reviewArticle').find("#input").hide();
+            $("#reviewText").replaceWith(function (){
                 return '<p id="reviewcontents">' + result.review + '</p>';
-
             })
         });
 
@@ -82,16 +80,13 @@ $(document).ready(function(){
 
     $(document).on('click', '#editReview', function(e) {
         e.preventDefault();
-        var content = $(this).closest('#reviewArticle').find("#reviewcontents").text();
-        var contentId = '#' + $(this).closest('#reviewArticle').find("#reviewcontents").attr('id');
-        var inputId = '#' + $(this).closest('#reviewArticle').find("#input").attr('id');
+        var content = $('#editReview').closest('#reviewArticle').find("#reviewcontents").text();
 
-        console.log(contentId);
-        $(contentId).replaceWith(function (){
-            return '<input type="text" id="reviewText" name="review" class="text input-styled" value="' + content + '" >';
+        $('#editReview').closest('#reviewArticle').find("#reviewcontents").replaceWith(function (){
+            return '<textarea id="reviewText" name="review" class="text input-styled">' + content + '</textarea>';
         })
 
-        $(inputId).show();
+        $('#editReview').closest('#reviewArticle').find("#input").show();
     });
 
     $(document).on('click', '#deleteReview', function(e) {

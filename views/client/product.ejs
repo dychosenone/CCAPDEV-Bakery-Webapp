@@ -80,8 +80,8 @@
     
                     <% result.reviews.forEach(function(element) { %>
                         <article id="reviewArticle" class="media">
-                            <div class="content">
-                                <form>
+                            <div id="content" class="content">
+                                <form id="reviewForm">
                                 <p id="fullName" class="title is-6"><%=element.fullName%></p>
                                 <p id="reviewcontents"><%=element.review%></p>
                                 <div id="input" style="margin-top: 10px" hidden><button type="submit" class="button submit-button is-small" name="Submit" id="saveReview">Save</button></div>
