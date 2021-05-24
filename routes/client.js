@@ -40,6 +40,8 @@ app.get('/products/:productId', productController.getProduct);
 
 app.post('/products/:productId/addReview', productController.postReview);
 
+app.post('/products/:productId/editReview', productController.editReview);
+
 app.get('/products/:productId/deleteReview', productController.deleteReview);
 
 app.get('/account', accountController.getAccount);

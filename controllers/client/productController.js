@@ -170,6 +170,33 @@ var productController = {
         });
     },
 
+    editReview: function(req, res) {
+
+        var query = {reviews: {$elemMatch : {userId: req.session.userId}}};
+        console.log(req.body.review);
+        database.findOne(product, query, '', function(result){
+            if(result != null){
+                var filter = {productId : req.params.productId}
+                var review = {
+                    userId : req.session.userId,
+                    fullName: req.session.name,
+                    review: req.body.review
+                }
+                console.log(review);
+                var query = {reviews: review};
+
+                database.updateOne(product, filter, query, function(flag){
+                    if(flag) {
+                        res.send({status: 'success', message: 'Successfully updated a review.', review: req.body.review});
+                    }
+                });
+            }
+            else {
+                res.send({status: 'error', message: 'Error: Did not find review in database'});
+            }
+        });
+    },
+
     deleteReview: function(req, res) {
         var filter = {productId : req.params.productId};
         var query = {$pull : {reviews : {userId: req.session.userId}}};

@@ -79,13 +79,15 @@
                     <% } %>
     
                     <% result.reviews.forEach(function(element) { %>
-                        <article class="media">
+                        <article id="reviewArticle" class="media">
                             <div class="content">
-                                <p class="title is-6"><%=element.fullName%></p>
-                                <p><%=element.review%></p>
-                                <div id="input-<%=element._id%>"></div>
+                                <form>
+                                <p id="fullName" class="title is-6"><%=element.fullName%></p>
+                                <p id="reviewcontents"><%=element.review%></p>
+                                <div id="input" style="margin-top: 10px" hidden><button type="submit" class="button submit-button is-small" name="Submit" id="saveReview">Save</button></div>
+                                </form>
                             </div>
-                            <% if(userId == element.userId) { %>	
+                            <% if(userId === element.userId) { %>
                                 <div class="media-right dropdown is-hoverable">
                                     <span class="material-icons">more_horiz</span>
                                     <div class="dropdown-menu">
