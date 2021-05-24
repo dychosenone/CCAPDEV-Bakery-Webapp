@@ -46,7 +46,6 @@ var registerController = {
             }
 
             if(errors) {
-                console.log(errors);
                 const details = {
                     title: "Baked Goods | Register",
                     loggedIn : false,
@@ -56,7 +55,6 @@ var registerController = {
             }
         }).catch((message) => {
             if(errors.length > 0) {
-                console.log(errors);
                 const details = {
                     title: "Baked Goods | Register",
                     loggedIn : false,

@@ -126,60 +126,96 @@ var adminAccountController = {
         var contact = req.body.contact;
         var alternativeContact = req.body.alternativeContact;
         var errors = validationResult(req).array()
-            var loggedIn = false;
-            if(req.session.adminId) loggedIn = true;
-            else loggedIn = false;
+        var loggedIn = false;
+        if(req.session.adminId) loggedIn = true;
+        else loggedIn = false;
 
             if(loggedIn){
-                if(errors.length > 0) {
-                    console.log(errors);
-                    const details = {
-                        title: "Baked Goods | Register",
-                        loggedIn: true,
-                        userId: req.session.adminId,
-                        username: req.session.adminUsername,
-                        error: errors
-                    }
-                    res.render('admin/admin-add-account', details);
-                }
-                else {
-                    database.addOne(users, {
-                        fullName: fullName,
-                        username: Username,
-                        password: hash,
-                        email: email,
-                        contact: contact,
-                        alternativeContact: alternativeContact,
-                        billingAddress: billingAddress,
-                        deliveryAddress: deliveryAddress
-                    }, function (result) {
-                        if (result != null) {
-                            const details = {
-                                result,
-                                title: "Baked Goods | " + Username,
-                                headertitle: "Successfully Added " + Username,
-                                loggedIn: loggedIn,
-                                userId: req.session.adminId,
-                                username: req.session.adminUsername,
-                                line1: Username + " has been successfully registered as a user!",
-                                line2: "You can view the list of users through the User Management Tab",
-                                link: "/admin/admin-accounts"
-                            };
-                            res.render('admin/admin-success', details);
+
+                var checker = new Promise(function(resolve, reject) {
+                    var query = {username : req.body.Username};
+                    var projection = '';
+                    database.findOne(users, query, projection, function(result) {
+                        if(result != null) {
+                            resolve({    
+                                value: req.body.Username,
+                                msg: 'The username is already in use.',
+                                param: 'username',
+                                location: 'body'
+                            });
                         }
-                        else{
-                            const details = {
-                                result,
-                                title: "Baked Goods | Error 404",
-                                loggedIn: loggedIn,
-                                userId: req.session.adminId,
-                                username: req.session.adminUsername,
-                                error: "404: Page not Found."
-                            };
-                            res.render('admin/admin-error', details);
-                        }
+                        reject();
                     });
-                }
+                });
+                checker.then((message) => {
+                    if(message != false) {
+                        errors.unshift(message);
+
+                        if(errors.length > 0) {
+                            console.log(errors);
+                            const details = {
+                                title: "Baked Goods | Register",
+                                loggedIn: true,
+                                userId: req.session.adminId,
+                                username: req.session.adminUsername,
+                                error: errors
+                            }
+                            res.render('admin/admin-add-account', details);
+                        }
+                    }
+                }).catch((message) => {
+
+                    if(errors.length > 0) {
+                        console.log(errors);
+                        const details = {
+                            title: "Baked Goods | Register",
+                            loggedIn: true,
+                            userId: req.session.adminId,
+                            username: req.session.adminUsername,
+                            error: errors
+                        }
+                        res.render('admin/admin-add-account', details);
+                    }
+                    else {
+                        database.addOne(users, {
+                            fullName: fullName,
+                            username: Username,
+                            password: hash,
+                            email: email,
+                            contact: contact,
+                            alternativeContact: alternativeContact,
+                            billingAddress: billingAddress,
+                            deliveryAddress: deliveryAddress
+                        }, function (result) {
+                            if (result != null) {
+                                const details = {
+                                    result,
+                                    title: "Baked Goods | " + Username,
+                                    headertitle: "Successfully Added " + Username,
+                                    loggedIn: loggedIn,
+                                    userId: req.session.adminId,
+                                    username: req.session.adminUsername,
+                                    line1: Username + " has been successfully registered as a user!",
+                                    line2: "You can view the list of users through the User Management Tab",
+                                    link: "/admin/admin-accounts"
+                                };
+                                res.render('admin/admin-success', details);
+                            }
+                            else{
+                                const details = {
+                                    result,
+                                    title: "Baked Goods | Error 404",
+                                    loggedIn: loggedIn,
+                                    userId: req.session.adminId,
+                                    username: req.session.adminUsername,
+                                    error: "404: Page not Found."
+                                };
+                                res.render('admin/admin-error', details);
+                            }
+                        });
+                    }
+                });
+
             }
             else{
                 res.redirect('/admin/adminLogin');

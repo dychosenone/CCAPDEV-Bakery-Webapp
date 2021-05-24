@@ -11,42 +11,33 @@
             <div class="columns">
                 <%- include('./partials/accountMenu.ejs'); %>
                 <div class="column">
-                    
-                    <% if(error == "success") { %>
-                        <div class="notification is-success">
-                            <p>Successfully Updated Profile.</p>
-                        </div>
-                    <% } else if(error != null && error != 'success') { %>
-                        <div class="notification is-danger">
-                            <p><%=error%></p>
-                        </div>  
-                    <% } %>
+                    <div id="errors"></div>
 
                     <p class="title">Edit my Account</p>
                     <hr class="is-divider" />
-                    <form id="editAccount" method="post" action="/editAccount">
+                    <form id="editAccount">
                         <div class="columns">
                             <div class="column">
                                 <label class="label">New Name</label>
-                                <input type="text" class="input input-styled" name="newName" placeholder="New Name" value="<%=result.fullName %>" />
+                                <input type="text" id="fullName" class="input input-styled" name="newName" placeholder="New Name" value="<%=result.fullName %>" />
                                 <label class="label">New Email Address</label>
-                                <input type="text" class="input input-styled" name="newEmail" placeholder="New Email" value="<%=result.email %>" />
+                                <input type="text" id="email" class="input input-styled" name="newEmail" placeholder="New Email" value="<%=result.email %>" />
                                 <div class="block"></div>
                                 <label class="label">New Contact Number</label>
-                                <input type="text" class="input input-styled" name="newContact" placeholder="New Contact Number" value="<%=result.contact %>" />
+                                <input type="text" id="contactNumber" class="input input-styled" name="newContact" placeholder="New Contact Number" value="<%=result.contact %>" />
                                 <label class="label">New Alternative Contact Number</label>
-                                <input type="text" class="input input-styled" name="newAlternativeContact" placeholder="New Alternative Contact Number" value="<%=result.alternativeContact %>" />
+                                <input type="text" id="alternativeContactNumber" class="input input-styled" name="newAlternativeContact" placeholder="New Alternative Contact Number" value="<%=result.alternativeContact %>" />
                             </div>
                             <div class="column">
                                 <label class="label">New Delivery Address</label>
-                                <input type="text" class="input input-styled" name="newDelivery" placeholder="New Delivery Address" value="<%=result.deliveryAddress %>" />
+                                <input type="text" id="deliveryAddress" class="input input-styled" name="newDelivery" placeholder="New Delivery Address" value="<%=result.deliveryAddress %>" />
                                 <div class="block"></div>
                                 <label class="label">New Billing Address</label>
-                                <input type="text" class="input input-styled" name="newBilling" placeholder="New Billing Address" value="<%=result.billingAddress %>" />
+                                <input type="text" id="billingAddress" class="input input-styled" name="newBilling" placeholder="New Billing Address" value="<%=result.billingAddress %>" />
                                 <div class="block"></div>
                             </div>
                         </div>
-                        <div class="container has-text-centered"><button class="button is-large submit-button">Submit</button></div>
+                        <div class="container has-text-centered"><button class="button is-large submit-button" id="editAccountSubmit">Submit</button></div>
 
                     </form>
                 </div>

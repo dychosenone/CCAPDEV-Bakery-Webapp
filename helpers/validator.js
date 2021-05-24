@@ -26,11 +26,32 @@ const validator = {
         return validation;
     },
 
+    editAccountValidator : function () {
+
+        var validation = [
+            check('fullName', 'Your Full name should not be empty.').notEmpty(),
+            check('email', 'Your email should not be empty.').notEmpty().isEmail().withMessage('Should be a valid email address.').normalizeEmail(),
+            check('deliveryAddress', 'The delivery address must not be left blank').notEmpty(),
+            check('billingAddress', 'The billing address must not be left blank').notEmpty(),
+            check('contactNumber', 'The contact number must be valid and not empty.').notEmpty().isNumeric().isLength(12),
+            check('alternativeContactNumber', 'The alternative number must be valid.').isNumeric().isLength(12)
+
+        ]
+
+        return validation;
+    },
+
     addUserValidator : function() {
 
         var validation = [
+            check('Username', 'Your username should not be empty.').notEmpty(),
+            check('fullName', 'Your Full name should not be empty.').notEmpty(),
             check('email').isEmail().withMessage('Should be a valid email address.').normalizeEmail(),
             check('Password').isLength({min : 8}).withMessage('Password should be at least 8 characters'),
+            check('deliveryAddress', 'The delivery address must not be left blank').notEmpty(),
+            check('billingAddress', 'The billing address must not be left blank').notEmpty(),
+            check('contact', 'The contact number must not be left blank and must be valid.').notEmpty().isNumeric(12),
+            check('alternativeContact', 'The alternative contact number must be valid.').isNumeric()
 
         ];
 

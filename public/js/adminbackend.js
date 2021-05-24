@@ -43,7 +43,7 @@ $(document).ready(function(){
         $.post('/admin/adminlogin', {username : username, password : password}, function (result) {
             console.log(result);
             if(result.status == 'error') {
-                 var textContainer = document.createElement('div');
+                var textContainer = document.createElement('div');
                 textContainer.classList.add("message-body");
                 textContainer.innerHTML = result.body;
 
@@ -75,10 +75,8 @@ $(document).ready(function(){
         var status = $('#status option:selected').val();
         var orderId = $('#orderId').text();
 
-        $.get('/admin/setStatus', {status : status, orderId : orderId}, function(result) {
-
-        });
-    })
+        $.get('/admin/setStatus', {status : status, orderId : orderId});
+    });
 
     $('#searchUser').click(function(e){
         e.preventDefault();

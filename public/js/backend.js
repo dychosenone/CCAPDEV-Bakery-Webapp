@@ -1,6 +1,5 @@
 $(document).ready(function(){
 
-
     // Add to Cart Asynchronous Function
     $('#addToCart').click(function(e) {
         e.preventDefault();
@@ -83,7 +82,7 @@ $(document).ready(function(){
         var content = $('#editReview').closest('#reviewArticle').find("#reviewcontents").text();
 
         $('#editReview').closest('#reviewArticle').find("#reviewcontents").replaceWith(function (){
-            return '<textarea id="reviewText" name="review" class="text input-styled">' + content + '</textarea>';
+            return '<textarea id="reviewText" name="review" class="textarea input-styled">' + content + '</textarea>';
         })
 
         $('#editReview').closest('#reviewArticle').find("#input").show();
@@ -304,6 +303,109 @@ $(document).ready(function(){
         if(searchQuery != '') {
             window.location = `/products?search=${searchQuery}`
         }
+    });
+
+    $('#login').click(function(e) {
+        e.preventDefault();
+        var username = $('#loginUsername').val();
+        var password = $('#loginPassword').val();
+
+        $.post('/login', {username: username, password: password}, function (result) {
+            if(result.status == 'error') {
+                var textContainer = document.createElement('div');
+                textContainer.classList.add("message-body");
+                textContainer.innerHTML = result.body;
+
+                var container = document.createElement('div');
+                container.classList.add("message");
+
+                if(result.status == "success") {
+                    container.classList.add("is-success");
+                } else if(result.status == "error"){
+                    container.classList.add("is-danger");
+                }
+                
+                container.append(textContainer);
+                
+                $('#errors').append(container);
+
+                setTimeout(function () {
+                    $('#errors').empty();
+                }, 1000);
+            } else {
+                window.location = result.redirect;
+            }
+        });
+    });
+
+    $('#editAccountSubmit').click(function(e) {
+        e.preventDefault();
+
+        var fullName = $('#fullName').val();
+        var email = $('#email').val();
+        var deliveryAddress = $('#deliveryAddress').val();
+        var billingAddress = $('#billingAddress').val();
+        var contactNumber = $('#contactNumber').val();
+        var alternativeContactNumber = $('#alternativeContactNumber').val();
+
+        var details = {
+            fullName: fullName, 
+            email : email,
+            deliveryAddress : deliveryAddress,
+            billingAddress : billingAddress,
+            contactNumber : contactNumber,
+            alternativeContactNumber : alternativeContactNumber
+        };
+
+        $.post('/editAccount', details, function(result) {
+            if(result.status == 'error') {
+                console.log(result);
+                result.errors.forEach(function(element) {
+                    var textContainer = document.createElement('div');
+                    textContainer.classList.add("message-body");
+                    textContainer.innerHTML = element.msg;
+    
+                    var container = document.createElement('div');
+                    container.classList.add("message");
+    
+                    if(result.status == "success") {
+                        container.classList.add("is-success");
+                    } else if(result.status == "error"){
+                        container.classList.add("is-danger");
+                    }
+                    
+                    container.append(textContainer);
+                    
+                    $('#errors').append(container);
+    
+                    setTimeout(function () {
+                        $('#errors').empty();
+                    }, 1000);
+                });
+
+            } else {
+                var textContainer = document.createElement('div');
+                textContainer.classList.add("message-body");
+                textContainer.innerHTML = result.message;
+
+                var container = document.createElement('div');
+                container.classList.add("message");
+
+                if(result.status == "success") {
+                    container.classList.add("is-success");
+                } else if(result.status == "error"){
+                    container.classList.add("is-danger");
+                }
+                
+                container.append(textContainer);
+                
+                $('#errors').append(container);
+
+                setTimeout(function () {
+                    $('#errors').empty();
+                }, 1000);
+            }
+        });
     });
 
 });

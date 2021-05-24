@@ -17,26 +17,33 @@ var userController = {
 
         const projection = '';
         const query = {username: username};
+        console.log(password);
 
-        database.findOne(user, query, projection, function(result) {
-            if(result == null) {
-                res.render('client/login', {title: "Baked Goods | Login", error: "User not found.", loggedIn: false});
-            } else {
-                bycrypt.compare(password, result.password, function(err, equal) {
-                    if(equal) {
-                        req.session.userId = result._id;
-                        req.session.name = result.fullName;
-                        req.session.cartCount = 0;
-                        req.session.cart = [];
-                        req.session.newOrder = false;
-                        res.redirect('/');
-                    }
-                    else {
-                        res.render('client/login', {title: "Baked Goods | Login", error: "The Username or Password is Incorrect.", loggedIn: false});
-                    }
-                });
-            }
-        });
+        if(username == '' || password == '') {
+            res.send({status: "error", body: "Please fill all the blanks."});
+        }
+        else {
+            database.findOne(user, query, projection, function(result) {
+                if(result == null) {
+                    res.send({status: "error", body: "User not found."});
+                } else {
+                    bycrypt.compare(password, result.password, function(err, equal) {
+                        if(equal) {
+                            req.session.userId = result._id;
+                            req.session.name = result.fullName;
+                            req.session.cartCount = 0;
+                            req.session.cart = [];
+                            req.session.newOrder = false;
+                            res.send({status: 'success', redirect : '/'});
+                        }
+                        else {
+                            res.send({status: "error", body: "The Username or Password is Incorrect."});
+                        }
+                    });
+                }
+            }); 
+        }
+
     }
 };
 

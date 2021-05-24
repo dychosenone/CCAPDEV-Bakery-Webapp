@@ -51,14 +51,9 @@ var adminController = {
             database.findMany(orders, query, projection, function(result) {
 
                 if(result != null) {
-                    for (let i = 0; i < result.length; i++) {
-                        if(result[0].status === 'passed'){
-                            result.splice(i,1);
-                        }
-                    }
-
 
                     const details = {
+                        page : 'index',
                         result,
                         title: "Admin | Active Orders",
                         loggedIn: loggedIn,

@@ -48,7 +48,7 @@ app.get('/account', accountController.getAccount);
 
 app.get('/editAccount', accountController.getEditAccount);
 
-app.post('/editAccount', accountController.postEditAccount);
+app.post('/editAccount',validator.editAccountValidator(), accountController.postEditAccount);
 
 app.get('/addToCart', productController.getAddToCart);
 
