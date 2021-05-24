@@ -13,7 +13,8 @@ Step 1: Clone the project via Github
 Step 2: Run `npm install` to install all required packages.  
 Step 3: Configure your MongoDB Database.
 The current clone is connected to an environment variable. To connect your own local database, see Section 2a.)  
-Step 4: run `npm start`  
+Step 4: You can use this to access the online database. Copy paste this to db.js and index.js. (mongodb+srv://user:shusanzingzoo@jacobscluster.raxpp.mongodb.net/baked-goods?retryWrites=true&w=majority)
+Step 5: run `npm start`  
 
 The initial console output should be
 
