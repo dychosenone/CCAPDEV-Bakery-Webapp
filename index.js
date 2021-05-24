@@ -35,21 +35,21 @@ app.use(express.static(path.join(__dirname + '/public')));
 app.use(express.static(path.join(__dirname + '/images')));
 
 // Define Session Details
-
+// If Localhost, use this "mongodb://localhost:27017/baked_goods"
 app.use('/admin', session({
     'name' : 'admin',
     'secret' : "6mEyFi0fxZhdmz2ON26GdZnUCdGIWbCY",
     'resave': false,
     'saveUninitialized': false,
-    store: MongoStore.create({mongoUrl: "mongodb://localhost:27017/baked_goods" || process.env.MONGODB_URI})
+    store: MongoStore.create({mongoUrl: process.env.MONGODB_URI})
 }));
-
+// If Localhost, use this "mongodb://localhost:27017/baked_goods"
 app.use('/', session({
     'name' : 'client',
     'secret' : "4ebd020883285d698c44ec50939c0967",
     'resave': false,
     'saveUninitialized': false,
-    store: MongoStore.create({mongoUrl: "mongodb://localhost:27017/baked_goods" || process.env.MONGODB_URI})
+    store: MongoStore.create({mongoUrl: process.env.MONGODB_URI})
 }));
 
 

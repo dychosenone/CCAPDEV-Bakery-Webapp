@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
-const url = "mongodb://localhost:27017/baked_goods" || process.env.MONGODB_URI;
+const url = process.env.MONGODB_URI;
+// If Localhost, use this "mongodb://localhost:27017/baked_goods"
+
 
 const config = {
     useUnifiedTopology: true,
