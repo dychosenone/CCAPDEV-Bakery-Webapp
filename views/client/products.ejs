@@ -29,30 +29,33 @@
             </div>
            
         <% } else {%>
-        <div class="columns">
-            <% result.forEach(function(element) { %>
+        <% for(var i = 0; i < result.length; i++) { %>
+            <% if (i === 0 || i % 5 === 0) { %>
+                <div class="columns">
+            <% } %>
                 <div class="column is-one-fifth-desktop">
                     <div class="card ourproducts-card">
                         <div class="card-image">
                             <figure class="image is-3by2">
-                                <img src="<%=path.join('./img/products/' + element.image)%>">
+                                <img src="<%=path.join('./img/products/' + result[i].image)%>">
                             </figure>
                         </div>
                         <div class="card-content">
                             <div class="content">
-                                <p class="title title-product"><%=element.name%></p>
+                                <p class="title title-product"><%=result[i].name%></p>
                                 
-                                <p class="subtitle subtitle-product"><%=element.description%></p>
+                                <p class="subtitle subtitle-product"><%=result[i].description%></p>
                             </div>
                         </div>
                         <footer class="card-footer card-footer-no-border">
-                            <a class="card-footer-item button submit-button content-item-button" href="<%-path.join('products/' + element.productId);%> ">See more</a>
+                            <a class="card-footer-item button submit-button content-item-button" href="<%-path.join('products/' + result[i].productId);%> ">See more</a>
                         </footer>
                     </div>
                 </div>
-        <% }); %>
-        <% }%>
+        <% if (i === 0 || i % 5 === 0) { %>
         </div>
+      <% } %>
+      <% } %>
     </section>
     <%- include('./partials/footer.ejs');%>
 </div>
