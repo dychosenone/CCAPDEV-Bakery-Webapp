@@ -119,7 +119,7 @@ $(document).ready(function(){
     });
 
     $("#prodAdd").click(function(e){
-        e.preventDefault();
+
         var Emptyerror = [];
         var priceReported = false;
         var sizeReported = false;
@@ -176,7 +176,6 @@ $(document).ready(function(){
     });
 
     $("#prodEdit").click(function(e){
-        e.preventDefault();
         var Emptyerror = [];
         var priceReported = false;
         var sizeReported = false;
@@ -217,6 +216,7 @@ $(document).ready(function(){
                 }
             }
         }
+
         $('#errorDiv').replaceWith('<div id="errorDiv"></div>');
         for (let i = 0; i < Emptyerror.length; i++) {
             $('#errorDiv').append(
