@@ -11,8 +11,8 @@ Step 1: Clone the project via Github
 
     git clone https://github.com/dychosenone/g12_phase_2.git
 Step 2: Run `npm install` to install all required packages.  
-Step 3: Configure your MongoDB Database (Optional)  
-The current clone is already connected to the MongoDB atlas database. To connect your own local database, see Section 2a.)  
+Step 3: Configure your MongoDB Database.
+The current clone is connected to an environment variable. To connect your own local database, see Section 2a.)  
 Step 4: run `npm start`  
 
 The initial console output should be
